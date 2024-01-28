@@ -7,13 +7,6 @@ type ProblemProp = {
   url: string;
 };
 
-const defaultProblemInfo: ProblemProp = {
-  site: "DEFAULT_SITE",
-  number: "DEFAULT_NUMBER",
-  title: "DEFAULT_TITLE",
-  url: "DEFAULT_URL",
-};
-
 const parseProblemInfo = (callBack: CallableFunction) => {
   chrome.tabs.query(
     {
@@ -29,7 +22,12 @@ const parseProblemInfo = (callBack: CallableFunction) => {
 };
 
 const ProblemInsertionTab: FC<{}> = () => {
-  const [problemInfo, setProblemInfo] = useState<ProblemProp>(defaultProblemInfo);
+  const [problemInfo, setProblemInfo] = useState<ProblemProp>({
+    site: "DEFAULT_SITE",
+    number: "DEFAULT_NUMBER",
+    title: "DEFAULT_TITLE",
+    url: "DEFAULT_URL",
+  });
 
   useEffect(() => {
     parseProblemInfo(setProblemInfo);
