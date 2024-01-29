@@ -10,7 +10,6 @@ const getBOJTitle = async (number: string) => {
         param: number,
       },
       (response) => {
-        console.log(response);
         resolve(response);
       }
     )
