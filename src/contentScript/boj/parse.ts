@@ -1,7 +1,7 @@
 import { SiteType } from "../../common/enum";
 import { createProblemUrl } from "../../common/utils";
 
-const getBOJTitle = async (number: string) => {
+const getBOJTitle = async (number: string): Promise<string> => {
   return new Promise((resolve, reject) =>
     chrome.runtime.sendMessage(
       {
@@ -20,16 +20,13 @@ const parse = async () => {
   try {
     const metaTag = document.querySelector('meta[name="problem-id"]');
     const problemNumber = metaTag.getAttribute("content");
-    const title = await getBOJTitle(problemNumber);
-    console.log("final result:", title);
-    const problemInfo = {
+    const title: string = await getBOJTitle(problemNumber);
+    return {
       site: SiteType.BOJ,
       number: problemNumber,
-      // title: document.getElementById("problem_title").textContent,
-      title: title,
+      title,
       url: createProblemUrl(SiteType.BOJ, problemNumber),
     };
-    return problemInfo;
   } catch (error) {
     return;
   }

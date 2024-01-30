@@ -14,9 +14,9 @@ const parseProblemInfo = (callBack: CallableFunction) => {
       currentWindow: true,
     },
     (tabs) => {
-      chrome.tabs.sendMessage(tabs[0].id, { from: "popup", subject: "ProblemInfo" }, (response) =>
-        callBack(response)
-      );
+      chrome.tabs.sendMessage(tabs[0].id, { from: "popup", subject: "ProblemInfo" }, (response) => {
+        callBack(response);
+      });
     }
   );
 };
