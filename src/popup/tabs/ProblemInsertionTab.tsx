@@ -21,6 +21,10 @@ const parseProblemInfo = (callBack: CallableFunction) => {
   );
 };
 
+const submit = (problem: ProblemProp) => {
+  alert(JSON.stringify(problem));
+};
+
 const ProblemInsertionTab: FC<{}> = () => {
   const [problemInfo, setProblemInfo] = useState<ProblemProp>({
     site: "DEFAULT_SITE",
@@ -50,6 +54,9 @@ const ProblemInsertionTab: FC<{}> = () => {
           <span id="url">{problemInfo.url}</span>
         </div>
       </div>
+      <button id="submit-btn" onClick={() => submit(problemInfo)}>
+        저장하기
+      </button>
     </Fragment>
   );
 };
