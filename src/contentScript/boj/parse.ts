@@ -30,16 +30,22 @@ const parse = async (savedProblem: any) => {
     const problemNumber = document.querySelector('meta[name="problem-id"]').getAttribute("content");
 
     if (isSaved(problemNumber, savedProblem)) {
-      return savedProblem;
+      return {
+        isChanged: false,
+        problem: savedProblem,
+      };
     }
 
     const title = await getBOJTitle(problemNumber);
     const url = createProblemUrl(SiteType.BOJ, problemNumber);
     return {
-      site: SiteType.BOJ,
-      number: problemNumber,
-      title,
-      url,
+      isChanged: true,
+      problem: {
+        site: SiteType.BOJ,
+        number: problemNumber,
+        title,
+        url,
+      },
     };
   } catch (error) {
     return;

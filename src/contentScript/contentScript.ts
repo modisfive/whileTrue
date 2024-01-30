@@ -7,10 +7,14 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     chrome.storage.local.get([savedProblemKey]).then((result) => {
       const savedProblem = result[savedProblemKey];
 
-      bojParse(savedProblem).then((problem) => {
-        chrome.storage.local.set({ [savedProblemKey]: problem }).then(() => {
-          sendResponse(problem);
-        });
+      bojParse(savedProblem).then((resp) => {
+        if (resp.isChanged) {
+          chrome.storage.local.set({ [savedProblemKey]: resp.problem }).then(() => {
+            sendResponse(resp.problem);
+          });
+        } else {
+          sendResponse(resp.problem);
+        }
       });
     });
   }
