@@ -1,6 +1,15 @@
 import { SiteType } from "../../common/enum";
 import { createProblemUrl } from "../../common/utils";
 
+const isSaved = (currProblemNumber: string, savedProblem: any) => {
+  if (typeof savedProblem === "undefined") {
+    return false;
+  } else if (currProblemNumber == savedProblem.number) {
+    return true;
+  }
+  return false;
+};
+
 const getBOJTitle = async (number: string): Promise<string> => {
   return new Promise((resolve, reject) =>
     chrome.runtime.sendMessage(
@@ -16,16 +25,21 @@ const getBOJTitle = async (number: string): Promise<string> => {
   );
 };
 
-const parse = async () => {
+const parse = async (savedProblem: any) => {
   try {
-    const metaTag = document.querySelector('meta[name="problem-id"]');
-    const problemNumber = metaTag.getAttribute("content");
-    const title: string = await getBOJTitle(problemNumber);
+    const problemNumber = document.querySelector('meta[name="problem-id"]').getAttribute("content");
+
+    if (isSaved(problemNumber, savedProblem)) {
+      return savedProblem;
+    }
+
+    const title = await getBOJTitle(problemNumber);
+    const url = createProblemUrl(SiteType.BOJ, problemNumber);
     return {
       site: SiteType.BOJ,
       number: problemNumber,
       title,
-      url: createProblemUrl(SiteType.BOJ, problemNumber),
+      url,
     };
   } catch (error) {
     return;
