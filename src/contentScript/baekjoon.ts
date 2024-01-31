@@ -1,15 +1,6 @@
 import { Problem } from "../common/class";
 import { SiteType } from "../common/enum";
-import { createProblemUrl } from "../common/utils";
-
-const isSaved = (currProblemNumber: string, savedProblem: undefined | Problem) => {
-  if (typeof savedProblem === "undefined") {
-    return false;
-  } else if (currProblemNumber == savedProblem.number) {
-    return true;
-  }
-  return false;
-};
+import { createProblemUrl, isProblemSaved } from "../common/utils";
 
 const getBOJTitle = async (problemNumber: string): Promise<string> => {
   return new Promise((resolve, reject) => {
@@ -48,7 +39,7 @@ const getBaekjoonProblem = async (savedProblem: undefined | Problem) => {
       isChanged: null,
       problem: null,
     };
-  } else if (isSaved(problemNumber, savedProblem)) {
+  } else if (isProblemSaved(problemNumber, savedProblem)) {
     return {
       isExist: true,
       isChanged: false,

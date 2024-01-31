@@ -1,3 +1,4 @@
+import { Problem } from "./class";
 import { SiteType, SiteBaseUrl } from "./enum";
 
 const createProblemUrl = (site: SiteType, problemNumber: string) => {
@@ -19,4 +20,13 @@ const fetchSolvedAcJson = async (problemNumber: string) => {
   }).then((resp) => resp.json());
 };
 
-export { createProblemUrl, fetchSolvedAcJson };
+const isProblemSaved = (currProblemNumber: string, savedProblem: undefined | Problem) => {
+  if (typeof savedProblem === "undefined") {
+    return false;
+  } else if (currProblemNumber == savedProblem.number) {
+    return true;
+  }
+  return false;
+};
+
+export { createProblemUrl, fetchSolvedAcJson, isProblemSaved };
