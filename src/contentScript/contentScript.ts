@@ -1,11 +1,11 @@
 import { Problem } from "../common/class";
 import { getSavedProblem, setSavedProblem } from "../common/storage";
-import parseBaekjoon from "./baekjoon";
+import getBaekjoonProblem from "./baekjoon";
 
 const handleMessage = async (request: any, sender: any, sendResponse: any) => {
   if (request.from === "popup" && request.subject === "ProblemInfo") {
     const savedProblem: Problem = await getSavedProblem();
-    const { isChanged, problem } = await parseBaekjoon(savedProblem);
+    const { isExist, isChanged, problem } = await getBaekjoonProblem(savedProblem);
 
     if (isChanged) {
       await setSavedProblem(problem);

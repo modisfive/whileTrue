@@ -24,22 +24,48 @@ const getBOJTitle = async (problemNumber: string): Promise<string> => {
   });
 };
 
-const parse = async (savedProblem: undefined | Problem) => {
-  const problemNumber = document.querySelector('meta[name="problem-id"]').getAttribute("content");
-
-  if (isSaved(problemNumber, savedProblem)) {
+const parseProblemNumber = () => {
+  try {
+    const problemNumber = document.querySelector('meta[name="problem-id"]').getAttribute("content");
     return {
+      isExist: true,
+      problemNumber,
+    };
+  } catch (error) {
+    return {
+      isExist: false,
+      problemNumber: null,
+    };
+  }
+};
+
+const getBaekjoonProblem = async (savedProblem: undefined | Problem) => {
+  const { isExist, problemNumber } = parseProblemNumber();
+
+  if (!isExist) {
+    return {
+      isExist: false,
+      isChanged: null,
+      problem: null,
+    };
+  } else if (isSaved(problemNumber, savedProblem)) {
+    return {
+      isExist: true,
       isChanged: false,
       problem: savedProblem,
     };
+  } else {
+    return {
+      isExist: true,
+      isChanged: true,
+      problem: new Problem(
+        SiteType.BOJ,
+        problemNumber,
+        await getBOJTitle(problemNumber),
+        createProblemUrl(SiteType.BOJ, problemNumber)
+      ),
+    };
   }
-
-  const title = await getBOJTitle(problemNumber);
-  const url = createProblemUrl(SiteType.BOJ, problemNumber);
-  return {
-    isChanged: true,
-    problem: new Problem(SiteType.BOJ, problemNumber, title, url),
-  };
 };
 
-export default parse;
+export default getBaekjoonProblem;
