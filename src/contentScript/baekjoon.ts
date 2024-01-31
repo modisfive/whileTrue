@@ -11,11 +11,11 @@ const isSaved = (currProblemNumber: string, savedProblem: undefined | Problem) =
   return false;
 };
 
-const getBOJTitle = async (number: string): Promise<string> => {
+const getBOJTitle = async (problemNumber: string): Promise<string> => {
   return new Promise((resolve, reject) => {
     try {
       chrome.runtime.sendMessage(
-        { from: "content", subject: "BOJTitle", param: number },
+        { from: "content", subject: "BOJTitle", problemNumber },
         (response) => resolve(response)
       );
     } catch (error) {
