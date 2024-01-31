@@ -10,4 +10,13 @@ const createProblemUrl = (site: SiteType, problemNumber: string) => {
   }
 };
 
-export { createProblemUrl };
+const fetchSolvedAcJson = async (problemNumber: string) => {
+  return await fetch(`https://solved.ac/api/v3/problem/show?problemId=${problemNumber}`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+    },
+  }).then((resp) => resp.json());
+};
+
+export { createProblemUrl, fetchSolvedAcJson };
