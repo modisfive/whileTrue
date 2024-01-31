@@ -9,4 +9,8 @@ enum SiteBaseUrl {
   BOJ = "https://www.acmicpc.net",
 }
 
-export { SiteType, SiteBaseUrl };
+enum StorageKey {
+  SAVED_PROBLEM = "savedProblem",
+}
+
+export { SiteType, SiteBaseUrl, StorageKey };

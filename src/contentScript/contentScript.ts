@@ -1,23 +1,20 @@
-import bojParse from "./boj/parse";
+import { Problem } from "../common/class";
+import { getSavedProblem, setSavedProblem } from "../common/storage";
+import parseBaekjoon from "./baekjoon";
 
-const savedProblemKey = "savedProblem";
-
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+const handleMessage = async (request: any, sender: any, sendResponse: any) => {
   if (request.from === "popup" && request.subject === "ProblemInfo") {
-    chrome.storage.local.get([savedProblemKey]).then((result) => {
-      const savedProblem = result[savedProblemKey];
+    const savedProblem: Problem = await getSavedProblem();
+    const { isChanged, problem } = await parseBaekjoon(savedProblem);
 
-      bojParse(savedProblem).then((resp) => {
-        if (resp.isChanged) {
-          chrome.storage.local.set({ [savedProblemKey]: resp.problem }).then(() => {
-            sendResponse(resp.problem);
-          });
-        } else {
-          sendResponse(resp.problem);
-        }
-      });
-    });
+    if (isChanged) {
+      await setSavedProblem(problem);
+    }
+
+    sendResponse(problem);
   }
 
   return true;
-});
+};
+
+chrome.runtime.onMessage.addListener(handleMessage);
