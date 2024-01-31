@@ -1,33 +1,22 @@
 import React, { FC, Fragment, useEffect, useState } from "react";
+import { Problem } from "../../common/class";
+import { SiteType } from "../../common/enum";
 
-type ProblemProp = {
-  site: string;
-  number: string;
-  title: string;
-  url: string;
+const parseProblemInfo = (setProblemInfo: CallableFunction) => {
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    chrome.tabs.sendMessage(tabs[0].id, { from: "popup", subject: "ProblemInfo" }, (response) => {
+      setProblemInfo(response);
+    });
+  });
 };
 
-const parseProblemInfo = (callBack: CallableFunction) => {
-  chrome.tabs.query(
-    {
-      active: true,
-      currentWindow: true,
-    },
-    (tabs) => {
-      chrome.tabs.sendMessage(tabs[0].id, { from: "popup", subject: "ProblemInfo" }, (response) => {
-        callBack(response);
-      });
-    }
-  );
-};
-
-const submit = (problem: ProblemProp) => {
+const submit = (problem: Problem) => {
   alert(JSON.stringify(problem));
 };
 
 const ProblemInsertionTab: FC<{}> = () => {
-  const [problemInfo, setProblemInfo] = useState<ProblemProp>({
-    site: "DEFAULT_SITE",
+  const [problemInfo, setProblemInfo] = useState<Problem>({
+    site: SiteType.DEFAULT,
     number: "DEFAULT_NUMBER",
     title: "DEFAULT_TITLE",
     url: "DEFAULT_URL",
