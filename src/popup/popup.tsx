@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { createRoot } from "react-dom/client";
 import "./popup.css";
 import TabList from "./tabs/TabList";
-import ProblemInsertionTab from "./tabs/ProblemInsertionTab";
+import ProblemInsertionTab from "./tabs/ProblemInsertionTab/index";
 import RandomSelectionTab from "./tabs/RandomSelectionTab";
 import SettingTab from "./tabs/SettingTab";
 
