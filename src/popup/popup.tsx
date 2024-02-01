@@ -3,8 +3,8 @@ import { createRoot } from "react-dom/client";
 import "./popup.css";
 import TabList from "./tabs/TabList";
 import ProblemInsertionTab from "./tabs/ProblemInsertionTab/index";
-import RandomSelectionTab from "./tabs/RandomSelectionTab";
-import SettingTab from "./tabs/SettingTab";
+import RandomSelectionTab from "./tabs/RandomSelectionTab/index";
+import SettingTab from "./tabs/SettingTab/index";
 
 type TabsType = {
   label: string;
