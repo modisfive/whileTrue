@@ -16,7 +16,7 @@ const submit = (problem: Problem) => {
 
 const ProblemInsertionTab: FC<{}> = () => {
   const [problemInfo, setProblemInfo] = useState<{ isExist: boolean; problem: Problem }>({
-    isExist: true,
+    isExist: false,
     problem: {
       site: SiteType.DEFAULT,
       number: "DEFAULT_NUMBER",
