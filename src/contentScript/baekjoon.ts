@@ -3,15 +3,11 @@ import { SiteType } from "../common/enum";
 import { createProblemUrl, isProblemSaved } from "../common/utils";
 
 const getBOJTitle = async (problemNumber: string): Promise<string> => {
-  return await new Promise((resolve, reject) => {
-    try {
-      chrome.runtime.sendMessage(
-        { from: "content", subject: "BOJTitle", problemNumber },
-        (response) => resolve(response)
-      );
-    } catch (error) {
-      reject(error);
-    }
+  return await new Promise((resolve) => {
+    chrome.runtime.sendMessage(
+      { from: "content", subject: "BOJTitle", problemNumber },
+      (response) => resolve(response)
+    );
   });
 };
 
