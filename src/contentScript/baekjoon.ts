@@ -3,7 +3,7 @@ import { SiteType } from "../common/enum";
 import { createProblemUrl, isProblemSaved } from "../common/utils";
 
 const getBOJTitle = async (problemNumber: string): Promise<string> => {
-  return new Promise((resolve, reject) => {
+  return await new Promise((resolve, reject) => {
     try {
       chrome.runtime.sendMessage(
         { from: "content", subject: "BOJTitle", problemNumber },

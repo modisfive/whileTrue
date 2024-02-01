@@ -2,7 +2,7 @@ import { Problem } from "./class";
 import { StorageKey } from "./enum";
 
 const getByKey = async (key: string): Promise<any> => {
-  return new Promise((resolve, reject) => {
+  return await new Promise((resolve, reject) => {
     try {
       chrome.storage.local.get([key]).then((result) => resolve(result[key]));
     } catch (error) {
@@ -12,7 +12,7 @@ const getByKey = async (key: string): Promise<any> => {
 };
 
 const setByKey = async (key: string, value: any) => {
-  return new Promise((resolve, reject) => {
+  return await new Promise((resolve, reject) => {
     try {
       chrome.storage.local.set({ [key]: value }).then(() => resolve);
     } catch (error) {
