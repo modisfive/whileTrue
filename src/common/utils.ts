@@ -1,10 +1,10 @@
 import { Problem } from "./class";
-import { SiteType, SiteBaseUrl } from "./enum";
+import { SiteType, SiteHost } from "./enum";
 
 const createProblemUrl = (site: SiteType, problemNumber: string) => {
   switch (site) {
     case SiteType.BOJ:
-      return SiteBaseUrl.BOJ + "/problem/" + problemNumber;
+      return `https://${SiteHost.BOJ}/problem/${problemNumber}`;
 
     default:
       break;
@@ -33,4 +33,8 @@ const isProblemSaved = (
   return false;
 };
 
-export { createProblemUrl, fetchSolvedAcJson, isProblemSaved };
+const getCurrentHost = () => {
+  return window.location.host;
+};
+
+export { createProblemUrl, fetchSolvedAcJson, isProblemSaved, getCurrentHost };

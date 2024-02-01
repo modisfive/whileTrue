@@ -6,12 +6,12 @@ enum SiteType {
   DEFAULT = "DEFAULT_SITE",
 }
 
-enum SiteBaseUrl {
-  BOJ = "https://www.acmicpc.net",
+enum SiteHost {
+  BOJ = "www.acmicpc.net",
 }
 
 enum StorageKey {
   SAVED_PROBLEM = "savedProblem",
 }
 
-export { SiteType, SiteBaseUrl, StorageKey };
+export { SiteType, SiteHost, StorageKey };
