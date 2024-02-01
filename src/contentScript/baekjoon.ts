@@ -35,7 +35,7 @@ const getBaekjoonProblem = async (savedProblem: undefined | Problem) => {
       isChanged: null,
       problem: null,
     };
-  } else if (isProblemSaved(problemNumber, savedProblem)) {
+  } else if (isProblemSaved(SiteType.BOJ, problemNumber, savedProblem)) {
     return {
       isExist: true,
       isChanged: false,

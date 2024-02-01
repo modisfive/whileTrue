@@ -20,10 +20,14 @@ const fetchSolvedAcJson = async (problemNumber: string) => {
   }).then((resp) => resp.json());
 };
 
-const isProblemSaved = (currProblemNumber: string, savedProblem: undefined | Problem) => {
+const isProblemSaved = (
+  currSiteType: SiteType,
+  currProblemNumber: string,
+  savedProblem: undefined | Problem
+) => {
   if (typeof savedProblem === "undefined") {
     return false;
-  } else if (currProblemNumber == savedProblem.number) {
+  } else if (currSiteType === savedProblem.site && currProblemNumber === savedProblem.number) {
     return true;
   }
   return false;
