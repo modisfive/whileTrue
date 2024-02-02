@@ -11,15 +11,6 @@ const createProblemUrl = (site: SiteType, problemNumber: string) => {
   }
 };
 
-const fetchSolvedAcJson = async (problemNumber: string) => {
-  return await fetch(`https://solved.ac/api/v3/problem/show?problemId=${problemNumber}`, {
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-    },
-  }).then((resp) => resp.json());
-};
-
 const isProblemSaved = (
   currSiteType: SiteType,
   currProblemNumber: string,
@@ -37,4 +28,4 @@ const getCurrentHost = () => {
   return window.location.host;
 };
 
-export { createProblemUrl, fetchSolvedAcJson, isProblemSaved, getCurrentHost };
+export { createProblemUrl, isProblemSaved, getCurrentHost };

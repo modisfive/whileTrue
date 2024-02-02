@@ -1,4 +1,11 @@
-import { fetchSolvedAcJson } from "../common/utils";
+const fetchSolvedAcJson = async (problemNumber: string) => {
+  return await fetch(`https://solved.ac/api/v3/problem/show?problemId=${problemNumber}`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+    },
+  }).then((resp) => resp.json());
+};
 
 const handleMessage = (request: any, sender: any, sendResponse: any) => {
   if (request.from === "content" && request.subject === "BOJTitle") {
