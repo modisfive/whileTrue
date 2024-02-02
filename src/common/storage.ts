@@ -21,4 +21,8 @@ const setSavedProblem = async (problem: Problem) => {
   await setByKey(StorageKey.SAVED_PROBLEM, problem);
 };
 
-export { getSavedProblem, setSavedProblem };
+const getNotionAccessToken = async () => {
+  return await getByKey(StorageKey.NOTION_ACCESS_TOKEN);
+};
+
+export { getSavedProblem, setSavedProblem, getNotionAccessToken };

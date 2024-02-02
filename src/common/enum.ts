@@ -12,6 +12,7 @@ enum SiteHost {
 
 enum StorageKey {
   SAVED_PROBLEM = "savedProblem",
+  NOTION_ACCESS_TOKEN = "notionAccessToken",
 }
 
 export { SiteType, SiteHost, StorageKey };
