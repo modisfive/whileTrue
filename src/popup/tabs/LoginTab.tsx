@@ -1,12 +1,8 @@
 import React, { FC } from "react";
+import { NOTION_AUTH_URL } from "../../../env";
 
 const handleClick = () => {
-  chrome.tabs.create({ url: "", selected: true }, () => {
-    window.close();
-    chrome.tabs.getCurrent(function (tab) {
-      // chrome.tabs.remove(tab.id, function () {});
-    });
-  });
+  chrome.tabs.create({ url: NOTION_AUTH_URL, selected: true }, () => window.close());
 };
 
 const LoginTab: FC<{}> = () => {

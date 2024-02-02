@@ -7,7 +7,7 @@ const handleMessage = (request: any, sender: any, sendResponse: any) => {
   }
 
   if (request.from === "popup" && request.subject === "NotionAccessToken") {
-    console.log("request notion access token!!!");
+    console.log("background is working!!");
     sendResponse(false);
     return true;
   }
