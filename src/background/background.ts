@@ -5,6 +5,12 @@ const handleMessage = (request: any, sender: any, sendResponse: any) => {
     fetchSolvedAcJson(request.problemNumber).then((resp) => sendResponse(resp.titleKo));
     return true;
   }
+
+  if (request.from === "popup" && request.subject === "NotionAccessToken") {
+    console.log("request notion access token!!!");
+    sendResponse(true);
+    return true;
+  }
 };
 
 chrome.runtime.onMessage.addListener(handleMessage);
