@@ -13,6 +13,7 @@ enum SiteHost {
 enum StorageKey {
   SAVED_PROBLEM = "savedProblem",
   NOTION_ACCESS_TOKEN = "notionAccessToken",
+  OAUTH_PROCESS_STATUS = "oauthProcessStatus",
 }
 
 export { SiteType, SiteHost, StorageKey };

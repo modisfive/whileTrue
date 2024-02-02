@@ -13,20 +13,26 @@ const setByKey = async (key: string, value: any) => {
   });
 };
 
-const getSavedProblem = async (): Promise<Problem | undefined> => {
+export const getSavedProblem = async (): Promise<Problem | undefined> => {
   return await getByKey(StorageKey.SAVED_PROBLEM);
 };
 
-const setSavedProblem = async (problem: Problem) => {
+export const setSavedProblem = async (problem: Problem) => {
   await setByKey(StorageKey.SAVED_PROBLEM, problem);
 };
 
-const getNotionAccessToken = async (): Promise<string | undefined> => {
+export const getNotionAccessToken = async (): Promise<string | undefined> => {
   return await getByKey(StorageKey.NOTION_ACCESS_TOKEN);
 };
 
-const setNotionAccessToken = async (notionAccessToken: string) => {
+export const setNotionAccessToken = async (notionAccessToken: string) => {
   await setByKey(StorageKey.NOTION_ACCESS_TOKEN, notionAccessToken);
 };
 
-export { getSavedProblem, setSavedProblem, getNotionAccessToken, setNotionAccessToken };
+export const getOAuthProcessStatus = async () => {
+  return await getByKey(StorageKey.OAUTH_PROCESS_STATUS);
+};
+
+export const setOAuthProcessStatus = async (status: boolean) => {
+  await setByKey(StorageKey.OAUTH_PROCESS_STATUS, status);
+};
