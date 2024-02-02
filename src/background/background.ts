@@ -8,7 +8,7 @@ const handleMessage = (request: any, sender: any, sendResponse: any) => {
 
   if (request.from === "popup" && request.subject === "NotionAccessToken") {
     console.log("request notion access token!!!");
-    sendResponse(true);
+    sendResponse(false);
     return true;
   }
 };

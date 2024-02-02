@@ -1,13 +1,19 @@
 import React, { FC } from "react";
-import { NOTION_AUTH_URL } from "../../common/env";
+
+const handleClick = () => {
+  chrome.tabs.create({ url: "", selected: true }, () => {
+    window.close();
+    chrome.tabs.getCurrent(function (tab) {
+      // chrome.tabs.remove(tab.id, function () {});
+    });
+  });
+};
 
 const LoginTab: FC<{}> = () => {
   return (
     <div>
       <h1>로그인하기</h1>
-      <button>
-        <a href={NOTION_AUTH_URL}>Notion 로그인</a>
-      </button>
+      <button onClick={handleClick}>Notion 로그인</button>
     </div>
   );
 };

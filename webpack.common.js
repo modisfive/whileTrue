@@ -1,5 +1,3 @@
-const webpack = require("webpack");
-const dotenv = require("dotenv");
 const path = require("path");
 const CopyPlugin = require("copy-webpack-plugin");
 const HtmlPlugin = require("html-webpack-plugin");
@@ -43,9 +41,6 @@ module.exports = {
           to: path.resolve("dist"),
         },
       ],
-    }),
-    new webpack.DefinePlugin({
-      "process.env": JSON.stringify(process.env),
     }),
     ...getHtmlPlugins(["popup", "options"]),
   ],
