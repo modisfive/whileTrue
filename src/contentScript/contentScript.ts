@@ -1,7 +1,16 @@
 import { SiteHost } from "../common/enum";
-import { getSavedProblem, setSavedProblem } from "../common/storage";
+import { getOAuthProcessStatus, getSavedProblem, setSavedProblem } from "../common/storage";
 import { getCurrentHost } from "../common/utils";
 import getBaekjoonProblem from "./baekjoon";
+import startOAuthProcess from "./oauth";
+
+if (window.location.host === "github.com") {
+  getOAuthProcessStatus().then((isStarted) => {
+    if (isStarted) {
+      startOAuthProcess(window.location.href);
+    }
+  });
+}
 
 const parse = async (savedProblem) => {
   const currentHost = getCurrentHost();
