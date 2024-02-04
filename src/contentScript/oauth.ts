@@ -1,5 +1,11 @@
 const startOAuthProcess = async (url: string) => {
   const accessCode = parseAccessCode(url);
+  await fetch("http://localhost:8000", {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+    },
+  });
 };
 
 const parseAccessCode = (url: string) => {

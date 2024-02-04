@@ -1,9 +1,9 @@
 import React, { FC } from "react";
-import { NOTION_AUTH_URL } from "../../../env";
 import { setOAuthProcessStatus } from "../../common/storage";
+import { OAuth } from "../../common/enum";
 
 const handleClick = () => {
-  chrome.tabs.create({ url: NOTION_AUTH_URL, selected: true }, () => {
+  chrome.tabs.create({ url: OAuth.NOTION_AUTH_URL, selected: true }, () => {
     setOAuthProcessStatus(true);
     window.close();
   });

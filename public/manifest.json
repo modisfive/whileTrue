@@ -19,7 +19,7 @@
     "https://school.programmers.co.kr/",
     "https://swexpertacademy.com/",
     "https://solved.ac/api/v3/*",
-    "https://api.notion.com/v1/*"
+    "http://localhost/*"
   ],
   "options_page": "options.html",
   "background": {
