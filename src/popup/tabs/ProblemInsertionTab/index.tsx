@@ -1,6 +1,6 @@
 import React, { FC, Fragment, useEffect, useState } from "react";
 import { Problem } from "../../../common/class";
-import { SiteType } from "../../../common/enum";
+import { SiteType } from "../../../common/constants";
 import CurrentProblem from "./CurrentProblem";
 import ProblemNotFound from "./ProblemNotFound";
 

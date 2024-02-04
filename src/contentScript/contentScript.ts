@@ -1,4 +1,4 @@
-import { SiteHost } from "../common/enum";
+import { SiteHost } from "../common/constants";
 import { getOAuthProcessStatus, getSavedProblem, setSavedProblem } from "../common/storage";
 import { getCurrentHost } from "../common/utils";
 import getBaekjoonProblem from "./baekjoon";

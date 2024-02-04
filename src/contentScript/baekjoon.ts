@@ -1,5 +1,5 @@
 import { Problem } from "../common/class";
-import { SiteType } from "../common/enum";
+import { SiteType } from "../common/constants";
 import { createProblemUrl, isProblemSaved } from "../common/utils";
 
 const getBOJTitle = async (problemNumber: string): Promise<string> => {

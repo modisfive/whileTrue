@@ -1,4 +1,4 @@
-import { SiteType } from "./enum";
+import { SiteType } from "./constants";
 
 class Problem {
   site: SiteType;

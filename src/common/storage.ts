@@ -1,5 +1,5 @@
 import { Problem } from "./class";
-import { StorageKey } from "./enum";
+import { StorageKey } from "./constants";
 
 const getByKey = async (key: string): Promise<any> => {
   return await new Promise((resolve) => {

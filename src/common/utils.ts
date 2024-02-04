@@ -1,5 +1,5 @@
 import { Problem } from "./class";
-import { SiteType, SiteHost } from "./enum";
+import { SiteType, SiteHost } from "./constants";
 
 const createProblemUrl = (site: SiteType, problemNumber: string) => {
   switch (site) {
