@@ -1,6 +1,10 @@
+import { HOST_URL } from "../common/constants";
+
 const startOAuthProcess = async (url: string) => {
   const accessCode = parseAccessCode(url);
-  await fetch("http://localhost:8000", {
+  const requestURL = `${HOST_URL}/oauth/${accessCode}`;
+
+  await fetch(requestURL, {
     method: "GET",
     headers: {
       Accept: "application/json",
