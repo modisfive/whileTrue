@@ -9,7 +9,7 @@ const getByKey = async (key: string): Promise<any> => {
 
 const setByKey = async (key: string, value: any) => {
   return await new Promise((resolve) => {
-    chrome.storage.local.set({ [key]: value }).then(() => resolve);
+    chrome.storage.local.set({ [key]: value }).then(resolve);
   });
 };
 

@@ -2,7 +2,7 @@ import { HOST_URL } from "../common/constants";
 
 const startOAuthProcess = async (url: string) => {
   const accessCode = parseAccessCode(url);
-  const requestURL = `${HOST_URL}/oauth/${accessCode}`;
+  const requestURL = `${HOST_URL}/auth/${accessCode}`;
 
   await fetch(requestURL, {
     method: "GET",
