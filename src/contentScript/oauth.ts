@@ -1,15 +1,10 @@
-import { HOST_URL } from "../common/constants";
+import { sendAccessCode } from "../common/request";
 
 const startOAuthProcess = async (url: string) => {
   const accessCode = parseAccessCode(url);
-  const requestURL = `${HOST_URL}/auth/${accessCode}`;
+  const resp = await sendAccessCode(accessCode);
 
-  await fetch(requestURL, {
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-    },
-  });
+  console.log(resp);
 };
 
 const parseAccessCode = (url: string) => {

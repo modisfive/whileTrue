@@ -19,7 +19,7 @@
     "https://school.programmers.co.kr/",
     "https://swexpertacademy.com/",
     "https://solved.ac/api/v3/*",
-    "http://localhost/*"
+    "http://localhost:80/*"
   ],
   "options_page": "options.html",
   "background": {

@@ -1,7 +1,7 @@
 import { Problem } from "./class";
 import { SiteType, SiteHost } from "./constants";
 
-const createProblemUrl = (site: SiteType, problemNumber: string) => {
+export const createProblemUrl = (site: SiteType, problemNumber: string) => {
   switch (site) {
     case SiteType.BOJ:
       return `https://${SiteHost.BOJ}/problem/${problemNumber}`;
@@ -11,7 +11,7 @@ const createProblemUrl = (site: SiteType, problemNumber: string) => {
   }
 };
 
-const isProblemSaved = (
+export const isProblemSaved = (
   currSiteType: SiteType,
   currProblemNumber: string,
   savedProblem: undefined | Problem
@@ -24,8 +24,6 @@ const isProblemSaved = (
   return false;
 };
 
-const getCurrentHost = () => {
+export const getCurrentHost = () => {
   return window.location.host;
 };
-
-export { createProblemUrl, isProblemSaved, getCurrentHost };
