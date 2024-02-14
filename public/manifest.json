@@ -1,6 +1,6 @@
 {
   "name": "whileTrue",
-  "description": "Chrome Extension in React!",
+  "description": "알고리즘 문제 다시 풀기",
   "version": "1.0.0",
   "manifest_version": 3,
   "icons": {
@@ -10,7 +10,7 @@
   },
   "action": {
     "default_popup": "popup.html",
-    "default_title": "React Extension",
+    "default_title": "whileTrue",
     "default_icon": "icon.png"
   },
   "permissions": ["storage", "activeTab"],
