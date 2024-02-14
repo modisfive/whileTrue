@@ -27,3 +27,7 @@ export const isProblemSaved = (
 export const getCurrentHost = () => {
   return window.location.host;
 };
+
+export const isPropertyExists = (property: any) => {
+  return typeof property !== "undefined";
+};

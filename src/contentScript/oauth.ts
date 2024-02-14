@@ -10,13 +10,14 @@ const startOAuthProcess = async (url: string) => {
       chrome.runtime.sendMessage({
         from: "oauth",
         subject: "accessToken",
+        isSuccess: true,
         token: resp.data.accessToken,
       });
     } else {
       chrome.runtime.sendMessage({
         from: "oauth",
         subject: "accessToken",
-        closeTab: true,
+        isSuccess: false,
       });
     }
   });

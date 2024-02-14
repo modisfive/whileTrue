@@ -4,24 +4,51 @@ import "./popup.css";
 import TabComponent from "./tabs";
 import LoginTab from "./tabs/LoginTab";
 
-const getLoginStatus = (setIsLogined: CallableFunction) => {
+type UserStatusProps = {
+  isAccessTokenExists: boolean;
+  isUserNotionIntoExists: boolean;
+};
+
+const getLoginStatus = (setUserStatus: CallableFunction) => {
+  const userStatus = {
+    isAccessTokenExists: false,
+    isUserNotionIntoExists: false,
+  };
+
   chrome.runtime.sendMessage({ from: "popup", subject: "accessToken" }, (resp) => {
-    setIsLogined(resp);
+    userStatus.isAccessTokenExists = resp;
+    if (!resp) {
+      setUserStatus(userStatus);
+    } else {
+      chrome.runtime.sendMessage({ from: "popup", subject: "userNotionInfo" }, (resp) => {
+        userStatus.isUserNotionIntoExists = resp;
+        setUserStatus(userStatus);
+      });
+    }
   });
 };
 
 const App: React.FC<{}> = () => {
-  const [isLogined, setIsLogined] = useState<boolean>(false);
+  const [userStatus, setUserStatus] = useState<UserStatusProps>({
+    isAccessTokenExists: false,
+    isUserNotionIntoExists: false,
+  });
 
   useEffect(() => {
-    getLoginStatus(setIsLogined);
+    getLoginStatus(setUserStatus);
   }, []);
 
   return (
     <div className="App">
       <h1>알고리즘 문제 다시 풀기</h1>
       <br />
-      {isLogined ? <TabComponent /> : <LoginTab />}
+      {!userStatus.isAccessTokenExists ? (
+        <LoginTab />
+      ) : !userStatus.isUserNotionIntoExists ? (
+        <h2>데이터베이스 정보를 저장해주세요.</h2>
+      ) : (
+        <TabComponent />
+      )}
     </div>
   );
 };

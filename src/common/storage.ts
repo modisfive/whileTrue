@@ -36,3 +36,11 @@ export const getOAuthProcessStatus = async () => {
 export const setOAuthProcessStatus = async (status: boolean) => {
   await setByKey(StorageKey.OAUTH_PROCESS_STATUS, status);
 };
+
+export const getUserInfo = async () => {
+  return await getByKey(StorageKey.USER_INFO);
+};
+
+export const setUserInfo = async (userInfo: any) => {
+  await setByKey(StorageKey.USER_INFO, userInfo);
+};
