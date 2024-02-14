@@ -5,7 +5,7 @@ import TabComponent from "./tabs";
 import LoginTab from "./tabs/LoginTab";
 
 const getLoginStatus = (setIsLogined: CallableFunction) => {
-  chrome.runtime.sendMessage({ from: "popup", subject: "NotionAccessToken" }, (resp) => {
+  chrome.runtime.sendMessage({ from: "popup", subject: "accessToken" }, (resp) => {
     setIsLogined(resp);
   });
 };

@@ -21,12 +21,12 @@ export const setSavedProblem = async (problem: Problem) => {
   await setByKey(StorageKey.SAVED_PROBLEM, problem);
 };
 
-export const getNotionAccessToken = async (): Promise<string | undefined> => {
-  return await getByKey(StorageKey.NOTION_ACCESS_TOKEN);
+export const getAccessToken = async (): Promise<string | undefined> => {
+  return await getByKey(StorageKey.ACCESS_TOKEN);
 };
 
-export const setNotionAccessToken = async (notionAccessToken: string) => {
-  await setByKey(StorageKey.NOTION_ACCESS_TOKEN, notionAccessToken);
+export const setAccessToken = async (notionAccessToken: string) => {
+  await setByKey(StorageKey.ACCESS_TOKEN, notionAccessToken);
 };
 
 export const getOAuthProcessStatus = async () => {

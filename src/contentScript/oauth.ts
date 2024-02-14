@@ -1,10 +1,25 @@
 import { sendAccessCode } from "../common/request";
+import { setOAuthProcessStatus } from "../common/storage";
 
 const startOAuthProcess = async (url: string) => {
   const accessCode = parseAccessCode(url);
   const resp = await sendAccessCode(accessCode);
 
-  console.log(resp);
+  setOAuthProcessStatus(false).then(() => {
+    if (resp.httpStatus == 200) {
+      chrome.runtime.sendMessage({
+        from: "oauth",
+        subject: "accessToken",
+        token: resp.data.accessToken,
+      });
+    } else {
+      chrome.runtime.sendMessage({
+        from: "oauth",
+        subject: "accessToken",
+        closeTab: true,
+      });
+    }
+  });
 };
 
 const parseAccessCode = (url: string) => {

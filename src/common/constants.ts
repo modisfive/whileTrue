@@ -12,7 +12,7 @@ enum SiteHost {
 
 enum StorageKey {
   SAVED_PROBLEM = "savedProblem",
-  NOTION_ACCESS_TOKEN = "notionAccessToken",
+  ACCESS_TOKEN = "accessToken",
   OAUTH_PROCESS_STATUS = "oauthProcessStatus",
 }
 
