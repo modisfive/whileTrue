@@ -11,10 +11,10 @@ enum SiteHost {
 }
 
 enum StorageKey {
+  LATEST_PROBLEM = "latest_problem",
   OAUTH_PROCESS_STATUS = "oauth_process_status",
   ACCESS_TOKEN = "access_token",
   USER_INFO = "user_information",
-  SAVED_PROBLEM = "saved_problem",
 }
 
 enum OAuth {

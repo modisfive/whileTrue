@@ -14,11 +14,11 @@ const setByKey = async (key: string, value: any) => {
 };
 
 export const getSavedProblem = async (): Promise<Problem | undefined> => {
-  return await getByKey(StorageKey.SAVED_PROBLEM);
+  return await getByKey(StorageKey.LATEST_PROBLEM);
 };
 
 export const setSavedProblem = async (problem: Problem) => {
-  await setByKey(StorageKey.SAVED_PROBLEM, problem);
+  await setByKey(StorageKey.LATEST_PROBLEM, problem);
 };
 
 export const getAccessToken = async (): Promise<string | undefined> => {
