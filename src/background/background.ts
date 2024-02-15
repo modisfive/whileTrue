@@ -28,6 +28,8 @@ const handleMessage = (request: any, sender: any, sendResponse: any) => {
       chrome.tabs.remove(tabs[0].id);
       if (request.isSuccess) {
         LocalStorage.set(StorageKey.ACCESS_TOKEN, request.token);
+        const optionsPage = `chrome-extension://${chrome.runtime.id}/options.html`;
+        chrome.tabs.create({ url: optionsPage, selected: true });
       }
     });
   } else if (request.from === "options" && request.subject === "databaseUrl") {
@@ -49,9 +51,9 @@ const handleMessage = (request: any, sender: any, sendResponse: any) => {
   } else if (request.from === "problemPage" && request.subject === "checkProblemList") {
     LocalStorage.get(StorageKey.PROBLEM_LIST).then((problemList) => {
       if (!isPropertyExists(problemList)) {
-        HostRequest.getAllProblemList().then((resp) => {
-          LocalStorage.set(StorageKey.PROBLEM_LIST, resp.data.problemList);
-        });
+        HostRequest.getAllProblemList().then((resp) =>
+          LocalStorage.set(StorageKey.PROBLEM_LIST, resp.data.problemList)
+        );
       }
     });
   } else if (request.from === "problemPage" && request.subject === "selectRandomProblem") {
