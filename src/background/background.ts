@@ -34,20 +34,14 @@ const handleMessage = (request: any, sender: any, sendResponse: any) => {
     sendDatabaseID(request.databaseUrl).then((resp) => {
       LocalStorage.set(StorageKey.USER_INFO, resp.data);
     });
-  } else if (
-    request.from === "options" &&
-    request.subject === "accessToken" &&
-    request.todo === "show"
-  ) {
-    LocalStorage.get(StorageKey.ACCESS_TOKEN).then((accessToken) => console.log(accessToken));
-  } else if (
-    request.from === "options" &&
-    request.subject === "accessToken" &&
-    request.todo === "delete"
-  ) {
-    chrome.storage.local
-      .remove("access_token")
-      .then(() => console.log("Access Token을 삭제했습니다."));
+  } else if (request.from === "options" && request.subject === "accessToken") {
+    if (request.todo === "show") {
+      LocalStorage.get(StorageKey.ACCESS_TOKEN).then((accessToken) => console.log(accessToken));
+    } else if (request.todo === "delete") {
+      LocalStorage.remove(StorageKey.ACCESS_TOKEN).then(() =>
+        console.log("Access Token을 삭제했습니다.")
+      );
+    }
   } else if (request.from === "options" && request.subject === "userInfo") {
     getMemberNotionInfo().then((resp) => console.log(resp));
   } else if (request.from === "options" && request.subject === "allProblems") {
