@@ -20,8 +20,8 @@ const handleMessage = (request: any, sender: any, sendResponse: any) => {
       sendResponse(isPropertyExists(accessToken))
     );
   } else if (request.from === "popup" && request.subject === "userNotionInfo") {
-    LocalStorage.get(StorageKey.USER_INFO).then((userInfo) => {
-      sendResponse(isPropertyExists(userInfo));
+    LocalStorage.get(StorageKey.NOTION_INFO).then((notionInfo) => {
+      sendResponse(isPropertyExists(notionInfo));
     });
   } else if (request.from === "oauth" && request.subject === "accessToken") {
     chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
@@ -32,7 +32,7 @@ const handleMessage = (request: any, sender: any, sendResponse: any) => {
     });
   } else if (request.from === "options" && request.subject === "databaseUrl") {
     HostRequest.sendDatabaseID(request.databaseUrl).then((resp) => {
-      LocalStorage.set(StorageKey.USER_INFO, resp.data);
+      LocalStorage.set(StorageKey.NOTION_INFO, resp.data);
     });
   } else if (request.from === "options" && request.subject === "accessToken") {
     if (request.todo === "show") {
@@ -42,7 +42,7 @@ const handleMessage = (request: any, sender: any, sendResponse: any) => {
         console.log("Access Token을 삭제했습니다.")
       );
     }
-  } else if (request.from === "options" && request.subject === "userInfo") {
+  } else if (request.from === "options" && request.subject === "notionInfo") {
     HostRequest.getMemberNotionInfo().then((resp) => console.log(resp));
   } else if (request.from === "options" && request.subject === "allProblems") {
     HostRequest.getAllProblemList().then((resp) => console.log(resp));

@@ -14,7 +14,7 @@ enum StorageKey {
   LATEST_PROBLEM = "latest_problem",
   OAUTH_PROCESS_STATUS = "oauth_process_status",
   ACCESS_TOKEN = "access_token",
-  USER_INFO = "user_information",
+  NOTION_INFO = "notion_information",
   PROBLEM_LIST = "problem_list",
 }
 

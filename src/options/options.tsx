@@ -36,7 +36,7 @@ const App: React.FC<{}> = () => {
   const handleClick3 = () => {
     chrome.runtime.sendMessage({
       from: "options",
-      subject: "userInfo",
+      subject: "notionInfo",
     });
   };
 

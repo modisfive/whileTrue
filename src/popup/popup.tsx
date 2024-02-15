@@ -20,7 +20,7 @@ const getLoginStatus = (setUserStatus: CallableFunction) => {
     if (!resp) {
       setUserStatus(userStatus);
     } else {
-      chrome.runtime.sendMessage({ from: "popup", subject: "userNotionInfo" }, (resp) => {
+      chrome.runtime.sendMessage({ from: "popup", subject: "notionInfo" }, (resp) => {
         userStatus.isUserNotionIntoExists = resp;
         setUserStatus(userStatus);
       });
