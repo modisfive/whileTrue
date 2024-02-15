@@ -1,11 +1,27 @@
 import React, { useState } from "react";
 import { createRoot } from "react-dom/client";
 
+const validateNotionDatabaseUrl = (url: string) => {
+  const regExr = /https:\/\/www\.notion\.so\/(.+?)\/(.+?)\?v=(.+)/;
+  if (!regExr.test(url)) {
+    return false;
+  }
+  const target = url.match(regExr)[2];
+  return target.length == 32;
+};
+
 const App: React.FC<{}> = () => {
   const [databaseUrl, setDatabaseUrl] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = (e) => {
     setDatabaseUrl(e.target.value);
+    const url = e.target.value;
+    if (!validateNotionDatabaseUrl(url)) {
+      setErrorMessage("데이터베이스 URL을 다시 확인해주세요.");
+    } else {
+      setErrorMessage("");
+    }
   };
 
   const handleSubmit = (e) => {
@@ -53,6 +69,7 @@ const App: React.FC<{}> = () => {
         <label>
           <input type="text" value={databaseUrl} onChange={handleChange} />
         </label>
+        <span>{errorMessage}</span>
         <button type="submit">데이터베이스 저장하기</button>
       </form>
       <button onClick={handleClick1}>Access Token 출력하기</button>
