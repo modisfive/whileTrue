@@ -1,9 +1,9 @@
 import React, { FC } from "react";
-import { setOAuthProcessStatus } from "../../common/storage";
-import { OAuth } from "../../common/constants";
+import { OAuth, StorageKey } from "../../common/constants";
+import LocalStorage from "../../common/storage";
 
 const handleClick = () => {
-  setOAuthProcessStatus(true).then(() => {
+  LocalStorage.set(StorageKey.OAUTH_PROCESS_STATUS, true).then(() => {
     chrome.tabs.create({ url: OAuth.NOTION_AUTH_URL, selected: true }, () => {
       window.close();
     });
