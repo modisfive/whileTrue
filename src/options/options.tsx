@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { createRoot } from "react-dom/client";
+import "bootstrap/dist/css/bootstrap.css";
+import { Alert, Button, Col, Container, Form, Row } from "react-bootstrap";
 
 const validateNotionDatabaseUrl = (url: string) => {
   const regExr = /https:\/\/www\.notion\.so\/(.+?)\/(.+?)\?v=(.+)/;
@@ -12,19 +14,19 @@ const validateNotionDatabaseUrl = (url: string) => {
 
 const App: React.FC<{}> = () => {
   const [databaseUrl, setDatabaseUrl] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [isError, setIsError] = useState(false);
 
   const handleChange = (e) => {
-    setDatabaseUrl(e.target.value);
     const url = e.target.value;
-    if (!validateNotionDatabaseUrl(url)) {
-      setErrorMessage("데이터베이스 URL을 다시 확인해주세요.");
-    } else {
-      setErrorMessage("");
-    }
+    setDatabaseUrl(url);
+    setIsError(!validateNotionDatabaseUrl(url));
   };
 
   const handleSubmit = (e) => {
+    if (!isError) {
+      return;
+    }
+
     e.preventDefault();
     chrome.runtime.sendMessage({
       from: "options",
@@ -64,19 +66,39 @@ const App: React.FC<{}> = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <label>
-          <input type="text" value={databaseUrl} onChange={handleChange} />
-        </label>
-        <span>{errorMessage}</span>
-        <button type="submit">데이터베이스 저장하기</button>
-      </form>
+    <Container>
+      <Form onSubmit={handleSubmit}>
+        <Row className="align-items-center">
+          <Col xs="auto">
+            <Form.Label htmlFor="inlineFormInput">Notion Database URL</Form.Label>
+            <Form.Control
+              width="200em"
+              className="mb-2"
+              id="inlineFormInput"
+              placeholder="Notion Database URL을 입력해주세요."
+              value={databaseUrl}
+              onChange={handleChange}
+            />
+          </Col>
+          {isError && (
+            <Col>
+              <Alert key="danger" variant="danger">
+                This is a alert—check it out!
+              </Alert>
+            </Col>
+          )}
+          <Col xs="auto">
+            <Button type="submit" className="mb-2">
+              Submit
+            </Button>
+          </Col>
+        </Row>
+      </Form>
       <button onClick={handleClick1}>Access Token 출력하기</button>
       <button onClick={handleClick2}>Access Token 삭제하기</button>
       <button onClick={handleClick3}>사용자 정보 가져오기</button>
       <button onClick={handleClick4}>모든 문제 가져오기</button>
-    </div>
+    </Container>
   );
 };
 

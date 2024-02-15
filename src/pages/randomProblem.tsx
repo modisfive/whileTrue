@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { createRoot } from "react-dom/client";
+import "bootstrap/dist/css/bootstrap.css";
 import { Problem } from "../common/class";
 import { SiteType } from "../common/constants";
 

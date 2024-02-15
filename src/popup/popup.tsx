@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
+import "bootstrap/dist/css/bootstrap.css";
 import "./popup.css";
 import TabComponent from "./tabs";
 import LoginTab from "./tabs/LoginTab";
