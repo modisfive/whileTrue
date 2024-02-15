@@ -1,4 +1,4 @@
-import { isProblemExists } from "../common/request";
+import { isProblemExists, sendDatabaseID } from "../common/request";
 import { getAccessToken, getUserInfo, setAccessToken } from "../common/storage";
 import { isPropertyExists } from "../common/utils";
 
@@ -30,8 +30,25 @@ const handleMessage = (request: any, sender: any, sendResponse: any) => {
         setAccessToken(request.token);
       }
     });
+  } else if (request.from === "options" && request.subject === "databaseUrl") {
+    sendDatabaseID(request.databaseUrl).then((resp) => {
+      console.log(resp);
+    });
+  } else if (
+    request.from === "options" &&
+    request.subject === "accessToken" &&
+    request.todo === "show"
+  ) {
+    getAccessToken().then((accessToken) => console.log(accessToken));
+  } else if (
+    request.from === "options" &&
+    request.subject === "accessToken" &&
+    request.todo === "delete"
+  ) {
+    chrome.storage.local
+      .remove("access_token")
+      .then(() => console.log("Access Token을 삭제했습니다."));
   }
-
   return true;
 };
 

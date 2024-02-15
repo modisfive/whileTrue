@@ -19,6 +19,7 @@ const sendPostRequest = async (targetUrl: string, accessToken: string, body: any
     method: "POST",
     headers: {
       Accept: "application/json",
+      "Content-Type": "application/json",
       Authorization: `Bearer ${accessToken}`,
     },
     body: JSON.stringify(body),

@@ -31,5 +31,11 @@
       "js": ["contentScript.js"]
     }
   ],
+  "web_accessible_resources": [
+    {
+      "matches": ["<all_urls>"],
+      "resources": ["page.html", "page.js"]
+    }
+  ],
   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqhOwM9Om+Un0i3qB5dvXYXuDusdaDWNsXIFNeGtAk2e4ZVl6IDh8EqNrYbqg93rd1qiLFwgfCUnyLZNWlclJ7ktMO+1S39FnrsRPCVGjI/Faf0mv5OWcuIIv5UmqUDX5Lkskg0V5DzQq1GJyiaBMN/NfDTOE0lNE309iq1HOCtcFoQu+kEbeLz8MhnodXLsXlKiqPT5CeHoxweGgGR5hnPwz78WfBxjmtnL2M7gT/T518nZlY7ukcyXrs3gTtKnPYR8tJXcXE2PBfxntGcQjgQEopuJM/yiJep/G4ghf5SGTXDuzSPca+d9vKBMF05wMW4dtNuU1uf9Mjp1b5FFOxQIDAQAB"
 }

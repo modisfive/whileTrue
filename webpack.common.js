@@ -9,6 +9,7 @@ module.exports = {
     options: path.resolve("src/options/options.tsx"),
     background: path.resolve("src/background/background.ts"),
     contentScript: path.resolve("src/contentScript/contentScript.ts"),
+    randomProblemPage: path.resolve("src/pages/randomProblem/index.tsx"),
   },
   module: {
     rules: [
@@ -42,7 +43,7 @@ module.exports = {
         },
       ],
     }),
-    ...getHtmlPlugins(["popup", "options"]),
+    ...getHtmlPlugins(["popup", "options", "randomProblemPage"]),
   ],
   output: {
     filename: "[name].js",
