@@ -1,11 +1,11 @@
-import { SiteHost } from "../common/constants";
-import { getOAuthProcessStatus, getSavedProblem, setSavedProblem } from "../common/storage";
+import { SiteHost, StorageKey } from "../common/constants";
+import LocalStorage from "../common/storage";
 import { getCurrentHost } from "../common/utils";
 import getBaekjoonProblem from "./baekjoon";
 import startOAuthProcess from "./oauth";
 
 if (window.location.host === "github.com") {
-  getOAuthProcessStatus().then((isStarted) => {
+  LocalStorage.get(StorageKey.OAUTH_PROCESS_STATUS).then((isStarted) => {
     if (isStarted) {
       startOAuthProcess(window.location.href);
     }
@@ -29,11 +29,11 @@ const parse = async (savedProblem) => {
 };
 
 const getProblemInfo = async () => {
-  const savedProblem = await getSavedProblem();
+  const savedProblem = await LocalStorage.get(StorageKey.LATEST_PROBLEM);
   const { isExist, isChanged, problem } = await parse(savedProblem);
 
   if (isChanged) {
-    setSavedProblem(problem);
+    LocalStorage.set(StorageKey.LATEST_PROBLEM, problem);
   }
 
   return { isExist, problem };
