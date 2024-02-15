@@ -16,10 +16,9 @@ const handleMessage = (request: any, sender: any, sendResponse: any) => {
   if (request.from === "content" && request.subject === "BOJTitle") {
     fetchSolvedAcJson(request.problemNumber).then((resp) => sendResponse(resp.titleKo));
   } else if (request.from === "popup" && request.subject === "accessToken") {
-    LocalStorage.get(StorageKey.ACCESS_TOKEN).then((accessToken) => {
-      console.log(accessToken);
-      sendResponse(isPropertyExists(accessToken));
-    });
+    LocalStorage.get(StorageKey.ACCESS_TOKEN).then((accessToken) =>
+      sendResponse(isPropertyExists(accessToken))
+    );
   } else if (request.from === "popup" && request.subject === "userNotionInfo") {
     LocalStorage.get(StorageKey.USER_INFO).then((userInfo) => {
       sendResponse(isPropertyExists(userInfo));
@@ -33,7 +32,7 @@ const handleMessage = (request: any, sender: any, sendResponse: any) => {
     });
   } else if (request.from === "options" && request.subject === "databaseUrl") {
     sendDatabaseID(request.databaseUrl).then((resp) => {
-      console.log(resp);
+      LocalStorage.set(StorageKey.USER_INFO, resp.data);
     });
   } else if (
     request.from === "options" &&
