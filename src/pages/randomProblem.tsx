@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { createRoot } from "react-dom/client";
 import { Problem } from "../common/class";
 import { SiteType } from "../common/constants";
-import { getProblemList } from "../common/storage";
 
 chrome.runtime.sendMessage({
   from: "problemPage",
@@ -19,14 +18,8 @@ const App: React.FC<{}> = () => {
 
   const handleClick = () => {
     chrome.runtime.sendMessage(
-      {
-        from: "problemPage",
-        subject: "selectRandomProblem",
-      },
-      (selectedProblem) => {
-        console.log(selectedProblem);
-        setProblem(selectedProblem);
-      }
+      { from: "problemPage", subject: "selectRandomProblem" },
+      (selectedProblem) => setProblem(selectedProblem)
     );
   };
 
