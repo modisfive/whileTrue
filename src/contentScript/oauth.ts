@@ -1,11 +1,12 @@
-import { sendAccessCode } from "../common/request";
-import { setOAuthProcessStatus } from "../common/storage";
+import { StorageKey } from "../common/constants";
+import HostRequest from "../common/request";
+import LocalStorage from "../common/storage";
 
 const startOAuthProcess = async (url: string) => {
   const accessCode = parseAccessCode(url);
-  const resp = await sendAccessCode(accessCode);
+  const resp = await HostRequest.sendAccessCode(accessCode);
 
-  setOAuthProcessStatus(false).then(() => {
+  LocalStorage.set(StorageKey.OAUTH_PROCESS_STATUS, false).then(() => {
     if (resp.httpStatus == 200) {
       chrome.runtime.sendMessage({
         from: "oauth",

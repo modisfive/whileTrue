@@ -1,7 +1,7 @@
-import { getAllProblemList, getMemberNotionInfo, sendDatabaseID } from "../common/request";
 import { isPropertyExists } from "../common/utils";
 import LocalStorage from "../common/storage";
 import { StorageKey } from "../common/constants";
+import HostRequest from "../common/request";
 
 const fetchSolvedAcJson = async (problemNumber: string) => {
   return await fetch(`https://solved.ac/api/v3/problem/show?problemId=${problemNumber}`, {
@@ -31,7 +31,7 @@ const handleMessage = (request: any, sender: any, sendResponse: any) => {
       }
     });
   } else if (request.from === "options" && request.subject === "databaseUrl") {
-    sendDatabaseID(request.databaseUrl).then((resp) => {
+    HostRequest.sendDatabaseID(request.databaseUrl).then((resp) => {
       LocalStorage.set(StorageKey.USER_INFO, resp.data);
     });
   } else if (request.from === "options" && request.subject === "accessToken") {
@@ -43,13 +43,13 @@ const handleMessage = (request: any, sender: any, sendResponse: any) => {
       );
     }
   } else if (request.from === "options" && request.subject === "userInfo") {
-    getMemberNotionInfo().then((resp) => console.log(resp));
+    HostRequest.getMemberNotionInfo().then((resp) => console.log(resp));
   } else if (request.from === "options" && request.subject === "allProblems") {
-    getAllProblemList().then((resp) => console.log(resp));
+    HostRequest.getAllProblemList().then((resp) => console.log(resp));
   } else if (request.from === "problemPage" && request.subject === "checkProblemList") {
     LocalStorage.get(StorageKey.PROBLEM_LIST).then((problemList) => {
       if (!isPropertyExists(problemList)) {
-        getAllProblemList().then((resp) => {
+        HostRequest.getAllProblemList().then((resp) => {
           LocalStorage.set(StorageKey.PROBLEM_LIST, resp.data.problemList);
         });
       }
