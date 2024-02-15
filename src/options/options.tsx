@@ -29,7 +29,21 @@ const App: React.FC<{}> = () => {
     chrome.runtime.sendMessage({
       from: "options",
       subject: "accessToken",
-      todo: "show",
+      todo: "delete",
+    });
+  };
+
+  const handleClick3 = () => {
+    chrome.runtime.sendMessage({
+      from: "options",
+      subject: "userInfo",
+    });
+  };
+
+  const handleClick4 = () => {
+    chrome.runtime.sendMessage({
+      from: "options",
+      subject: "allProblems",
     });
   };
 
@@ -43,6 +57,8 @@ const App: React.FC<{}> = () => {
       </form>
       <button onClick={handleClick1}>Access Token 출력하기</button>
       <button onClick={handleClick2}>Access Token 삭제하기</button>
+      <button onClick={handleClick3}>사용자 정보 가져오기</button>
+      <button onClick={handleClick4}>모든 문제 가져오기</button>
     </div>
   );
 };

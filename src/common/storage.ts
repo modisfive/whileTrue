@@ -44,3 +44,11 @@ export const getUserInfo = async () => {
 export const setUserInfo = async (userInfo: any) => {
   await setByKey(StorageKey.USER_INFO, userInfo);
 };
+
+export const getProblemList = async () => {
+  return await getByKey(StorageKey.PROBLEM_LIST);
+};
+
+export const setProblemList = async (problemList: any) => {
+  await setByKey(StorageKey.PROBLEM_LIST, problemList);
+};
