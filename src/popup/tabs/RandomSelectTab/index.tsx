@@ -1,11 +1,19 @@
 import React, { FC, Fragment, useState } from "react";
 import { SiteType } from "../../../common/constants";
 import { Problem } from "../../../common/class";
+import { Button, Image } from "react-bootstrap";
 
 chrome.runtime.sendMessage({
   from: "problemPage",
   subject: "checkProblemList",
 });
+
+const selectLogo = (siteType: SiteType) => {
+  switch (siteType) {
+    case SiteType.BOJ:
+      return "/baekjoon_logo.png";
+  }
+};
 
 const RandomSelectTab: FC<{}> = () => {
   const [problem, setProblem] = useState<Problem>({
@@ -15,30 +23,39 @@ const RandomSelectTab: FC<{}> = () => {
     url: "",
   });
 
-  const handleClick = () => {
+  const handleClick1 = () => {
+    console.log(problem.url);
+    chrome.runtime.sendMessage({ from: "popup", subject: "openProblemTab", url: problem.url });
+  };
+
+  const handleClick2 = () => {
     chrome.runtime.sendMessage(
       { from: "problemPage", subject: "selectRandomProblem" },
-      (selectedProblem) => {
-        console.log("from", selectedProblem);
-        setProblem(selectedProblem);
-      }
+      (selectedProblem) => setProblem(selectedProblem)
     );
   };
 
   return (
     <Fragment>
-      <h2>랜덤 문제 뽑기</h2>
       {problem.siteType !== SiteType.DEFAULT && (
         <div>
-          <span>{problem.siteType}</span>
-          <span>{problem.number}</span>
-          <span>{problem.title}</span>
-          <a href={problem.url}>
-            <button>바로가기</button>
-          </a>
+          <div>
+            <Image width={300} src={selectLogo(problem.siteType)} />
+          </div>
+          <div>
+            <span>{problem.number}</span>
+            <span>{problem.title}</span>
+          </div>
+          <div>
+            <Button variant="primary" onClick={handleClick1}>
+              바로가기
+            </Button>
+          </div>
         </div>
       )}
-      <button onClick={handleClick}>뽑기</button>
+      <Button variant="secondary" onClick={handleClick2}>
+        Select
+      </Button>
     </Fragment>
   );
 };

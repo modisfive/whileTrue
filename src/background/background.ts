@@ -23,6 +23,8 @@ const handleMessage = (request: any, sender: any, sendResponse: any) => {
     LocalStorage.get(StorageKey.NOTION_INFO).then((notionInfo) => {
       sendResponse(isPropertyExists(notionInfo));
     });
+  } else if (request.from === "popup" && request.subject === "openProblemTab") {
+    chrome.tabs.create({ url: request.url, selected: true });
   } else if (request.from === "oauth" && request.subject === "accessToken") {
     chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
       chrome.tabs.remove(tabs[0].id);
