@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import { Problem } from "../../../common/class";
+import { Button } from "react-bootstrap";
 
 type CurrentProblemProp = {
   problem: Problem;
@@ -12,7 +13,6 @@ const submit = (problem: Problem) => {
 const CurrentProblem: FC<CurrentProblemProp> = ({ problem }) => {
   return (
     <div>
-      <h3>다시풀기에 문제 추가하기</h3>
       <div>
         <div>
           <span id="site">{problem.site}</span>
@@ -27,9 +27,9 @@ const CurrentProblem: FC<CurrentProblemProp> = ({ problem }) => {
           <span id="url">{problem.url}</span>
         </div>
       </div>
-      <button id="submit-btn" onClick={() => submit(problem)}>
-        저장하기
-      </button>
+      <Button variant="success" onClick={() => submit(problem)}>
+        Save
+      </Button>
     </div>
   );
 };

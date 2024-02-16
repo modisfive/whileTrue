@@ -1,6 +1,6 @@
 import React, { FC, Fragment } from "react";
 
-const RandomSelectionTab: FC<{}> = () => {
+const RandomSelectTab: FC<{}> = () => {
   return (
     <Fragment>
       <h3>Random Selection</h3>
@@ -9,4 +9,4 @@ const RandomSelectionTab: FC<{}> = () => {
   );
 };
 
-export default RandomSelectionTab;
+export default RandomSelectTab;
