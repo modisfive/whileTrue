@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "./popup.css";
 import TabComponent from "./tabs";
 import LoginTab from "./tabs/LoginTab";
+import { Container } from "react-bootstrap";
 
 type UserStatusProps = {
   isAccessTokenExists: boolean;
@@ -40,8 +41,10 @@ const App: React.FC<{}> = () => {
   }, []);
 
   return (
-    <div className="App">
-      <h1>알고리즘 문제 다시 풀기</h1>
+    <Container className="App">
+      <div>
+        <h1>알고리즘 문제 다시 풀기</h1>
+      </div>
       <br />
       {!userStatus.isAccessTokenExists ? (
         <LoginTab />
@@ -50,7 +53,7 @@ const App: React.FC<{}> = () => {
       ) : (
         <TabComponent />
       )}
-    </div>
+    </Container>
   );
 };
 
