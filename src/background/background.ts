@@ -25,6 +25,9 @@ const handleMessage = (request: any, sender: any, sendResponse: any) => {
     });
   } else if (request.from === "popup" && request.subject === "openProblemTab") {
     chrome.tabs.create({ url: request.url, selected: true });
+  } else if (request.from === "popup" && request.subject === "openOptionsTab") {
+    const optionsPage = `chrome-extension://${chrome.runtime.id}/options.html`;
+    chrome.tabs.create({ url: optionsPage, selected: true });
   } else if (request.from === "oauth" && request.subject === "accessToken") {
     chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
       chrome.tabs.remove(tabs[0].id);

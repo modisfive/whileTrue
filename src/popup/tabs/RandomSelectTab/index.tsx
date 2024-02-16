@@ -26,7 +26,6 @@ const RandomSelectTab: FC<{}> = () => {
   });
 
   const handleClick1 = () => {
-    console.log(problem.url);
     chrome.runtime.sendMessage({ from: "popup", subject: "openProblemTab", url: problem.url });
   };
 

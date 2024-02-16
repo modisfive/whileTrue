@@ -32,6 +32,10 @@ const getLoginStatus = (setUserStatus: CallableFunction) => {
   });
 };
 
+const handleClick = () => {
+  chrome.runtime.sendMessage({ from: "popup", subject: "openOptionsTab" });
+};
+
 const App: React.FC<{}> = () => {
   const [userStatus, setUserStatus] = useState<UserStatusProps>({
     isAccessTokenExists: false,
@@ -50,7 +54,7 @@ const App: React.FC<{}> = () => {
           <Navbar.Toggle />
           <Navbar.Collapse className="justify-content-end">
             <Navbar.Text>
-              <FontAwesomeIcon icon={faGear} size="xl" />
+              <FontAwesomeIcon icon={faGear} size="xl" onClick={handleClick} role="button" />
             </Navbar.Text>
           </Navbar.Collapse>
         </Container>
