@@ -29,18 +29,18 @@ const parse = async (savedProblem) => {
 };
 
 const getProblemInfo = async () => {
-  const savedProblem = await LocalStorage.get(StorageKey.LATEST_PROBLEM);
-  const { isExist, isChanged, problem } = await parse(savedProblem);
-
-  if (isChanged) {
-    LocalStorage.set(StorageKey.LATEST_PROBLEM, problem);
-  }
-
-  return { isExist, problem };
+  return LocalStorage.get(StorageKey.LATEST_PROBLEM).then((savedProblem) => {
+    return parse(savedProblem).then(({ isExist, isChanged, problem }) => {
+      if (isChanged) {
+        LocalStorage.set(StorageKey.LATEST_PROBLEM, problem);
+      }
+      return { isExist, problem };
+    });
+  });
 };
 
 const handleMessage = (request: any, sender: any, sendResponse: any) => {
-  if (request.from === "popup" && request.subject === "ProblemInfo") {
+  if (request.from === "popup" && request.subject === "currentProblem") {
     getProblemInfo().then((resp) => {
       sendResponse(resp);
     });

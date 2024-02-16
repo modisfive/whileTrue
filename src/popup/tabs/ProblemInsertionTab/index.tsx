@@ -6,7 +6,7 @@ import ProblemNotFound from "./ProblemNotFound";
 
 const parseProblemInfo = (setProblemInfo: CallableFunction) => {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    chrome.tabs.sendMessage(tabs[0].id, { from: "popup", subject: "ProblemInfo" }, (resp) => {
+    chrome.tabs.sendMessage(tabs[0].id, { from: "popup", subject: "currentProblem" }, (resp) => {
       setProblemInfo(resp);
     });
   });

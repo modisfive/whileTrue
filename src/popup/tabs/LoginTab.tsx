@@ -13,7 +13,7 @@ const handleClick = () => {
 
 const LoginTab: FC<{}> = () => {
   return (
-    <Container className="d-flex flex-column justify-content-center align-items-center ">
+    <Container className="d-flex flex-column justify-content-center align-items-center">
       <Button
         variant="secondary"
         onClick={handleClick}
