@@ -1,8 +1,8 @@
 import { Problem } from "./class";
 import { SiteType, SiteHost } from "./constants";
 
-export const createProblemUrl = (site: SiteType, problemNumber: string) => {
-  switch (site) {
+export const createProblemUrl = (siteType: SiteType, problemNumber: string) => {
+  switch (siteType) {
     case SiteType.BOJ:
       return `https://${SiteHost.BOJ}/problem/${problemNumber}`;
 
@@ -18,7 +18,7 @@ export const isProblemSaved = (
 ) => {
   if (typeof savedProblem === "undefined") {
     return false;
-  } else if (currSiteType === savedProblem.site && currProblemNumber === savedProblem.number) {
+  } else if (currSiteType === savedProblem.siteType && currProblemNumber === savedProblem.number) {
     return true;
   }
   return false;

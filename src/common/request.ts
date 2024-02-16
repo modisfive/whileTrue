@@ -61,7 +61,7 @@ const HostRequest = {
     const accessToken = await LocalStorage.get(StorageKey.ACCESS_TOKEN);
     return await sendPostRequest(requestURL, accessToken, {
       problem: {
-        siteType: problem.site,
+        siteType: problem.siteType,
         number: problem.number,
         title: problem.title,
         url: problem.url,
@@ -73,7 +73,7 @@ const HostRequest = {
     const accessToken = await LocalStorage.get(StorageKey.ACCESS_TOKEN);
     return await sendPostRequest(requestURL, accessToken, {
       problem: {
-        siteType: problem.site,
+        siteType: problem.siteType,
         number: problem.number,
         title: problem.title,
         url: problem.url,

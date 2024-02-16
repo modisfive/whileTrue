@@ -1,37 +1,35 @@
 import React, { FC, Fragment, useEffect, useState } from "react";
 import { Problem } from "../../../common/class";
-import { SiteType } from "../../../common/constants";
-import CurrentProblem from "./CurrentProblem";
-import ProblemNotFound from "./ProblemNotFound";
+import { Button } from "react-bootstrap";
 
-const parseProblemInfo = (setProblemInfo: CallableFunction) => {
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    chrome.tabs.sendMessage(tabs[0].id, { from: "popup", subject: "currentProblem" }, (resp) => {
-      setProblemInfo(resp);
-    });
-  });
+type CurrentProblemProp = {
+  problem: Problem;
 };
 
-const ProblemInsertionTab: FC<{}> = () => {
-  const [problemInfo, setProblemInfo] = useState<{ isExist: boolean; problem: Problem }>({
-    isExist: false,
-    problem: {
-      site: SiteType.DEFAULT,
-      number: "DEFAULT_NUMBER",
-      title: "DEFAULT_TITLE",
-      url: "DEFAULT_URL",
-    },
-  });
+const handleSubmit = (problem) => {};
 
-  useEffect(() => {
-    parseProblemInfo(setProblemInfo);
-  }, []);
-
+const ProblemInsertTab: FC<CurrentProblemProp> = ({ problem }) => {
   return (
     <Fragment>
-      {problemInfo.isExist ? <CurrentProblem problem={problemInfo.problem} /> : <ProblemNotFound />}
+      <div>
+        <div>
+          <span id="siteType">{problem.siteType}</span>
+        </div>
+        <div>
+          <span id="number">{problem.number}</span>
+        </div>
+        <div>
+          <span id="title">{problem.title}</span>
+        </div>
+        <div>
+          <span id="url">{problem.url}</span>
+        </div>
+      </div>
+      <Button variant="success" onClick={() => handleSubmit(problem)}>
+        Save
+      </Button>
     </Fragment>
   );
 };
 
-export default ProblemInsertionTab;
+export default ProblemInsertTab;
