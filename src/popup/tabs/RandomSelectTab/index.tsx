@@ -12,6 +12,8 @@ const selectLogo = (siteType: SiteType) => {
   switch (siteType) {
     case SiteType.BOJ:
       return "/baekjoon_logo.png";
+    case SiteType.PROGRAMMERS:
+      return "/programmers_logo.png";
   }
 };
 
