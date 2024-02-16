@@ -4,7 +4,9 @@ import "bootstrap/dist/css/bootstrap.css";
 import "./popup.css";
 import TabComponent from "./tabs";
 import LoginTab from "./tabs/LoginTab";
-import { Container } from "react-bootstrap";
+import { Col, Container, Navbar, Row } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGear } from "@fortawesome/free-solid-svg-icons";
 
 type UserStatusProps = {
   isAccessTokenExists: boolean;
@@ -42,10 +44,17 @@ const App: React.FC<{}> = () => {
 
   return (
     <Container className="App">
-      <div>
-        <h1>알고리즘 문제 다시 풀기</h1>
-      </div>
-      <br />
+      <Navbar>
+        <Container>
+          <Navbar.Brand>whileTrue</Navbar.Brand>
+          <Navbar.Toggle />
+          <Navbar.Collapse className="justify-content-end">
+            <Navbar.Text>
+              <FontAwesomeIcon icon={faGear} size="xl" />
+            </Navbar.Text>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
       {!userStatus.isAccessTokenExists ? (
         <LoginTab />
       ) : !userStatus.isNotionInfoExists ? (
