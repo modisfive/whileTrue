@@ -19,7 +19,7 @@ const handleMessage = (request: any, sender: any, sendResponse: any) => {
     LocalStorage.get(StorageKey.ACCESS_TOKEN).then((accessToken) =>
       sendResponse(isPropertyExists(accessToken))
     );
-  } else if (request.from === "popup" && request.subject === "userNotionInfo") {
+  } else if (request.from === "popup" && request.subject === "notionInfo") {
     LocalStorage.get(StorageKey.NOTION_INFO).then((notionInfo) => {
       sendResponse(isPropertyExists(notionInfo));
     });

@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { OAuth, StorageKey } from "../../common/constants";
 import LocalStorage from "../../common/storage";
+import { Button, ButtonToolbar, Col, Container, Image, Row } from "react-bootstrap";
 
 const handleClick = () => {
   LocalStorage.set(StorageKey.OAUTH_PROCESS_STATUS, true).then(() => {
@@ -12,10 +13,18 @@ const handleClick = () => {
 
 const LoginTab: FC<{}> = () => {
   return (
-    <div>
-      <h1>로그인하기</h1>
-      <button onClick={handleClick}>Notion 로그인</button>
-    </div>
+    <Container className="d-flex flex-column justify-content-center align-items-center ">
+      <Button
+        variant="secondary"
+        onClick={handleClick}
+        className="d-flex justify-content-center align-items-center shadow-lg p-3 mb-5 rounded"
+      >
+        <Col>
+          <Image width={50} height={50} src="/notion_logo.png" />
+        </Col>
+        <Col>Notion 로그인하기</Col>
+      </Button>
+    </Container>
   );
 };
 

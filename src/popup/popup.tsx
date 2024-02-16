@@ -7,13 +7,13 @@ import LoginTab from "./tabs/LoginTab";
 
 type UserStatusProps = {
   isAccessTokenExists: boolean;
-  isUserNotionIntoExists: boolean;
+  isNotionInfoExists: boolean;
 };
 
 const getLoginStatus = (setUserStatus: CallableFunction) => {
   const userStatus = {
     isAccessTokenExists: false,
-    isUserNotionIntoExists: false,
+    isNotionInfoExists: false,
   };
 
   chrome.runtime.sendMessage({ from: "popup", subject: "accessToken" }, (resp) => {
@@ -22,7 +22,7 @@ const getLoginStatus = (setUserStatus: CallableFunction) => {
       setUserStatus(userStatus);
     } else {
       chrome.runtime.sendMessage({ from: "popup", subject: "notionInfo" }, (resp) => {
-        userStatus.isUserNotionIntoExists = resp;
+        userStatus.isNotionInfoExists = resp;
         setUserStatus(userStatus);
       });
     }
@@ -32,7 +32,7 @@ const getLoginStatus = (setUserStatus: CallableFunction) => {
 const App: React.FC<{}> = () => {
   const [userStatus, setUserStatus] = useState<UserStatusProps>({
     isAccessTokenExists: false,
-    isUserNotionIntoExists: false,
+    isNotionInfoExists: false,
   });
 
   useEffect(() => {
@@ -45,7 +45,7 @@ const App: React.FC<{}> = () => {
       <br />
       {!userStatus.isAccessTokenExists ? (
         <LoginTab />
-      ) : !userStatus.isUserNotionIntoExists ? (
+      ) : !userStatus.isNotionInfoExists ? (
         <h2>데이터베이스 정보를 저장해주세요.</h2>
       ) : (
         <TabComponent />

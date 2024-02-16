@@ -41,7 +41,9 @@ const getProblemInfo = async () => {
 
 const handleMessage = (request: any, sender: any, sendResponse: any) => {
   if (request.from === "popup" && request.subject === "ProblemInfo") {
-    getProblemInfo().then((resp) => sendResponse(resp));
+    getProblemInfo().then((resp) => {
+      sendResponse(resp);
+    });
   }
 
   return true;
