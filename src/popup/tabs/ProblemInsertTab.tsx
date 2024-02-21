@@ -21,15 +21,17 @@ const handleSubmit = (problem) => {};
 const ProblemInsertTab: FC<CurrentProblemProp> = ({ problem }) => {
   return (
     <Container className="h-100 d-flex flex-column justify-content-evenly">
-      <div>
-        <Row className="justify-content-center">
-          <Image style={{ width: "auto", height: 70 }} src={selectLogo(problem.siteType)} />
-        </Row>
-        <Row>
-          <span>
-            {problem.number}. {problem.title}
-          </span>
-        </Row>
+      <div style={{ height: "50%" }}>
+        <div>
+          <Row className="justify-content-center">
+            <Image style={{ width: "auto", height: 70 }} src={selectLogo(problem.siteType)} />
+          </Row>
+          <Row>
+            <span>
+              {problem.number}. {problem.title}
+            </span>
+          </Row>
+        </div>
       </div>
       <Row>
         <Button variant="success" onClick={() => handleSubmit(problem)}>

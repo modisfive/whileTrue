@@ -38,25 +38,31 @@ const RandomSelectTab: FC<{}> = () => {
 
   return (
     <Container className="h-100 d-flex flex-column justify-content-evenly">
-      {problem.siteType !== SiteType.DEFAULT && (
-        <>
-          <div>
-            <Row className="justify-content-center">
-              <Image style={{ width: "auto", height: 70 }} src={selectLogo(problem.siteType)} />
+      <div style={{ height: "50%" }}>
+        {problem.siteType !== SiteType.DEFAULT ? (
+          <>
+            <div>
+              <Row className="justify-content-center">
+                <Image style={{ width: "auto", height: 70 }} src={selectLogo(problem.siteType)} />
+              </Row>
+              <Row>
+                <span>
+                  {problem.number}. {problem.title}
+                </span>
+              </Row>
+            </div>
+            <Row className="mt-4">
+              <Button variant="primary" onClick={handleClick1}>
+                바로가기
+              </Button>
             </Row>
-            <Row>
-              <span>
-                {problem.number}. {problem.title}
-              </span>
-            </Row>
+          </>
+        ) : (
+          <div className="h-100 d-flex flex-column justify-content-center align-items-center">
+            <span>문제를 선택해주세요.</span>
           </div>
-          <Row>
-            <Button variant="primary" onClick={handleClick1}>
-              바로가기
-            </Button>
-          </Row>
-        </>
-      )}
+        )}
+      </div>
       <Row>
         <Button variant="secondary" onClick={handleClick2}>
           Select
