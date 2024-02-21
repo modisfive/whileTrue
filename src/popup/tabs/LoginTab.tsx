@@ -13,16 +13,14 @@ const handleClick = () => {
 
 const LoginTab: FC<{}> = () => {
   return (
-    <Container className="d-flex flex-column justify-content-center align-items-center">
+    <Container className="h-100 d-flex flex-column justify-content-center align-items-center">
       <Button
-        variant="secondary"
+        variant="dark"
         onClick={handleClick}
-        className="d-flex justify-content-center align-items-center shadow-lg p-3 mb-5 rounded"
+        className="d-flex justify-content-center align-items-center p-3"
       >
-        <Col>
-          <Image width={50} height={50} src="/notion_logo.png" />
-        </Col>
-        <Col>Notion 로그인하기</Col>
+        <Image width={35} height={35} className="mx-1" src="/notion_logo.png" />
+        Notion 로그인
       </Button>
     </Container>
   );
