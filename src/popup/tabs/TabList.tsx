@@ -6,15 +6,17 @@ import { Tab, Tabs } from "react-bootstrap";
 import { Problem } from "../../common/class";
 import { SiteType } from "../../common/constants";
 
-const parseProblemInfo = (setProblemInfo: CallableFunction) => {
+const parseProblemInfo = (setProblemInfo: CallableFunction, setKey: CallableFunction) => {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     chrome.tabs.sendMessage(tabs[0].id, { from: "popup", subject: "currentProblem" }, (resp) => {
       setProblemInfo(resp);
+      setKey(resp.isExist ? "currentProblem" : "randomSelect");
     });
   });
 };
 
 const TabList: FC<{}> = () => {
+  const [key, setKey] = useState("currentProblem");
   const [problemInfo, setProblemInfo] = useState<{ isExist: boolean; problem: Problem }>({
     isExist: false,
     problem: {
@@ -26,16 +28,16 @@ const TabList: FC<{}> = () => {
   });
 
   useEffect(() => {
-    parseProblemInfo(setProblemInfo);
+    parseProblemInfo(setProblemInfo, setKey);
   }, []);
 
   return (
-    <Tabs defaultActiveKey="randomSelect" transition={false} className="mb-3" justify>
-      <Tab eventKey="randomSelect" title="문제 뽑기">
-        <RandomSelectTab />
-      </Tab>
+    <Tabs activeKey={key} onSelect={(k) => setKey(k)} transition={false} className="mb-3" justify>
       <Tab eventKey="currentProblem" title="문제 저장하기" disabled={!problemInfo.isExist}>
         {problemInfo.isExist && <ProblemInsertTab problem={problemInfo.problem} />}
+      </Tab>
+      <Tab eventKey="randomSelect" title="문제 뽑기">
+        <RandomSelectTab />
       </Tab>
     </Tabs>
   );
