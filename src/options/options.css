@@ -1,0 +1,16 @@
+.property {
+  height: 7em;
+}
+
+.property-item {
+  display: flex;
+  align-items: center;
+}
+
+.desc {
+  font-size: 0.9em;
+}
+
+.desc-error {
+  color: red;
+}
