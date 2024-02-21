@@ -14,7 +14,7 @@ const parseProblemInfo = (setProblemInfo: CallableFunction) => {
   });
 };
 
-const TabComponent: FC<{}> = () => {
+const TabList: FC<{}> = () => {
   const [problemInfo, setProblemInfo] = useState<{ isExist: boolean; problem: Problem }>({
     isExist: false,
     problem: {
@@ -30,7 +30,7 @@ const TabComponent: FC<{}> = () => {
   }, []);
 
   return (
-    <Tabs defaultActiveKey="randomSelect" className="mb-3" justify>
+    <Tabs defaultActiveKey="randomSelect" transition={false} className="mb-3" justify>
       <Tab eventKey="randomSelect" title="문제 뽑기">
         <RandomSelectTab />
       </Tab>
@@ -41,4 +41,4 @@ const TabComponent: FC<{}> = () => {
   );
 };
 
-export default TabComponent;
+export default TabList;

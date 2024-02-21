@@ -1,6 +1,6 @@
 import React, { FC } from "react";
-import { OAuth, StorageKey } from "../../../common/constants";
-import LocalStorage from "../../../common/storage";
+import { OAuth, StorageKey } from "../../common/constants";
+import LocalStorage from "../../common/storage";
 import { Button, Col, Container, Image } from "react-bootstrap";
 
 const handleClick = () => {

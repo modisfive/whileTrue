@@ -1,6 +1,6 @@
 import React, { FC, Fragment, useState } from "react";
-import { SiteType } from "../../../common/constants";
-import { Problem } from "../../../common/class";
+import { SiteType } from "../../common/constants";
+import { Problem } from "../../common/class";
 import { Button, Col, Container, Image, Ratio, Row } from "react-bootstrap";
 
 chrome.runtime.sendMessage({

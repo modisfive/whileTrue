@@ -1,7 +1,7 @@
 import React, { FC, Fragment, useEffect, useState } from "react";
-import { Problem } from "../../../common/class";
+import { Problem } from "../../common/class";
 import { Button, Container, Image, Row } from "react-bootstrap";
-import { SiteType } from "../../../common/constants";
+import { SiteType } from "../../common/constants";
 
 type CurrentProblemProp = {
   problem: Problem;

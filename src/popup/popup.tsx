@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import "bootstrap/dist/css/bootstrap.css";
 import "./popup.css";
-import TabComponent from "./tabs";
+import TabList from "./tabs/TabList";
 import LoginTab from "./tabs/LoginTab";
 import { Col, Container, Navbar, Row } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -64,7 +64,7 @@ const App: React.FC<{}> = () => {
       ) : !userStatus.isNotionInfoExists ? (
         <h2>데이터베이스 정보를 저장해주세요.</h2>
       ) : (
-        <TabComponent />
+        <TabList />
       )}
     </Container>
   );
