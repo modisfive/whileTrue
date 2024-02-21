@@ -1,7 +1,7 @@
 import React, { FC, Fragment, useState } from "react";
 import { SiteType } from "../../../common/constants";
 import { Problem } from "../../../common/class";
-import { Button, Image } from "react-bootstrap";
+import { Button, Col, Container, Image, Ratio, Row } from "react-bootstrap";
 
 chrome.runtime.sendMessage({
   from: "problemPage",
@@ -37,27 +37,32 @@ const RandomSelectTab: FC<{}> = () => {
   };
 
   return (
-    <Fragment>
+    <Container className="h-100 d-flex flex-column justify-content-evenly">
       {problem.siteType !== SiteType.DEFAULT && (
-        <div>
+        <>
           <div>
-            <Image width={300} src={selectLogo(problem.siteType)} />
+            <Row className="justify-content-center">
+              <Image style={{ width: "auto", height: 70 }} src={selectLogo(problem.siteType)} />
+            </Row>
+            <Row>
+              <span>
+                {problem.number}. {problem.title}
+              </span>
+            </Row>
           </div>
-          <div>
-            <span>{problem.number}</span>
-            <span>{problem.title}</span>
-          </div>
-          <div>
+          <Row>
             <Button variant="primary" onClick={handleClick1}>
               바로가기
             </Button>
-          </div>
-        </div>
+          </Row>
+        </>
       )}
-      <Button variant="secondary" onClick={handleClick2}>
-        Select
-      </Button>
-    </Fragment>
+      <Row>
+        <Button variant="secondary" onClick={handleClick2}>
+          Select
+        </Button>
+      </Row>
+    </Container>
   );
 };
 

@@ -1,34 +1,42 @@
 import React, { FC, Fragment, useEffect, useState } from "react";
 import { Problem } from "../../../common/class";
-import { Button } from "react-bootstrap";
+import { Button, Container, Image, Row } from "react-bootstrap";
+import { SiteType } from "../../../common/constants";
 
 type CurrentProblemProp = {
   problem: Problem;
+};
+
+const selectLogo = (siteType: SiteType) => {
+  switch (siteType) {
+    case SiteType.BOJ:
+      return "/baekjoon_logo.png";
+    case SiteType.PROGRAMMERS:
+      return "/programmers_logo.png";
+  }
 };
 
 const handleSubmit = (problem) => {};
 
 const ProblemInsertTab: FC<CurrentProblemProp> = ({ problem }) => {
   return (
-    <Fragment>
+    <Container className="h-100 d-flex flex-column justify-content-evenly">
       <div>
-        <div>
-          <span id="siteType">{problem.siteType}</span>
-        </div>
-        <div>
-          <span id="number">{problem.number}</span>
-        </div>
-        <div>
-          <span id="title">{problem.title}</span>
-        </div>
-        <div>
-          <span id="url">{problem.url}</span>
-        </div>
+        <Row className="justify-content-center">
+          <Image style={{ width: "auto", height: 70 }} src={selectLogo(problem.siteType)} />
+        </Row>
+        <Row>
+          <span>
+            {problem.number}. {problem.title}
+          </span>
+        </Row>
       </div>
-      <Button variant="success" onClick={() => handleSubmit(problem)}>
-        Save
-      </Button>
-    </Fragment>
+      <Row>
+        <Button variant="success" onClick={() => handleSubmit(problem)}>
+          Save
+        </Button>
+      </Row>
+    </Container>
   );
 };
 
