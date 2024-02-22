@@ -56,24 +56,6 @@ const handleMessageFromPopup = (request: any, sendResponse: any) => {
   }
 };
 
-const handleMessageFromOAuth = (request: any, sendResponse: any) => {
-  switch (request.subject) {
-    case "accessToken":
-      chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
-        chrome.tabs.remove(tabs[0].id);
-        if (request.isSuccess) {
-          LocalStorage.set(StorageKey.ACCESS_TOKEN, request.token);
-          const optionsPage = `chrome-extension://${chrome.runtime.id}/options.html`;
-          chrome.tabs.create({ url: optionsPage, selected: true });
-        }
-      });
-      break;
-
-    default:
-      break;
-  }
-};
-
 const handleMessageFromOptions = (request: any, sendResponse: any) => {
   switch (request.subject) {
     case "databaseUrl":
@@ -141,9 +123,6 @@ const handleMessage = (request: any, sender: any, sendResponse: any) => {
     case "popup":
       handleMessageFromPopup(request, sendResponse);
       break;
-
-    case "oauth":
-      handleMessageFromOAuth(request, sendResponse);
 
     case "options":
       handleMessageFromOptions(request, sendResponse);
