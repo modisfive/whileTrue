@@ -2,6 +2,7 @@ import { isPropertyExists } from "../common/utils";
 import LocalStorage from "../common/storage";
 import { StorageKey } from "../common/constants";
 import HostRequest from "../common/request";
+import startOAuthProcess from "./oauth";
 
 const fetchSolvedAcJson = async (problemNumber: string) => {
   return await fetch(`https://solved.ac/api/v3/problem/show?problemId=${problemNumber}`, {
@@ -12,61 +13,148 @@ const fetchSolvedAcJson = async (problemNumber: string) => {
   }).then((resp) => resp.json());
 };
 
-const handleMessage = (request: any, sender: any, sendResponse: any) => {
-  if (request.from === "content" && request.subject === "BOJTitle") {
-    fetchSolvedAcJson(request.problemNumber).then((resp) => sendResponse(resp.titleKo));
-  } else if (request.from === "popup" && request.subject === "accessToken") {
-    LocalStorage.get(StorageKey.ACCESS_TOKEN).then((accessToken) =>
-      sendResponse(isPropertyExists(accessToken))
-    );
-  } else if (request.from === "popup" && request.subject === "notionInfo") {
-    LocalStorage.get(StorageKey.NOTION_INFO).then((notionInfo) => {
-      sendResponse(isPropertyExists(notionInfo));
-    });
-  } else if (request.from === "popup" && request.subject === "openProblemTab") {
-    chrome.tabs.create({ url: request.url, selected: true });
-  } else if (request.from === "popup" && request.subject === "openOptionsTab") {
-    const optionsPage = `chrome-extension://${chrome.runtime.id}/options.html`;
-    chrome.tabs.create({ url: optionsPage, selected: true });
-  } else if (request.from === "oauth" && request.subject === "accessToken") {
-    chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
-      chrome.tabs.remove(tabs[0].id);
-      if (request.isSuccess) {
-        LocalStorage.set(StorageKey.ACCESS_TOKEN, request.token);
-        const optionsPage = `chrome-extension://${chrome.runtime.id}/options.html`;
-        chrome.tabs.create({ url: optionsPage, selected: true });
-      }
-    });
-  } else if (request.from === "options" && request.subject === "databaseUrl") {
-    HostRequest.sendDatabaseID(request.databaseUrl).then((resp) => {
-      LocalStorage.set(StorageKey.NOTION_INFO, resp.data);
-    });
-  } else if (request.from === "options" && request.subject === "accessToken") {
-    if (request.todo === "show") {
-      LocalStorage.get(StorageKey.ACCESS_TOKEN).then((accessToken) => console.log(accessToken));
-    } else if (request.todo === "delete") {
-      LocalStorage.remove(StorageKey.ACCESS_TOKEN).then(() =>
-        console.log("Access Token을 삭제했습니다.")
+const handleMessageFromContent = (request: any, sendResponse: any) => {
+  switch (request.subject) {
+    case "BOJTitle":
+      fetchSolvedAcJson(request.problemNumber).then((resp) => sendResponse(resp.titleKo));
+      break;
+
+    case "oauth":
+      startOAuthProcess(request.url);
+      break;
+
+    default:
+      break;
+  }
+};
+
+const handleMessageFromPopup = (request: any, sendResponse: any) => {
+  switch (request.subject) {
+    case "accessToken":
+      LocalStorage.get(StorageKey.ACCESS_TOKEN).then((accessToken) =>
+        sendResponse(isPropertyExists(accessToken))
       );
-    }
-  } else if (request.from === "options" && request.subject === "notionInfo") {
-    HostRequest.getMemberNotionInfo().then((resp) => console.log(resp));
-  } else if (request.from === "options" && request.subject === "allProblems") {
-    HostRequest.getAllProblemList().then((resp) => console.log(resp));
-  } else if (request.from === "problemPage" && request.subject === "checkProblemList") {
-    LocalStorage.get(StorageKey.PROBLEM_LIST).then((problemList) => {
-      if (!isPropertyExists(problemList)) {
-        HostRequest.getAllProblemList().then((resp) =>
-          LocalStorage.set(StorageKey.PROBLEM_LIST, resp.data.problemList)
+      break;
+
+    case "notionInfo":
+      LocalStorage.get(StorageKey.NOTION_INFO).then((notionInfo) => {
+        sendResponse(isPropertyExists(notionInfo));
+      });
+      break;
+
+    case "openProblemTab":
+      chrome.tabs.create({ url: request.url, selected: true });
+      break;
+
+    case "openOptionsTab":
+      const optionsPage = `chrome-extension://${chrome.runtime.id}/options.html`;
+      chrome.tabs.create({ url: optionsPage, selected: true });
+      break;
+
+    default:
+      break;
+  }
+};
+
+const handleMessageFromOAuth = (request: any, sendResponse: any) => {
+  switch (request.subject) {
+    case "accessToken":
+      chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
+        chrome.tabs.remove(tabs[0].id);
+        if (request.isSuccess) {
+          LocalStorage.set(StorageKey.ACCESS_TOKEN, request.token);
+          const optionsPage = `chrome-extension://${chrome.runtime.id}/options.html`;
+          chrome.tabs.create({ url: optionsPage, selected: true });
+        }
+      });
+      break;
+
+    default:
+      break;
+  }
+};
+
+const handleMessageFromOptions = (request: any, sendResponse: any) => {
+  switch (request.subject) {
+    case "databaseUrl":
+      const optionsPage = `chrome-extension://${chrome.runtime.id}/options.html`;
+      chrome.tabs.create({ url: optionsPage, selected: true });
+      HostRequest.sendDatabaseID(request.databaseUrl).then((resp: any) => {
+        console.log(resp);
+        LocalStorage.set(StorageKey.NOTION_INFO, resp.data);
+      });
+      break;
+
+    case "accessToken":
+      if (request.todo === "show") {
+        LocalStorage.get(StorageKey.ACCESS_TOKEN).then((accessToken) => console.log(accessToken));
+      } else if (request.todo === "delete") {
+        LocalStorage.remove(StorageKey.ACCESS_TOKEN).then(() =>
+          console.log("Access Token을 삭제했습니다.")
         );
       }
-    });
-  } else if (request.from === "problemPage" && request.subject === "selectRandomProblem") {
-    LocalStorage.get(StorageKey.PROBLEM_LIST).then((problemList: any) => {
-      const totalCount = problemList.length;
-      const randomIndex = Math.floor(Math.random() * totalCount);
-      sendResponse(problemList[randomIndex]);
-    });
+      break;
+
+    case "notionInfo":
+      HostRequest.getMemberNotionInfo().then((resp) => console.log(resp));
+      break;
+
+    case "allProblems":
+      HostRequest.getAllProblemList().then((resp) => console.log(resp));
+      break;
+
+    default:
+      break;
+  }
+};
+
+const handleMessageFromProblemPage = (request: any, sendResponse: any) => {
+  switch (request.subject) {
+    case "checkProblemList":
+      LocalStorage.get(StorageKey.PROBLEM_LIST).then((problemList) => {
+        if (!isPropertyExists(problemList)) {
+          HostRequest.getAllProblemList().then((resp: any) =>
+            LocalStorage.set(StorageKey.PROBLEM_LIST, resp.data.problemList)
+          );
+        }
+      });
+      break;
+
+    case "selectRandomProblem":
+      LocalStorage.get(StorageKey.PROBLEM_LIST).then((problemList: any) => {
+        const totalCount = problemList.length;
+        const randomIndex = Math.floor(Math.random() * totalCount);
+        sendResponse(problemList[randomIndex]);
+      });
+
+    default:
+      break;
+  }
+};
+
+const handleMessage = (request: any, sender: any, sendResponse: any) => {
+  switch (request.from) {
+    case "content":
+      handleMessageFromContent(request, sendResponse);
+      break;
+
+    case "popup":
+      handleMessageFromPopup(request, sendResponse);
+      break;
+
+    case "oauth":
+      handleMessageFromOAuth(request, sendResponse);
+
+    case "options":
+      handleMessageFromOptions(request, sendResponse);
+      break;
+
+    case "problemPage":
+      handleMessageFromProblemPage(request, sendResponse);
+      break;
+
+    default:
+      break;
   }
 
   return true;

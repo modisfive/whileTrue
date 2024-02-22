@@ -2,12 +2,15 @@ import { SiteHost, StorageKey } from "../common/constants";
 import LocalStorage from "../common/storage";
 import { getCurrentHost } from "../common/utils";
 import getBaekjoonProblem from "./baekjoon";
-import startOAuthProcess from "./oauth";
 
 if (window.location.host === "github.com") {
   LocalStorage.get(StorageKey.OAUTH_PROCESS_STATUS).then((isStarted) => {
     if (isStarted) {
-      startOAuthProcess(window.location.href);
+      chrome.runtime.sendMessage({
+        from: "content",
+        subject: "oauth",
+        url: window.location.href,
+      });
     }
   });
 }
