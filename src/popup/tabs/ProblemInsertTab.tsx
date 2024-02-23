@@ -1,6 +1,6 @@
 import React, { FC, Fragment, useEffect, useState } from "react";
 import { Problem } from "../../common/class";
-import { Button, Container, Image, Row } from "react-bootstrap";
+import { Button, Container, Image, Row, Spinner } from "react-bootstrap";
 import { SiteType } from "../../common/constants";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
@@ -20,17 +20,20 @@ const selectLogo = (siteType: SiteType) => {
 
 const ProblemInsertTab: FC<CurrentProblemProp> = ({ problem }) => {
   const [saveResult, setSaveResult] = useState(false);
+  const [isOnProgress, setIsOnProgress] = useState(true);
 
   const handleSubmit = () => {
-    chrome.runtime.sendMessage({ from: "popup", subject: "insertProblem", problem }, (resp) =>
-      setSaveResult(resp)
-    );
+    chrome.runtime.sendMessage({ from: "popup", subject: "insertProblem", problem }, (resp) => {
+      setIsOnProgress(false);
+      setSaveResult(resp);
+    });
   };
 
   useEffect(() => {
-    chrome.runtime.sendMessage({ from: "popup", subject: "isProblemSaved", problem }, (resp) =>
-      setSaveResult(resp)
-    );
+    chrome.runtime.sendMessage({ from: "popup", subject: "isProblemSaved", problem }, (resp) => {
+      setIsOnProgress(false);
+      setSaveResult(resp);
+    });
   }, []);
 
   return (
@@ -48,7 +51,11 @@ const ProblemInsertTab: FC<CurrentProblemProp> = ({ problem }) => {
         </div>
       </div>
       <Row>
-        {saveResult ? (
+        {isOnProgress ? (
+          <div className="d-flex justify-content-center">
+            <Spinner animation="border" />
+          </div>
+        ) : saveResult ? (
           <FontAwesomeIcon icon={faCircleCheck} size="2xl" color="green" />
         ) : (
           <Button variant="success" onClick={handleSubmit}>
