@@ -73,6 +73,7 @@ const handleMessageFromOptions = (request: any, sendResponse: any) => {
   switch (request.subject) {
     case "databaseUrl":
       HostRequest.sendDatabaseID(request.databaseUrl).then((resp: any) => {
+        console.log(resp);
         if (resp.httpStatus == 200) {
           LocalStorage.set(StorageKey.NOTION_INFO, resp.data);
           sendResponse(true);

@@ -4,7 +4,7 @@ import LocalStorage from "./storage";
 
 const HOST_URL = "http://localhost:80";
 
-const sendGetRequest = async (targetUrl: string, accessToken: any) => {
+const requestGet = async (targetUrl: string, accessToken: any) => {
   return await fetch(targetUrl, {
     method: "GET",
     headers: {
@@ -15,7 +15,7 @@ const sendGetRequest = async (targetUrl: string, accessToken: any) => {
   }).then((resp) => resp.json());
 };
 
-const sendPostRequest = async (targetUrl: string, accessToken: any, body: any) => {
+const requestPost = async (targetUrl: string, accessToken: any, body: any) => {
   return await fetch(targetUrl, {
     method: "POST",
     headers: {
@@ -26,6 +26,43 @@ const sendPostRequest = async (targetUrl: string, accessToken: any, body: any) =
     body: JSON.stringify(body),
     credentials: "include",
   }).then((resp) => resp.json());
+};
+
+const requestRefreshToken = async () => {
+  const requestURL = `${HOST_URL}/member/auth/token/refresh`;
+  return await fetch(requestURL, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+    },
+    credentials: "include",
+  }).then((resp) => resp.json());
+};
+
+const sendGetRequest = async (targetUrl: string, accessToken: any) => {
+  return await requestGet(targetUrl, accessToken).then((resp) => {
+    if (resp.code === "AUTH-401-1") {
+      return requestRefreshToken().then((resp) => {
+        LocalStorage.set(StorageKey.ACCESS_TOKEN, resp.data.accessToken);
+        return requestGet(targetUrl, accessToken);
+      });
+    } else {
+      return resp;
+    }
+  });
+};
+
+const sendPostRequest = async (targetUrl: string, accessToken: any, body: any) => {
+  return await requestPost(targetUrl, accessToken, body).then((resp) => {
+    if (resp.code === "AUTH-401-1") {
+      return requestRefreshToken().then(async (resp) => {
+        LocalStorage.set(StorageKey.ACCESS_TOKEN, resp.data.accessToken);
+        return requestPost(targetUrl, resp.data.accessToken, body);
+      });
+    } else {
+      return resp;
+    }
+  });
 };
 
 const HostRequest = {
