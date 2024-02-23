@@ -23,6 +23,7 @@ const ProblemInsertTab: FC<CurrentProblemProp> = ({ problem }) => {
   const [isOnProgress, setIsOnProgress] = useState(true);
 
   const handleSubmit = () => {
+    setIsOnProgress(true);
     chrome.runtime.sendMessage({ from: "popup", subject: "insertProblem", problem }, (resp) => {
       setIsOnProgress(false);
       setSaveResult(resp);
