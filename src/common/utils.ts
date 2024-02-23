@@ -16,6 +16,14 @@ const Utils = {
   isPropertySaved: function (property: any) {
     return typeof property !== "undefined";
   },
+  validateNotionDatabaseUrl: function (url: string) {
+    const regExr = /https:\/\/www\.notion\.so\/(.+?)\/(.+?)\?v=(.+)/;
+    if (!regExr.test(url)) {
+      return false;
+    }
+    const target = url.match(regExr)[2];
+    return target.length == 32;
+  },
 };
 
 export default Utils;

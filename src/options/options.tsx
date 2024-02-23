@@ -1,17 +1,9 @@
 import React, { useState } from "react";
 import { createRoot } from "react-dom/client";
 import "bootstrap/dist/css/bootstrap.css";
-import { Alert, Button, Col, Container, Form, Image, Navbar, Row } from "react-bootstrap";
+import { Button, Col, Container, Form, Image, Navbar, Row } from "react-bootstrap";
 import "./options.css";
-
-const validateNotionDatabaseUrl = (url: string) => {
-  const regExr = /https:\/\/www\.notion\.so\/(.+?)\/(.+?)\?v=(.+)/;
-  if (!regExr.test(url)) {
-    return false;
-  }
-  const target = url.match(regExr)[2];
-  return target.length == 32;
-};
+import Utils from "../common/utils";
 
 const App: React.FC<{}> = () => {
   const [databaseUrl, setDatabaseUrl] = useState("");
@@ -21,11 +13,11 @@ const App: React.FC<{}> = () => {
   const handleChange = (e) => {
     const url = e.target.value;
     setDatabaseUrl(url);
-    setIsError(!validateNotionDatabaseUrl(url));
+    setIsError(!Utils.validateNotionDatabaseUrl(url));
   };
 
   const handleSubmit = () => {
-    if (!validateNotionDatabaseUrl(databaseUrl)) {
+    if (!Utils.validateNotionDatabaseUrl(databaseUrl)) {
       return;
     }
 
