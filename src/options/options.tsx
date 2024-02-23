@@ -16,6 +16,7 @@ const validateNotionDatabaseUrl = (url: string) => {
 const App: React.FC<{}> = () => {
   const [databaseUrl, setDatabaseUrl] = useState("");
   const [isError, setIsError] = useState(false);
+  const [databaseStatus, setDatabaseStatus] = useState(true);
 
   const handleChange = (e) => {
     const url = e.target.value;
@@ -23,17 +24,19 @@ const App: React.FC<{}> = () => {
     setIsError(!validateNotionDatabaseUrl(url));
   };
 
-  const handleSubmit = (e) => {
-    if (!isError) {
+  const handleSubmit = () => {
+    if (!validateNotionDatabaseUrl(databaseUrl)) {
       return;
     }
 
-    e.preventDefault();
-    chrome.runtime.sendMessage({
-      from: "options",
-      subject: "databaseUrl",
-      databaseUrl: databaseUrl,
-    });
+    chrome.runtime.sendMessage(
+      {
+        from: "options",
+        subject: "databaseUrl",
+        databaseUrl: databaseUrl,
+      },
+      (resp) => setDatabaseStatus(resp)
+    );
   };
 
   const handleClick1 = () => {
@@ -84,7 +87,7 @@ const App: React.FC<{}> = () => {
             <span>Notion Database URL 재입력하기</span>
           </Col>
           <Col className="property-item">
-            <Form className="w-100" onSubmit={handleSubmit}>
+            <Form className="w-100">
               <div className="d-flex">
                 <Form.Control
                   width="200em"
@@ -93,15 +96,17 @@ const App: React.FC<{}> = () => {
                   value={databaseUrl}
                   onChange={handleChange}
                 />
-                <Button type="submit" className="mb-2">
+                <Button onClick={handleSubmit} className="mb-2">
                   Submit
                 </Button>
               </div>
 
               {isError ? (
                 <span className="desc desc-error">Notion Database URL 형식에 맞지 않습니다.</span>
-              ) : (
+              ) : databaseStatus ? (
                 <span className="desc">Notion Database URL을 입력해주세요.</span>
+              ) : (
+                <span className="desc desc-error">형식을 확인해주세요</span>
               )}
             </Form>
           </Col>

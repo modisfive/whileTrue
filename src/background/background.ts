@@ -59,11 +59,13 @@ const handleMessageFromPopup = (request: any, sendResponse: any) => {
 const handleMessageFromOptions = (request: any, sendResponse: any) => {
   switch (request.subject) {
     case "databaseUrl":
-      const optionsPage = `chrome-extension://${chrome.runtime.id}/options.html`;
-      chrome.tabs.create({ url: optionsPage, selected: true });
       HostRequest.sendDatabaseID(request.databaseUrl).then((resp: any) => {
-        console.log(resp);
-        LocalStorage.set(StorageKey.NOTION_INFO, resp.data);
+        if (resp.code === "MEMBER-400-2") {
+          sendResponse(false);
+        } else {
+          LocalStorage.set(StorageKey.NOTION_INFO, resp.data);
+          sendResponse(true);
+        }
       });
       break;
 
