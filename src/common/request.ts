@@ -106,7 +106,7 @@ const HostRequest = {
     });
   },
   isProblemExists: async function (problem: Problem) {
-    const requestURL = `${HOST_URL}/prolbem/check`;
+    const requestURL = `${HOST_URL}/problem/check`;
     const accessToken = await LocalStorage.get(StorageKey.ACCESS_TOKEN);
     return await sendPostRequest(requestURL, accessToken, {
       problem: {

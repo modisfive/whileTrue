@@ -64,6 +64,14 @@ const handleMessageFromPopup = (request: any, sendResponse: any) => {
       });
       break;
 
+    case "isProblemSaved":
+      HostRequest.isProblemExists(request.problem).then((resp) => {
+        if (resp.httpStatus == 200) {
+          sendResponse(resp.data.problemExits);
+        }
+      });
+      break;
+
     default:
       break;
   }

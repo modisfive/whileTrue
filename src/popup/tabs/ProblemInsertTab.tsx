@@ -27,6 +27,12 @@ const ProblemInsertTab: FC<CurrentProblemProp> = ({ problem }) => {
     );
   };
 
+  useEffect(() => {
+    chrome.runtime.sendMessage({ from: "popup", subject: "isProblemSaved", problem }, (resp) =>
+      setSaveResult(resp)
+    );
+  }, []);
+
   return (
     <Container className="h-100 d-flex flex-column justify-content-evenly">
       <div style={{ height: "50%" }}>
