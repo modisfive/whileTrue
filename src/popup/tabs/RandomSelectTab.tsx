@@ -1,12 +1,7 @@
-import React, { FC, Fragment, useState } from "react";
+import React, { FC, Fragment, useEffect, useState } from "react";
 import { SiteType } from "../../common/constants";
 import { Problem } from "../../common/class";
 import { Button, Container, Image, Row, Spinner } from "react-bootstrap";
-
-chrome.runtime.sendMessage({
-  from: "problemPage",
-  subject: "checkProblemList",
-});
 
 const selectLogo = (siteType: SiteType) => {
   switch (siteType) {
@@ -25,6 +20,13 @@ const RandomSelectTab: FC<{}> = () => {
     url: "",
   });
   const [isOnProgress, setIsOnProgress] = useState(false);
+
+  useEffect(() => {
+    setIsOnProgress(true);
+    chrome.runtime.sendMessage({ from: "problemPage", subject: "checkProblemList" }, () => {
+      setIsOnProgress(false);
+    });
+  }, []);
 
   const handleClick1 = () => {
     chrome.runtime.sendMessage({ from: "popup", subject: "openProblemTab", url: problem.url });

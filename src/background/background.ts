@@ -106,7 +106,6 @@ const handleMessageFromOptions = (request: any, sendResponse: any) => {
 
     case "allProblems":
       HostRequest.getAllProblemList().then((resp: any) => {
-        console.log(resp.data.problemList);
         LocalStorage.set(StorageKey.PROBLEM_LIST, resp.data.problemList);
       });
       break;
@@ -133,9 +132,13 @@ const handleMessageFromProblemPage = (request: any, sendResponse: any) => {
     case "checkProblemList":
       LocalStorage.get(StorageKey.PROBLEM_LIST).then((problemList) => {
         if (!Utils.isPropertySaved(problemList)) {
-          HostRequest.getAllProblemList().then((resp: any) =>
-            LocalStorage.set(StorageKey.PROBLEM_LIST, resp.data.problemList)
-          );
+          HostRequest.getAllProblemList()
+            .then((resp: any) => {
+              LocalStorage.set(StorageKey.PROBLEM_LIST, resp.data.problemList);
+            })
+            .then(() => sendResponse());
+        } else {
+          sendResponse();
         }
       });
       break;
