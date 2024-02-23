@@ -16,10 +16,12 @@ const App: React.FC<{}> = () => {
     const url = e.target.value.trim();
     setDatabaseUrl(url);
     setIsValidUrl(Utils.validateNotionDatabaseUrl(url));
+    setIsSubmitted(false);
   };
 
   const handleSubmit = () => {
     if (!Utils.validateNotionDatabaseUrl(databaseUrl)) {
+      setIsValidUrl(false);
       return;
     }
     setIsOnProgress(true);
