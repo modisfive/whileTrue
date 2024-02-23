@@ -52,11 +52,13 @@ const ProblemInsertTab: FC<CurrentProblemProp> = ({ problem }) => {
       </div>
       <Row>
         {isOnProgress ? (
-          <div className="d-flex justify-content-center">
+          <div className="d-flex justify-content-center align-items-center">
             <Spinner animation="border" />
           </div>
         ) : saveResult ? (
-          <FontAwesomeIcon icon={faCircleCheck} size="2xl" color="green" />
+          <div className="d-flex justify-content-center align-items-center">
+            <FontAwesomeIcon icon={faCircleCheck} size="2xl" color="green" />
+          </div>
         ) : (
           <Button variant="success" onClick={handleSubmit}>
             Save
