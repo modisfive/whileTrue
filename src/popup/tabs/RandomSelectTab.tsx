@@ -1,7 +1,7 @@
 import React, { FC, Fragment, useState } from "react";
 import { SiteType } from "../../common/constants";
 import { Problem } from "../../common/class";
-import { Button, Col, Container, Image, Ratio, Row } from "react-bootstrap";
+import { Button, Container, Image, Row } from "react-bootstrap";
 
 chrome.runtime.sendMessage({
   from: "problemPage",
@@ -32,7 +32,9 @@ const RandomSelectTab: FC<{}> = () => {
   const handleClick2 = () => {
     chrome.runtime.sendMessage(
       { from: "problemPage", subject: "selectRandomProblem" },
-      (selectedProblem) => setProblem(selectedProblem)
+      (selectedProblem) => {
+        setProblem(selectedProblem);
+      }
     );
   };
 

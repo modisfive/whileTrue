@@ -53,11 +53,16 @@ const handleMessageFromPopup = (request: any, sendResponse: any) => {
       break;
 
     case "insertProblem":
+      LocalStorage.get(StorageKey.PROBLEM_LIST).then((problemList: Array<Problem>) => {
+        problemList.push(request.problem);
+        LocalStorage.set(StorageKey.PROBLEM_LIST, problemList);
+      });
       HostRequest.saveNewProblem(request.problem).then((resp) => {
         if (resp.httpStatus == 200) {
           sendResponse(true);
         }
       });
+      break;
 
     default:
       break;
@@ -68,11 +73,11 @@ const handleMessageFromOptions = (request: any, sendResponse: any) => {
   switch (request.subject) {
     case "databaseUrl":
       HostRequest.sendDatabaseID(request.databaseUrl).then((resp: any) => {
-        if (resp.code === "MEMBER-400-2") {
-          sendResponse(false);
-        } else {
+        if (resp.httpStatus == 200) {
           LocalStorage.set(StorageKey.NOTION_INFO, resp.data);
           sendResponse(true);
+        } else if (resp.code === "MEMBER-400-2") {
+          sendResponse(false);
         }
       });
       break;
@@ -92,7 +97,10 @@ const handleMessageFromOptions = (request: any, sendResponse: any) => {
       break;
 
     case "allProblems":
-      HostRequest.getAllProblemList().then((resp) => console.log(resp));
+      HostRequest.getAllProblemList().then((resp: any) => {
+        console.log(resp.data.problemList);
+        LocalStorage.set(StorageKey.PROBLEM_LIST, resp.data.problemList);
+      });
       break;
 
     default:
@@ -118,6 +126,7 @@ const handleMessageFromProblemPage = (request: any, sendResponse: any) => {
         const randomIndex = Math.floor(Math.random() * totalCount);
         sendResponse(problemList[randomIndex]);
       });
+      break;
 
     default:
       break;
