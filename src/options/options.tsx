@@ -69,6 +69,13 @@ const App: React.FC<{}> = () => {
     });
   };
 
+  const handleExit = () => {
+    chrome.runtime.sendMessage({
+      from: "options",
+      subject: "exit",
+    });
+  };
+
   return (
     <Container>
       <Navbar expand="lg" className="mb-5">
@@ -133,7 +140,7 @@ const App: React.FC<{}> = () => {
             <span></span>
           </Col>
           <Col className="property-item justify-content-end">
-            <Button variant="danger" className="p-3">
+            <Button variant="danger" className="p-3" onClick={handleExit}>
               탈퇴하기
             </Button>
           </Col>

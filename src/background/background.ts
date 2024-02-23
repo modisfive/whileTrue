@@ -103,6 +103,13 @@ const handleMessageFromOptions = (request: any, sendResponse: any) => {
       });
       break;
 
+    case "exit":
+      LocalStorage.remove(StorageKey.ACCESS_TOKEN);
+      LocalStorage.remove(StorageKey.NOTION_INFO);
+      LocalStorage.remove(StorageKey.OAUTH_PROCESS_STATUS);
+      LocalStorage.remove(StorageKey.PROBLEM_LIST);
+      break;
+
     default:
       break;
   }
