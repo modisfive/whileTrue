@@ -7,7 +7,7 @@ import LoginTab from "./tabs/LoginTab";
 import { Col, Container, Navbar, Row } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGear } from "@fortawesome/free-solid-svg-icons";
-import DatabaseInsertTab from "./tabs/databaseInsertTab";
+import DatabaseInsertTab from "./tabs/DatabaseInsertTab";
 
 type UserStatusProps = {
   isAccessTokenExists: boolean;
