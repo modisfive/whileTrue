@@ -1,6 +1,6 @@
 import { SiteHost, StorageKey } from "../common/constants";
 import LocalStorage from "../common/storage";
-import { getCurrentHost } from "../common/utils";
+import Utils from "../common/utils";
 import parseBaekjoonProblem from "./baekjoon";
 
 if (window.location.host === "github.com") {
@@ -16,7 +16,7 @@ if (window.location.host === "github.com") {
 }
 
 const getProblemInfo = async () => {
-  const currentHost = getCurrentHost();
+  const currentHost = Utils.getCurrentHost();
 
   switch (currentHost) {
     case SiteHost.BOJ:

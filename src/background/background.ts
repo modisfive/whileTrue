@@ -1,4 +1,4 @@
-import { isPropertyExists } from "../common/utils";
+import Utils from "../common/utils";
 import LocalStorage from "../common/storage";
 import { StorageKey } from "../common/constants";
 import HostRequest from "../common/request";
@@ -33,13 +33,13 @@ const handleMessageFromPopup = (request: any, sendResponse: any) => {
   switch (request.subject) {
     case "accessToken":
       LocalStorage.get(StorageKey.ACCESS_TOKEN).then((accessToken) =>
-        sendResponse(isPropertyExists(accessToken))
+        sendResponse(Utils.isPropertySaved(accessToken))
       );
       break;
 
     case "notionInfo":
       LocalStorage.get(StorageKey.NOTION_INFO).then((notionInfo) => {
-        sendResponse(isPropertyExists(notionInfo));
+        sendResponse(Utils.isPropertySaved(notionInfo));
       });
       break;
 
@@ -73,7 +73,6 @@ const handleMessageFromOptions = (request: any, sendResponse: any) => {
   switch (request.subject) {
     case "databaseUrl":
       HostRequest.sendDatabaseID(request.databaseUrl).then((resp: any) => {
-        console.log(resp);
         if (resp.httpStatus == 200) {
           LocalStorage.set(StorageKey.NOTION_INFO, resp.data);
           sendResponse(true);
@@ -125,7 +124,7 @@ const handleMessageFromProblemPage = (request: any, sendResponse: any) => {
   switch (request.subject) {
     case "checkProblemList":
       LocalStorage.get(StorageKey.PROBLEM_LIST).then((problemList) => {
-        if (!isPropertyExists(problemList)) {
+        if (!Utils.isPropertySaved(problemList)) {
           HostRequest.getAllProblemList().then((resp: any) =>
             LocalStorage.set(StorageKey.PROBLEM_LIST, resp.data.problemList)
           );

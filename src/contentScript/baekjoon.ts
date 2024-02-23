@@ -1,6 +1,6 @@
 import { Problem } from "../common/class";
 import { SiteType } from "../common/constants";
-import { createProblemUrl, isProblemSaved } from "../common/utils";
+import Utils from "../common/utils";
 
 const getBojTitle = async (problemNumber: string): Promise<string> => {
   return await new Promise((resolve) => {
@@ -41,7 +41,7 @@ const parseBaekjoonProblem = async () => {
         SiteType.BOJ,
         problemNumber,
         await getBojTitle(problemNumber),
-        createProblemUrl(SiteType.BOJ, problemNumber)
+        Utils.createProblemUrl(SiteType.BOJ, problemNumber)
       ),
     };
   }
