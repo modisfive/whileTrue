@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { createRoot } from "react-dom/client";
 import "bootstrap/dist/css/bootstrap.css";
-import { Alert, Button, Col, Container, Form, Image, Navbar, Row } from "react-bootstrap";
+import { Button, Col, Container, Form, Image, Navbar, Row, Spinner } from "react-bootstrap";
 import "./databasePage.css";
 import Utils from "../common/utils";
 
@@ -10,9 +10,10 @@ const App: React.FC<{}> = () => {
   const [isValidUrl, setIsValidUrl] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSavedSucceed, setIsSavedSucceed] = useState(true);
+  const [isOnProgress, setIsOnProgress] = useState(false);
 
   const handleChange = (e) => {
-    const url = e.target.value;
+    const url = e.target.value.trim();
     setDatabaseUrl(url);
     setIsValidUrl(Utils.validateNotionDatabaseUrl(url));
   };
@@ -21,16 +22,22 @@ const App: React.FC<{}> = () => {
     if (!Utils.validateNotionDatabaseUrl(databaseUrl)) {
       return;
     }
+    setIsOnProgress(true);
     chrome.runtime.sendMessage(
       { from: "options", subject: "databaseUrl", databaseUrl: databaseUrl },
       (resp) => {
         setIsSubmitted(true);
         setIsSavedSucceed(resp);
+        setIsOnProgress(false);
       }
     );
   };
 
   const msg = () => {
+    if (isOnProgress) {
+      return <span className="desc">저장 중...</span>;
+    }
+
     if (isSubmitted) {
       if (isSavedSucceed) {
         return <span className="desc desc-success">Notion 데이터베이스가 저장되었습니다.</span>;
@@ -39,7 +46,7 @@ const App: React.FC<{}> = () => {
       }
     } else {
       if (databaseUrl === "" || isValidUrl) {
-        return <span className="desc">Notion 데이터베이스 URL을 공유해주세요.</span>;
+        return <span></span>;
       } else {
         return <span className="desc desc-error">Notion Database URL 형식에 맞지 않습니다.</span>;
       }
@@ -69,7 +76,7 @@ const App: React.FC<{}> = () => {
                   onChange={handleChange}
                 />
                 <Button onClick={handleSubmit} className="mb-2">
-                  Submit
+                  {isOnProgress ? <Spinner animation="border" size="sm" /> : "Submit"}
                 </Button>
               </div>
               {msg()}
