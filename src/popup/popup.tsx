@@ -7,6 +7,7 @@ import LoginTab from "./tabs/LoginTab";
 import { Col, Container, Navbar, Row } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGear } from "@fortawesome/free-solid-svg-icons";
+import DatabaseInsertTab from "./tabs/databaseInsertTab";
 
 type UserStatusProps = {
   isAccessTokenExists: boolean;
@@ -62,7 +63,7 @@ const App: React.FC<{}> = () => {
       {!userStatus.isAccessTokenExists ? (
         <LoginTab />
       ) : !userStatus.isNotionInfoExists ? (
-        <h2>데이터베이스 정보를 저장해주세요.</h2>
+        <DatabaseInsertTab />
       ) : (
         <TabList />
       )}

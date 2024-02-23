@@ -11,7 +11,7 @@ const startOAuthProcess = async (url: string) => {
       chrome.tabs.remove(tabs[0].id);
       if (resp.httpStatus == 200) {
         LocalStorage.set(StorageKey.ACCESS_TOKEN, resp.data.accessToken);
-        const optionsPage = `chrome-extension://${chrome.runtime.id}/options.html`;
+        const optionsPage = `chrome-extension://${chrome.runtime.id}/database.html`;
         chrome.tabs.create({ url: optionsPage, selected: true });
       }
     });
