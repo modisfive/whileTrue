@@ -3,6 +3,7 @@ import LocalStorage from "../common/storage";
 import { StorageKey } from "../common/constants";
 import HostRequest from "../common/request";
 import startOAuthProcess from "./oauth";
+import { Problem } from "../common/class";
 
 const fetchSolvedAcJson = async (problemNumber: string) => {
   return await fetch(`https://solved.ac/api/v3/problem/show?problemId=${problemNumber}`, {
@@ -50,6 +51,13 @@ const handleMessageFromPopup = (request: any, sendResponse: any) => {
       const optionsPage = `chrome-extension://${chrome.runtime.id}/options.html`;
       chrome.tabs.create({ url: optionsPage, selected: true });
       break;
+
+    case "insertProblem":
+      HostRequest.saveNewProblem(request.problem).then((resp) => {
+        if (resp.httpStatus == 200) {
+          sendResponse(true);
+        }
+      });
 
     default:
       break;

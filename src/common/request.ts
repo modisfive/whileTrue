@@ -57,7 +57,7 @@ const HostRequest = {
     return await sendGetRequest(requestURL, accessToken);
   },
   saveNewProblem: async function (problem: Problem) {
-    const requestURL = `${HOST_URL}/prolbem`;
+    const requestURL = `${HOST_URL}/problem`;
     const accessToken = await LocalStorage.get(StorageKey.ACCESS_TOKEN);
     return await sendPostRequest(requestURL, accessToken, {
       problem: {
