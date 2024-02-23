@@ -16,19 +16,8 @@ const App: React.FC<{}> = () => {
     setIsError(!Utils.validateNotionDatabaseUrl(url));
   };
 
-  const handleSubmit = () => {
-    if (!Utils.validateNotionDatabaseUrl(databaseUrl)) {
-      return;
-    }
-
-    chrome.runtime.sendMessage(
-      {
-        from: "options",
-        subject: "databaseUrl",
-        databaseUrl: databaseUrl,
-      },
-      (resp) => setDatabaseStatus(resp)
-    );
+  const handleDatabase = () => {
+    chrome.runtime.sendMessage({ from: "options", subject: "databasePage" });
   };
 
   const handleClick1 = () => {
@@ -85,29 +74,10 @@ const App: React.FC<{}> = () => {
           <Col className="property-item">
             <span>Notion Database URL 재입력하기</span>
           </Col>
-          <Col className="property-item">
-            <Form className="w-100">
-              <div className="d-flex">
-                <Form.Control
-                  width="200em"
-                  className="mb-2"
-                  id="inlineFormInput"
-                  value={databaseUrl}
-                  onChange={handleChange}
-                />
-                <Button onClick={handleSubmit} className="mb-2">
-                  Submit
-                </Button>
-              </div>
-
-              {isError ? (
-                <span className="desc desc-error">Notion Database URL 형식에 맞지 않습니다.</span>
-              ) : databaseStatus ? (
-                <span className="desc">Notion Database URL을 입력해주세요.</span>
-              ) : (
-                <span className="desc desc-error">형식을 확인해주세요</span>
-              )}
-            </Form>
+          <Col className="property-item justify-content-end">
+            <Button onClick={handleDatabase} className="p-3">
+              바로가기
+            </Button>
           </Col>
         </Row>
         <hr />
