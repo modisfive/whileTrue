@@ -110,6 +110,11 @@ const handleMessageFromOptions = (request: any, sendResponse: any) => {
       LocalStorage.remove(StorageKey.PROBLEM_LIST);
       break;
 
+    case "databasePage":
+      const databasePage = `chrome-extension://${chrome.runtime.id}/database.html`;
+      chrome.tabs.create({ url: databasePage, selected: true });
+      break;
+
     default:
       break;
   }

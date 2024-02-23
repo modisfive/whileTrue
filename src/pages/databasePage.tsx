@@ -52,7 +52,7 @@ const App: React.FC<{}> = () => {
         </Row>
         <Row>
           <Col>
-            <Form className="w-100" onSubmit={handleSubmit}>
+            <Form className="w-100">
               <div className="d-flex">
                 <Form.Control
                   width="200em"
@@ -61,7 +61,9 @@ const App: React.FC<{}> = () => {
                   value={databaseUrl}
                   onChange={handleChange}
                 />
-                <Button className="mb-2">Submit</Button>
+                <Button onClick={handleSubmit} className="mb-2">
+                  Submit
+                </Button>
               </div>
 
               {isError ? (
