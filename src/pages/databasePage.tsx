@@ -33,7 +33,7 @@ const App: React.FC<{}> = () => {
   const msg = () => {
     if (isSubmitted) {
       if (isSavedSucceed) {
-        return <span className="desc">Notion 데이터베이스가 저장되었습니다.</span>;
+        return <span className="desc desc-success">Notion 데이터베이스가 저장되었습니다.</span>;
       } else {
         return <span className="desc desc-error">형식을 확인해주세요</span>;
       }
