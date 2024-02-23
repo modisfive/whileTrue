@@ -1,7 +1,7 @@
 import { SiteHost, StorageKey } from "../common/constants";
 import LocalStorage from "../common/storage";
 import { getCurrentHost } from "../common/utils";
-import getBaekjoonProblem from "./baekjoon";
+import parseBaekjoonProblem from "./baekjoon";
 
 if (window.location.host === "github.com") {
   LocalStorage.get(StorageKey.OAUTH_PROCESS_STATUS).then((isStarted) => {
@@ -15,31 +15,19 @@ if (window.location.host === "github.com") {
   });
 }
 
-const parse = async (savedProblem) => {
+const getProblemInfo = async () => {
   const currentHost = getCurrentHost();
 
   switch (currentHost) {
     case SiteHost.BOJ:
-      return await getBaekjoonProblem(savedProblem);
+      return await parseBaekjoonProblem();
 
     default:
       return {
         isExist: false,
-        isChanged: null,
         problem: null,
       };
   }
-};
-
-const getProblemInfo = async () => {
-  return LocalStorage.get(StorageKey.LATEST_PROBLEM).then((savedProblem) => {
-    return parse(savedProblem).then(({ isExist, isChanged, problem }) => {
-      if (isChanged) {
-        LocalStorage.set(StorageKey.LATEST_PROBLEM, problem);
-      }
-      return { isExist, problem };
-    });
-  });
 };
 
 const handleMessage = (request: any, sender: any, sendResponse: any) => {

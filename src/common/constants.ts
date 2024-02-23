@@ -11,7 +11,6 @@ enum SiteHost {
 }
 
 enum StorageKey {
-  LATEST_PROBLEM = "latest_problem",
   OAUTH_PROCESS_STATUS = "oauth_process_status",
   ACCESS_TOKEN = "access_token",
   NOTION_INFO = "notion_information",

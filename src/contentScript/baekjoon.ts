@@ -26,25 +26,17 @@ const parseProblemNumber = () => {
   }
 };
 
-const getBaekjoonProblem = async (savedProblem: undefined | Problem) => {
+const parseBaekjoonProblem = async () => {
   const { isExist, problemNumber } = parseProblemNumber();
 
   if (!isExist) {
     return {
       isExist: false,
-      isChanged: null,
       problem: null,
-    };
-  } else if (isProblemSaved(SiteType.BOJ, problemNumber, savedProblem)) {
-    return {
-      isExist: true,
-      isChanged: false,
-      problem: savedProblem,
     };
   } else {
     return {
       isExist: true,
-      isChanged: true,
       problem: new Problem(
         SiteType.BOJ,
         problemNumber,
@@ -55,4 +47,4 @@ const getBaekjoonProblem = async (savedProblem: undefined | Problem) => {
   }
 };
 
-export default getBaekjoonProblem;
+export default parseBaekjoonProblem;
