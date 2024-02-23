@@ -45,11 +45,11 @@ const RandomSelectTab: FC<{}> = () => {
     <Container className="h-100 d-flex flex-column justify-content-evenly">
       <div style={{ height: "50%" }}>
         {isOnProgress ? (
-          <div className="d-flex justify-content-center align-items-center">
+          <div className="h-100 d-flex justify-content-center align-items-center">
             <Spinner animation="border" />
           </div>
         ) : problem.siteType === SiteType.DEFAULT ? (
-          <div className="h-100 d-flex flex-column justify-content-center align-items-center">
+          <div className="h-100 d-flex justify-content-center align-items-center">
             <span>문제를 선택해주세요.</span>
           </div>
         ) : (

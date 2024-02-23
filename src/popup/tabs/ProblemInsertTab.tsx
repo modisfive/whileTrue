@@ -62,7 +62,7 @@ const ProblemInsertTab: FC<CurrentProblemProp> = ({ problem }) => {
           </div>
         ) : (
           <Button variant="success" onClick={handleSubmit}>
-            Save
+            저장하기
           </Button>
         )}
       </Row>
