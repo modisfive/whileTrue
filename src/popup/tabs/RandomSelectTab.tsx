@@ -1,7 +1,7 @@
 import React, { FC, Fragment, useState } from "react";
 import { SiteType } from "../../common/constants";
 import { Problem } from "../../common/class";
-import { Button, Container, Image, Row } from "react-bootstrap";
+import { Button, Container, Image, Row, Spinner } from "react-bootstrap";
 
 chrome.runtime.sendMessage({
   from: "problemPage",
@@ -24,15 +24,18 @@ const RandomSelectTab: FC<{}> = () => {
     title: "",
     url: "",
   });
+  const [isOnProgress, setIsOnProgress] = useState(false);
 
   const handleClick1 = () => {
     chrome.runtime.sendMessage({ from: "popup", subject: "openProblemTab", url: problem.url });
   };
 
   const handleClick2 = () => {
+    setIsOnProgress(true);
     chrome.runtime.sendMessage(
       { from: "problemPage", subject: "selectRandomProblem" },
       (selectedProblem) => {
+        setIsOnProgress(false);
         setProblem(selectedProblem);
       }
     );
@@ -41,7 +44,15 @@ const RandomSelectTab: FC<{}> = () => {
   return (
     <Container className="h-100 d-flex flex-column justify-content-evenly">
       <div style={{ height: "50%" }}>
-        {problem.siteType !== SiteType.DEFAULT ? (
+        {isOnProgress ? (
+          <div className="d-flex justify-content-center align-items-center">
+            <Spinner animation="border" />
+          </div>
+        ) : problem.siteType === SiteType.DEFAULT ? (
+          <div className="h-100 d-flex flex-column justify-content-center align-items-center">
+            <span>문제를 선택해주세요.</span>
+          </div>
+        ) : (
           <>
             <div>
               <Row className="justify-content-center">
@@ -59,15 +70,11 @@ const RandomSelectTab: FC<{}> = () => {
               </Button>
             </Row>
           </>
-        ) : (
-          <div className="h-100 d-flex flex-column justify-content-center align-items-center">
-            <span>문제를 선택해주세요.</span>
-          </div>
         )}
       </div>
       <Row>
         <Button variant="secondary" onClick={handleClick2}>
-          Select
+          문제 선택하기
         </Button>
       </Row>
     </Container>
