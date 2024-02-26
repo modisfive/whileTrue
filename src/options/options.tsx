@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import { Button, Col, Container, Form, Image, Navbar, Row } from "react-bootstrap";
 import "./options.css";
 import Utils from "../common/utils";
+import LoginButton from "../components/LoginButton";
 
 const App: React.FC<{}> = () => {
   const [databaseUrl, setDatabaseUrl] = useState("");
@@ -86,14 +87,7 @@ const App: React.FC<{}> = () => {
             <span>재로그인하기</span>
           </Col>
           <Col className="property-item justify-content-end">
-            <Button
-              variant="dark"
-              // onClick={handleClick}
-              className="d-flex justify-content-center align-items-center p-3"
-            >
-              <Image width={35} height={35} className="mx-1" src="/notion_logo.png" />
-              Notion 로그인
-            </Button>
+            <LoginButton />
           </Col>
         </Row>
         <hr />
