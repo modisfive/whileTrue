@@ -2,7 +2,8 @@ import { Problem } from "./class";
 import { StorageKey } from "./constants";
 import LocalStorage from "./storage";
 
-const HOST_URL = "http://localhost:80";
+// const HOST_URL = "http://localhost:80";
+const HOST_URL = "http://52.79.115.200:80";
 
 const requestGet = async (targetUrl: string, accessToken: any) => {
   return await fetch(targetUrl, {

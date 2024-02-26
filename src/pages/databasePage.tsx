@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { createRoot } from "react-dom/client";
 import "bootstrap/dist/css/bootstrap.css";
-import { Button, Col, Container, Form, Image, Navbar, Row, Spinner } from "react-bootstrap";
+import { Button, Col, Container, Form, Image, Navbar, Row, Spinner, Table } from "react-bootstrap";
 import "./databasePage.css";
 import Utils from "../common/utils";
 
@@ -56,36 +56,83 @@ const App: React.FC<{}> = () => {
   };
 
   return (
-    <Container className="h-100 d-flex flex-column align-items-center justify-content-center">
-      <div className="w-75">
-        <Row>
-          <span>whileTrue 설정</span>
-        </Row>
-        <Row>
-          <Col>
-            <span>Notion Database URL을 입력해주세요.</span>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <Form className="w-100">
-              <div className="d-flex">
-                <Form.Control
-                  width="200em"
-                  className="mb-2"
-                  id="inlineFormInput"
-                  value={databaseUrl}
-                  onChange={handleChange}
-                />
-                <Button onClick={handleSubmit} className="mb-2">
-                  {isOnProgress ? <Spinner animation="border" size="sm" /> : "Submit"}
-                </Button>
-              </div>
-              {msg()}
-            </Form>
-          </Col>
-        </Row>
-      </div>
+    <Container className="App">
+      <Navbar style={{ height: "5%" }}>
+        <Container>
+          <Navbar.Brand>whileTrue</Navbar.Brand>
+          <Navbar.Toggle />
+          <Navbar.Collapse className="justify-content-end">
+            <Navbar.Text></Navbar.Text>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
+      <Container style={{ height: "95%" }} className="d-flex flex-column justify-content-evenly">
+        <div>
+          <Row>
+            <Col>
+              <span>문제를 저장할 Notion 데이터베이스 링크를 공유해주세요.</span>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Form className="w-100">
+                <div className="d-flex">
+                  <Form.Control
+                    width="200em"
+                    className="mb-2"
+                    id="inlineFormInput"
+                    value={databaseUrl}
+                    onChange={handleChange}
+                  />
+                  <Button onClick={handleSubmit} className="mb-2">
+                    {isOnProgress ? <Spinner animation="border" size="sm" /> : "Submit"}
+                  </Button>
+                </div>
+                {msg()}
+              </Form>
+            </Col>
+          </Row>
+        </div>
+        <div>
+          <Row className="d-flex justify-content-center">
+            <span>
+              - <span style={{ color: "red" }}>기존의 노션 데이터베이스를 사용하는 경우,</span>{" "}
+              공유한 워크스페이스, 페이지 아래에 있어야 하며, 다음의 필수 칼럼이 존재하고 속성이
+              일치하는지 확인해주세요.
+            </span>
+            <Table striped bordered style={{ width: "60%" }}>
+              <thead>
+                <tr>
+                  <th>칼럼명</th>
+                  <th>속성</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>출처</td>
+                  <td>select</td>
+                </tr>
+                <tr>
+                  <td>난이도</td>
+                  <td>select</td>
+                </tr>
+                <tr>
+                  <td>문제 번호</td>
+                  <td>number</td>
+                </tr>
+                <tr>
+                  <td>문제 제목</td>
+                  <td>title</td>
+                </tr>
+                <tr>
+                  <td>URL</td>
+                  <td>url</td>
+                </tr>
+              </tbody>
+            </Table>
+          </Row>
+        </div>
+      </Container>
     </Container>
   );
 };
