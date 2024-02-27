@@ -2,10 +2,10 @@ import { Problem } from "../common/class";
 import { SiteType } from "../common/constants";
 import Utils from "../common/utils";
 
-const getBojTitle = async (problemNumber: string): Promise<string> => {
+const getSolvedAcInfo = async (problemNumber: string) => {
   return await new Promise((resolve) => {
     chrome.runtime.sendMessage(
-      { from: "content", subject: "bojTitle", problemNumber },
+      { from: "content", subject: "solvedAc", problemNumber },
       (response) => resolve(response)
     );
   });
@@ -35,12 +35,14 @@ const parseBaekjoonProblem = async () => {
       problem: null,
     };
   } else {
+    const solvedAcResp: any = await getSolvedAcInfo(problemNumber);
     return {
       isExist: true,
       problem: new Problem(
         SiteType.BOJ,
+        solvedAcResp.level,
         problemNumber,
-        await getBojTitle(problemNumber),
+        solvedAcResp.titleKo,
         Utils.createProblemUrl(SiteType.BOJ, problemNumber)
       ),
     };

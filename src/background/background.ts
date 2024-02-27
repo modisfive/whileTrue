@@ -16,8 +16,8 @@ const fetchSolvedAcJson = async (problemNumber: string) => {
 
 const handleMessageFromContent = (request: any, sendResponse: any) => {
   switch (request.subject) {
-    case "bojTitle":
-      fetchSolvedAcJson(request.problemNumber).then((resp) => sendResponse(resp.titleKo));
+    case "solvedAc":
+      fetchSolvedAcJson(request.problemNumber).then((resp) => sendResponse(resp));
       break;
 
     case "oauth":

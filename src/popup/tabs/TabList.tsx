@@ -4,7 +4,6 @@ import ProblemInsertTab from "./ProblemInsertTab";
 import RandomSelectTab from "./RandomSelectTab";
 import { Tab, Tabs } from "react-bootstrap";
 import { Problem } from "../../common/class";
-import { SiteType } from "../../common/constants";
 
 const parseProblemInfo = (setProblemInfo: CallableFunction, setKey: CallableFunction) => {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -19,12 +18,7 @@ const TabList: FC<{}> = () => {
   const [key, setKey] = useState("currentProblem");
   const [problemInfo, setProblemInfo] = useState<{ isExist: boolean; problem: Problem }>({
     isExist: false,
-    problem: {
-      siteType: SiteType.DEFAULT,
-      number: "DEFAULT_NUMBER",
-      title: "DEFAULT_TITLE",
-      url: "DEFAULT_URL",
-    },
+    problem: undefined,
   });
 
   useEffect(() => {
