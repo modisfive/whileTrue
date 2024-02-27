@@ -1,24 +1,23 @@
-import React, { useState } from "react";
+import React from "react";
 import { createRoot } from "react-dom/client";
 import "bootstrap/dist/css/bootstrap.css";
-import { Button, Col, Container, Form, Image, Navbar, Row } from "react-bootstrap";
+import { Button, Col, Container, Navbar, Row } from "react-bootstrap";
 import "./options.css";
-import Utils from "../common/utils";
 import LoginButton from "../components/LoginButton";
 
 const App: React.FC<{}> = () => {
-  const [databaseUrl, setDatabaseUrl] = useState("");
-  const [isError, setIsError] = useState(false);
-  const [databaseStatus, setDatabaseStatus] = useState(true);
-
-  const handleChange = (e) => {
-    const url = e.target.value;
-    setDatabaseUrl(url);
-    setIsError(!Utils.validateNotionDatabaseUrl(url));
+  const handleDatabase = () => {
+    chrome.runtime.sendMessage({ from: "options", subject: "databasePage" }, (resp) => {});
   };
 
-  const handleDatabase = () => {
-    chrome.runtime.sendMessage({ from: "options", subject: "databasePage" });
+  const handleExit = () => {
+    chrome.runtime.sendMessage(
+      {
+        from: "options",
+        subject: "exit",
+      },
+      (resp) => {}
+    );
   };
 
   const handleClick1 = () => {
@@ -51,19 +50,12 @@ const App: React.FC<{}> = () => {
     });
   };
 
-  const handleExit = () => {
-    chrome.runtime.sendMessage({
-      from: "options",
-      subject: "exit",
-    });
-  };
-
   return (
     <Container>
-      <Navbar expand="lg" className="mb-5">
+      <Navbar style={{ height: "5%" }} className="mb-5">
         <Navbar.Brand>whileTrue 설정</Navbar.Brand>
       </Navbar>
-      <div>
+      <div style={{ height: "95%" }}>
         <Row className="property">
           <Col className="property-item">
             <span>현재 연결되어 있는 노션 정보</span>
@@ -73,18 +65,18 @@ const App: React.FC<{}> = () => {
         <hr />
         <Row className="property">
           <Col className="property-item">
-            <span>Notion Database URL 재입력하기</span>
+            <span>노션 데이터베이스 링크 다시 공유하기</span>
           </Col>
           <Col className="property-item justify-content-end">
             <Button onClick={handleDatabase} className="p-3">
-              바로가기
+              공유하기
             </Button>
           </Col>
         </Row>
         <hr />
         <Row className="property">
           <Col className="property-item">
-            <span>재로그인하기</span>
+            <span>공유할 워크스페이스, 페이지 다시 선택하기</span>
           </Col>
           <Col className="property-item justify-content-end">
             <LoginButton />
@@ -93,12 +85,15 @@ const App: React.FC<{}> = () => {
         <hr />
         <Row className="property">
           <Col className="property-item">
-            <span></span>
-          </Col>
-          <Col className="property-item justify-content-end">
             <Button variant="danger" className="p-3" onClick={handleExit}>
               탈퇴하기
             </Button>
+          </Col>
+          <Col className="property-item justify-content-end">
+            <span>
+              탈퇴하시더라도 사용자의 노션 데이터베이스는 삭제되지 않으며, 이후 다시 whileTrue에
+              연결할 수 있습니다.
+            </span>
           </Col>
         </Row>
 
