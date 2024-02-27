@@ -3,6 +3,7 @@ import { StorageKey } from "./constants";
 import LocalStorage from "./storage";
 
 const HOST_URL = "http://localhost:80";
+// const HOST_URL = "https://whiletrue.co.kr";
 
 const requestGet = async (targetUrl: string, accessToken: any) => {
   return await fetch(targetUrl, {
@@ -68,13 +69,15 @@ const sendPostRequest = async (targetUrl: string, accessToken: any, body: any) =
 const HostRequest = {
   sendAccessCode: async function (accessCode: string) {
     const requestURL = `${HOST_URL}/member/oauth/${accessCode}`;
-    return await fetch(requestURL, {
+    const resp = await fetch(requestURL, {
       method: "GET",
       headers: {
         Accept: "application/json",
       },
       credentials: "include",
-    }).then((resp) => resp.json());
+    });
+    console.log(resp);
+    return resp.json();
   },
   sendDatabaseID: async function (notionDatabaseUrl: string) {
     const requestURL = `${HOST_URL}/member/notion-database-id`;
