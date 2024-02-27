@@ -106,7 +106,7 @@ const handleMessageFromOptions = (request: any, sendResponse: any) => {
 
     case "allProblems":
       HostRequest.getAllProblemList().then((resp: any) => {
-        LocalStorage.set(StorageKey.PROBLEM_LIST, resp.data.problemList);
+        LocalStorage.set(StorageKey.PROBLEM_LIST, resp.data.problemPageList);
       });
       break;
 
@@ -115,6 +115,9 @@ const handleMessageFromOptions = (request: any, sendResponse: any) => {
       LocalStorage.remove(StorageKey.NOTION_INFO);
       LocalStorage.remove(StorageKey.OAUTH_PROCESS_STATUS);
       LocalStorage.remove(StorageKey.PROBLEM_LIST);
+      chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
+        chrome.tabs.remove(tabs[0].id);
+      });
       break;
 
     case "databasePage":
