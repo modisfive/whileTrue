@@ -1,4 +1,4 @@
-import { SiteType } from "./constants";
+import { IconType, SiteType } from "./constants";
 
 export class Problem {
   siteType: SiteType;
@@ -17,7 +17,7 @@ export class Problem {
 }
 
 export class ProblemPage extends Problem {
-  iconType: any;
+  iconType: IconType;
   iconSrc: string;
 
   constructor(
@@ -26,7 +26,7 @@ export class ProblemPage extends Problem {
     number: string,
     title: string,
     url: string,
-    iconType: any,
+    iconType: IconType,
     iconSrc: string
   ) {
     super(siteType, level, number, title, url);
