@@ -69,15 +69,13 @@ const sendPostRequest = async (targetUrl: string, accessToken: any, body: any) =
 const HostRequest = {
   sendAccessCode: async function (accessCode: string) {
     const requestURL = `${HOST_URL}/member/oauth/${accessCode}`;
-    const resp = await fetch(requestURL, {
+    return await fetch(requestURL, {
       method: "GET",
       headers: {
         Accept: "application/json",
       },
       credentials: "include",
-    });
-    console.log(resp);
-    return resp.json();
+    }).then((resp) => resp.json());
   },
   sendDatabaseID: async function (notionDatabaseUrl: string) {
     const requestURL = `${HOST_URL}/member/notion-database-id`;
@@ -100,24 +98,14 @@ const HostRequest = {
     const requestURL = `${HOST_URL}/problem`;
     const accessToken = await LocalStorage.get(StorageKey.ACCESS_TOKEN);
     return await sendPostRequest(requestURL, accessToken, {
-      problem: {
-        siteType: problem.siteType,
-        number: problem.number,
-        title: problem.title,
-        url: problem.url,
-      },
+      problem,
     });
   },
   isProblemExists: async function (problem: Problem) {
     const requestURL = `${HOST_URL}/problem/check`;
     const accessToken = await LocalStorage.get(StorageKey.ACCESS_TOKEN);
     return await sendPostRequest(requestURL, accessToken, {
-      problem: {
-        siteType: problem.siteType,
-        number: problem.number,
-        title: problem.title,
-        url: problem.url,
-      },
+      problem,
     });
   },
 };

@@ -26,7 +26,7 @@ const parseProblemNumber = () => {
   }
 };
 
-const parseBaekjoonProblem = async () => {
+const baekjoon = async () => {
   const { isExist, problemNumber } = parseProblemNumber();
 
   if (!isExist) {
@@ -49,4 +49,4 @@ const parseBaekjoonProblem = async () => {
   }
 };
 
-export default parseBaekjoonProblem;
+export default baekjoon;
