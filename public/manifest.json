@@ -13,7 +13,7 @@
     "default_title": "whileTrue",
     "default_icon": "icon.png"
   },
-  "permissions": ["unlimitedStorage", "storage", "activeTab", "tabs", "cookies"],
+  "permissions": ["unlimitedStorage", "storage", "activeTab", "tabs"],
   "host_permissions": [
     "https://www.acmicpc.net/",
     "https://school.programmers.co.kr/",
