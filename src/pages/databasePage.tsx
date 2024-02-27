@@ -58,13 +58,7 @@ const App: React.FC<{}> = () => {
   return (
     <Container className="App">
       <Navbar style={{ height: "5%" }}>
-        <Container>
-          <Navbar.Brand>whileTrue</Navbar.Brand>
-          <Navbar.Toggle />
-          <Navbar.Collapse className="justify-content-end">
-            <Navbar.Text></Navbar.Text>
-          </Navbar.Collapse>
-        </Container>
+        <Navbar.Brand>whileTrue</Navbar.Brand>
       </Navbar>
       <Container style={{ height: "95%" }} className="d-flex flex-column justify-content-evenly">
         <div>
