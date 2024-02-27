@@ -19,7 +19,7 @@
     "https://school.programmers.co.kr/",
     "https://swexpertacademy.com/",
     "https://solved.ac/api/v3/*",
-    "http://localhost:80/*"
+    "https://whiletrue.co.kr/*"
   ],
   "options_page": "options.html",
   "background": {
