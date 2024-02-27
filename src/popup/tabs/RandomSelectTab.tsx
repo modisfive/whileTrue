@@ -13,12 +13,7 @@ const selectLogo = (siteType: SiteType) => {
 };
 
 const RandomSelectTab: FC<{}> = () => {
-  const [problem, setProblem] = useState<Problem>({
-    siteType: SiteType.DEFAULT,
-    number: "",
-    title: "",
-    url: "",
-  });
+  const [problem, setProblem] = useState<Problem>(undefined);
   const [isOnProgress, setIsOnProgress] = useState(false);
 
   useEffect(() => {
@@ -50,7 +45,7 @@ const RandomSelectTab: FC<{}> = () => {
           <div className="h-100 d-flex justify-content-center align-items-center">
             <Spinner animation="border" />
           </div>
-        ) : problem.siteType === SiteType.DEFAULT ? (
+        ) : problem === undefined ? (
           <div className="h-100 d-flex justify-content-center align-items-center">
             <span>문제를 선택해주세요.</span>
           </div>
