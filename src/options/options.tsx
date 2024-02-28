@@ -34,6 +34,9 @@ const App: React.FC<{}> = () => {
               <ListGroup.Item action href="#link3">
                 탈퇴하기
               </ListGroup.Item>
+              <ListGroup.Item action href="#link4">
+                프로젝트 정보
+              </ListGroup.Item>
             </ListGroup>
           </Col>
           <Col sm={8}>
@@ -49,6 +52,7 @@ const App: React.FC<{}> = () => {
                   탈퇴하기
                 </Button>
               </Tab.Pane>
+              <Tab.Pane eventKey="#link4"></Tab.Pane>
             </Tab.Content>
           </Col>
         </Row>
