@@ -6,11 +6,11 @@ import "./options.css";
 
 const App: React.FC<{}> = () => {
   const handleDatabase = () => {
-    chrome.runtime.sendMessage({ from: "options", subject: "databasePage" }, () => {});
+    chrome.runtime.sendMessage({ from: "options", subject: "databasePage" });
   };
 
   const handleExit = () => {
-    chrome.runtime.sendMessage({ from: "options", subject: "exit" }, () => {});
+    chrome.runtime.sendMessage({ from: "options", subject: "exit" });
   };
 
   return (
