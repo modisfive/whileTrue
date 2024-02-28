@@ -4,9 +4,9 @@ import "bootstrap/dist/css/bootstrap.css";
 import "./popup.css";
 import TabList from "./tabs/TabList";
 import LoginTab from "./tabs/LoginTab";
-import { Col, Container, Navbar, Row } from "react-bootstrap";
+import { Col, Container, Navbar } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGear } from "@fortawesome/free-solid-svg-icons";
+import { faRotate } from "@fortawesome/free-solid-svg-icons";
 import DatabaseInsertTab from "./tabs/DatabaseInsertTab";
 
 type UserStatusProps = {
@@ -34,7 +34,7 @@ const getLoginStatus = (setUserStatus: CallableFunction) => {
 };
 
 const handleClick = () => {
-  chrome.runtime.sendMessage({ from: "popup", subject: "openOptionsTab" });
+  chrome.runtime.sendMessage({ from: "popup", subject: "fetchAllProblems" }, (resp) => {});
 };
 
 const App: React.FC<{}> = () => {
@@ -55,7 +55,9 @@ const App: React.FC<{}> = () => {
           <Navbar.Toggle />
           <Navbar.Collapse className="justify-content-end">
             <Navbar.Text>
-              <FontAwesomeIcon icon={faGear} size="xl" onClick={handleClick} role="button" />
+              {userStatus.isNotionInfoExists && (
+                <FontAwesomeIcon icon={faRotate} size="xl" onClick={handleClick} role="button" />
+              )}
             </Navbar.Text>
           </Navbar.Collapse>
         </Container>
