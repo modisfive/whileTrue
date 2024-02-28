@@ -58,6 +58,7 @@ const handleMessageFromPopup = (request: any, sendResponse: any) => {
     case "fetchAllProblems":
       HostRequest.getAllProblemList().then((resp: any) => {
         LocalStorage.set(StorageKey.PROBLEM_LIST, resp.data.problemPageList);
+        sendResponse();
       });
       break;
 

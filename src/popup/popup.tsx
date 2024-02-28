@@ -4,22 +4,26 @@ import "bootstrap/dist/css/bootstrap.css";
 import "./popup.css";
 import TabList from "./tabs/TabList";
 import LoginTab from "./tabs/LoginTab";
-import { Container, Navbar } from "react-bootstrap";
+import { Container, Navbar, Spinner } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRotate } from "@fortawesome/free-solid-svg-icons";
 import DatabaseInsertTab from "./tabs/DatabaseInsertTab";
 import Utils from "../common/utils";
 import { UserStatus } from "../common/class";
 
-const handleClick = () => {
-  chrome.runtime.sendMessage({ from: "popup", subject: "fetchAllProblems" }, (resp) => {});
-};
-
 const App: React.FC<{}> = () => {
   const [userStatus, setUserStatus] = useState<UserStatus>({
     isLogined: false,
     isNotionLinked: false,
   });
+  const [isOnProgress, setIsOnProgress] = useState(false);
+
+  const handleClick = () => {
+    setIsOnProgress(true);
+    chrome.runtime.sendMessage({ from: "popup", subject: "fetchAllProblems" }, () => {
+      setIsOnProgress(false);
+    });
+  };
 
   useEffect(() => {
     Utils.getUserStatus().then((resp) => setUserStatus(resp));
@@ -33,9 +37,12 @@ const App: React.FC<{}> = () => {
           <Navbar.Toggle />
           <Navbar.Collapse className="justify-content-end">
             <Navbar.Text>
-              {userStatus.isNotionLinked && (
-                <FontAwesomeIcon icon={faRotate} size="xl" onClick={handleClick} role="button" />
-              )}
+              {userStatus.isNotionLinked &&
+                (isOnProgress ? (
+                  <Spinner animation="border" size="sm" />
+                ) : (
+                  <FontAwesomeIcon icon={faRotate} onClick={handleClick} role="button" />
+                ))}
             </Navbar.Text>
           </Navbar.Collapse>
         </Container>
