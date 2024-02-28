@@ -80,25 +80,9 @@ const handleMessageFromOptions = (request: any, sendResponse: any) => {
       });
       break;
 
-    case "accessToken":
-      if (request.todo === "show") {
-        LocalStorage.get(StorageKey.ACCESS_TOKEN).then((accessToken) => console.log(accessToken));
-      } else if (request.todo === "delete") {
-        LocalStorage.remove(StorageKey.ACCESS_TOKEN).then(() =>
-          console.log("Access Token을 삭제했습니다.")
-        );
-      }
-      break;
-
-    case "notionInfo":
-      HostRequest.getMemberNotionInfo().then((resp) => console.log(resp));
-      break;
-
-    case "allProblems":
-      HostRequest.getAllProblemList().then((resp: any) => {
-        console.log(resp.data.problemPageList);
-        LocalStorage.set(StorageKey.PROBLEM_LIST, resp.data.problemPageList);
-      });
+    case "databasePage":
+      const databasePage = `chrome-extension://${chrome.runtime.id}/database.html`;
+      chrome.tabs.create({ url: databasePage, selected: true });
       break;
 
     case "exit":
@@ -109,11 +93,6 @@ const handleMessageFromOptions = (request: any, sendResponse: any) => {
       chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
         chrome.tabs.remove(tabs[0].id);
       });
-      break;
-
-    case "databasePage":
-      const databasePage = `chrome-extension://${chrome.runtime.id}/database.html`;
-      chrome.tabs.create({ url: databasePage, selected: true });
       break;
 
     default:
@@ -127,7 +106,7 @@ const handleMessageFromProblemPage = (request: any, sendResponse: any) => {
       LocalStorage.get(StorageKey.PROBLEM_LIST).then((problemList) => {
         if (!Utils.isPropertySaved(problemList)) {
           HostRequest.getAllProblemList()
-            .then((resp: any) => {
+            .then((resp) => {
               LocalStorage.set(StorageKey.PROBLEM_LIST, resp.data.problemPageList);
             })
             .then(() => sendResponse());
