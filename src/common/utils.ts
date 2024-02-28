@@ -39,9 +39,9 @@ const Utils = {
   selectLogo: function (siteType: SiteType) {
     switch (siteType) {
       case SiteType.BOJ:
-        return "/baekjoon_logo.png";
+        return "/logo/baekjoon_logo.png";
       case SiteType.PROGRAMMERS:
-        return "/programmers_logo.png";
+        return "/logo/programmers_logo.png";
     }
   },
 };
