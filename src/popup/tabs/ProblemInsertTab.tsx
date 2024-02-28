@@ -4,18 +4,10 @@ import { Button, Container, Image, Row, Spinner } from "react-bootstrap";
 import { SiteType } from "../../common/constants";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
+import Utils from "../../common/utils";
 
 type CurrentProblemProp = {
   problem: Problem;
-};
-
-const selectLogo = (siteType: SiteType) => {
-  switch (siteType) {
-    case SiteType.BOJ:
-      return "/baekjoon_logo.png";
-    case SiteType.PROGRAMMERS:
-      return "/programmers_logo.png";
-  }
 };
 
 const ProblemInsertTab: FC<CurrentProblemProp> = ({ problem }) => {
@@ -42,7 +34,7 @@ const ProblemInsertTab: FC<CurrentProblemProp> = ({ problem }) => {
       <div style={{ height: "50%" }}>
         <div>
           <Row className="justify-content-center">
-            <Image style={{ width: "auto", height: 70 }} src={selectLogo(problem.siteType)} />
+            <Image style={{ width: "auto", height: 70 }} src={Utils.selectLogo(problem.siteType)} />
           </Row>
           <Row>
             <span>

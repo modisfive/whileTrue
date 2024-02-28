@@ -1,16 +1,7 @@
-import React, { FC, Fragment, useEffect, useState } from "react";
-import { SiteType } from "../../common/constants";
+import React, { FC, useEffect, useState } from "react";
 import { Problem } from "../../common/class";
 import { Button, Container, Image, Row, Spinner } from "react-bootstrap";
-
-const selectLogo = (siteType: SiteType) => {
-  switch (siteType) {
-    case SiteType.BOJ:
-      return "/baekjoon_logo.png";
-    case SiteType.PROGRAMMERS:
-      return "/programmers_logo.png";
-  }
-};
+import Utils from "../../common/utils";
 
 const RandomSelectTab: FC<{}> = () => {
   const [problem, setProblem] = useState<Problem>(undefined);
@@ -53,7 +44,10 @@ const RandomSelectTab: FC<{}> = () => {
           <>
             <div>
               <Row className="justify-content-center">
-                <Image style={{ width: "auto", height: 70 }} src={selectLogo(problem.siteType)} />
+                <Image
+                  style={{ width: "auto", height: 70 }}
+                  src={Utils.selectLogo(problem.siteType)}
+                />
               </Row>
               <Row>
                 <span>
