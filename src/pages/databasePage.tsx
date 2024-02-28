@@ -7,12 +7,11 @@ import {
   Container,
   Form,
   Image,
-  ListGroup,
   Navbar,
+  OverlayTrigger,
   Row,
   Spinner,
-  Tab,
-  Table,
+  Tooltip,
 } from "react-bootstrap";
 import "./databasePage.css";
 import Utils from "../common/utils";
@@ -23,6 +22,14 @@ const App: React.FC<{}> = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSavedSucceed, setIsSavedSucceed] = useState(true);
   const [isOnProgress, setIsOnProgress] = useState(false);
+
+  const renderTooltip = (props) => (
+    <Tooltip id="button-tooltip" {...props}>
+      기존의 노션 데이터베이스를 사용하는 경우, "출처"(select 타입), "난이도"(select 타입), "문제
+      번호"(number 타입), "문제 제목"(title 타입), "URL"(url 타입) 등 해당 칼럼명과 타입을 가지는
+      칼럼이 반드시 존재해야 합니다.
+    </Tooltip>
+  );
 
   const handleChange = (e) => {
     const url = e.target.value.trim();
@@ -70,74 +77,46 @@ const App: React.FC<{}> = () => {
   return (
     <Container className="App">
       <Navbar style={{ height: "5%" }}>
-        <Navbar.Brand>whileTrue</Navbar.Brand>
+        <Navbar.Brand className="d-flex align-items-center">
+          <Image style={{ width: "auto", height: 40 }} src={"/icon.png"} className="me-1" />
+          whileTrue 노션 데이터베이스
+        </Navbar.Brand>
       </Navbar>
-      <Container style={{ height: "95%" }} className="d-flex flex-column justify-content-evenly">
-        <div>
-          <Row>
-            <Col>
-              <span>문제를 저장할 Notion 데이터베이스 링크를 공유해주세요.</span>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <Form className="w-100">
-                <div className="d-flex">
-                  <Form.Control
-                    width="200em"
-                    className="mb-2"
-                    id="inlineFormInput"
-                    value={databaseUrl}
-                    onChange={handleChange}
-                  />
-                  <Button onClick={handleSubmit} className="mb-2">
-                    {isOnProgress ? <Spinner animation="border" size="sm" /> : "Submit"}
-                  </Button>
-                </div>
-                {msg()}
-              </Form>
-            </Col>
-          </Row>
-        </div>
-        <div>
-          <Row className="d-flex justify-content-center">
-            <span>
-              - <span style={{ color: "red" }}>기존의 노션 데이터베이스를 사용하는 경우,</span>{" "}
-              공유한 워크스페이스, 페이지 아래에 있어야 하며, 다음의 필수 칼럼이 존재하고 속성이
-              일치하는지 확인해주세요.
-            </span>
-            <Table striped bordered style={{ width: "60%" }}>
-              <thead>
-                <tr>
-                  <th>칼럼명</th>
-                  <th>속성</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>출처</td>
-                  <td>select</td>
-                </tr>
-                <tr>
-                  <td>난이도</td>
-                  <td>select</td>
-                </tr>
-                <tr>
-                  <td>문제 번호</td>
-                  <td>number</td>
-                </tr>
-                <tr>
-                  <td>문제 제목</td>
-                  <td>title</td>
-                </tr>
-                <tr>
-                  <td>URL</td>
-                  <td>url</td>
-                </tr>
-              </tbody>
-            </Table>
-          </Row>
-        </div>
+      <Container style={{ height: "95%" }} className="d-flex flex-column justify-content-center">
+        <Row className="mb-5">
+          <Col>
+            <span>문제를 저장할 Notion 데이터베이스 링크를 공유해주세요.</span>
+            <OverlayTrigger
+              placement="right"
+              delay={{ show: 250, hide: 400 }}
+              overlay={renderTooltip}
+            >
+              <Button variant="danger" className="ms-3">
+                기존의 데이터베이스를 사용하는 경우
+              </Button>
+            </OverlayTrigger>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Form className="w-100">
+              <div className="d-flex">
+                <Form.Control
+                  className="mb-2 me-4"
+                  id="inlineFormInput"
+                  value={databaseUrl}
+                  onChange={handleChange}
+                />
+                <Button onClick={handleSubmit} className="mb-2">
+                  {isOnProgress ? <Spinner animation="border" size="sm" /> : "submit"}
+                </Button>
+              </div>
+            </Form>
+          </Col>
+        </Row>
+        <Row className="d-flex" style={{ height: "20px" }}>
+          <span>{msg()}</span>
+        </Row>
       </Container>
     </Container>
   );
