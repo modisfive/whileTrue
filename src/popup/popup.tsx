@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "./popup.css";
 import TabList from "./tabs/TabList";
 import LoginTab from "./tabs/LoginTab";
-import { Container, Navbar, Spinner } from "react-bootstrap";
+import { Container, Image, Navbar, Spinner } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRotate } from "@fortawesome/free-solid-svg-icons";
 import DatabaseInsertTab from "./tabs/DatabaseInsertTab";
@@ -33,7 +33,10 @@ const App: React.FC<{}> = () => {
     <Container className="App">
       <Navbar>
         <Container>
-          <Navbar.Brand>whileTrue</Navbar.Brand>
+          <Navbar.Brand className="d-flex align-items-center">
+            <Image style={{ width: "auto", height: 30 }} src={"/icon.png"} className="me-1" />
+            whileTrue
+          </Navbar.Brand>
           <Navbar.Toggle />
           <Navbar.Collapse className="justify-content-end">
             <Navbar.Text>
