@@ -67,7 +67,7 @@ const handleMessageFromPopup = (request: any, sendResponse: any) => {
     case "isProblemSaved":
       HostRequest.isProblemExists(request.problem).then((resp) => {
         if (resp.httpStatus == 200) {
-          sendResponse(resp.data.problemExits);
+          sendResponse(resp.data.isProblemExists);
         }
       });
       break;
@@ -106,6 +106,7 @@ const handleMessageFromOptions = (request: any, sendResponse: any) => {
 
     case "allProblems":
       HostRequest.getAllProblemList().then((resp: any) => {
+        console.log(resp.data.problemPageList);
         LocalStorage.set(StorageKey.PROBLEM_LIST, resp.data.problemPageList);
       });
       break;
@@ -137,7 +138,7 @@ const handleMessageFromProblemPage = (request: any, sendResponse: any) => {
         if (!Utils.isPropertySaved(problemList)) {
           HostRequest.getAllProblemList()
             .then((resp: any) => {
-              LocalStorage.set(StorageKey.PROBLEM_LIST, resp.data.problemList);
+              LocalStorage.set(StorageKey.PROBLEM_LIST, resp.data.problemPageList);
             })
             .then(() => sendResponse());
         } else {
