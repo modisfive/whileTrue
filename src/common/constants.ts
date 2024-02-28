@@ -1,14 +1,13 @@
 enum SiteType {
-  BOJ,
-  PROGRAMMERS,
-  SWEA,
-  LEETCODE,
+  BOJ = "BOJ",
+  PROGRAMMERS = "PROGRAMMERS",
+  SWEA = "SWEA",
 }
 
 enum IconType {
-  EMOJI,
-  EXTERNAL,
-  FILE,
+  EMOJI = "EMOJI",
+  EXTERNAL = "EXTERNAL",
+  FILE = "FILE",
 }
 
 enum SiteHost {
