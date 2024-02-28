@@ -4,12 +4,21 @@ import ProblemInsertTab from "./ProblemInsertTab";
 import RandomSelectTab from "./RandomSelectTab";
 import { Tab, Tabs } from "react-bootstrap";
 import { Problem } from "../../common/class";
+import Utils from "../../common/utils";
 
 const parseProblemInfo = (setProblemInfo: CallableFunction, setKey: CallableFunction) => {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     chrome.tabs.sendMessage(tabs[0].id, { from: "popup", subject: "currentProblem" }, (resp) => {
-      setProblemInfo(resp);
-      setKey(resp.isExist ? "currentProblem" : "randomSelect");
+      if (chrome.runtime.lastError) {
+        setProblemInfo({
+          isExist: false,
+          problem: undefined,
+        });
+        setKey("randomSelect");
+      } else {
+        setProblemInfo(resp);
+        setKey(resp.isExist ? "currentProblem" : "randomSelect");
+      }
     });
   });
 };
