@@ -1,23 +1,25 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import "bootstrap/dist/css/bootstrap.css";
-import { Button, Col, Container, ListGroup, Navbar, Row, Tab } from "react-bootstrap";
+import { Button, Col, Container, Image, ListGroup, Navbar, Row, Tab } from "react-bootstrap";
 import "./options.css";
-import LoginButton from "../components/LoginButton";
 
 const App: React.FC<{}> = () => {
   const handleDatabase = () => {
-    chrome.runtime.sendMessage({ from: "options", subject: "databasePage" }, (resp) => {});
+    chrome.runtime.sendMessage({ from: "options", subject: "databasePage" }, () => {});
   };
 
   const handleExit = () => {
-    chrome.runtime.sendMessage({ from: "options", subject: "exit" }, (resp) => {});
+    chrome.runtime.sendMessage({ from: "options", subject: "exit" }, () => {});
   };
 
   return (
     <Container>
       <Navbar style={{ height: "5%" }} className="mb-5">
-        <Navbar.Brand>whileTrue 설정</Navbar.Brand>
+        <Navbar.Brand className="d-flex align-items-center">
+          <Image style={{ width: "auto", height: 40 }} src={"/icon.png"} className="me-1" />
+          whileTrue 설정
+        </Navbar.Brand>
       </Navbar>
       <Tab.Container defaultActiveKey="#link1">
         <Row>
