@@ -34,3 +34,13 @@ export class ProblemPage extends Problem {
     this.iconSrc = iconSrc;
   }
 }
+
+export class UserStatus {
+  isLogined: boolean;
+  isNotionLinked: boolean;
+
+  constructor(isLogined: boolean, isNotionLinked: boolean) {
+    this.isLogined = isLogined;
+    this.isNotionLinked = isNotionLinked;
+  }
+}

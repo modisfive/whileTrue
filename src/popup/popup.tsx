@@ -4,47 +4,25 @@ import "bootstrap/dist/css/bootstrap.css";
 import "./popup.css";
 import TabList from "./tabs/TabList";
 import LoginTab from "./tabs/LoginTab";
-import { Col, Container, Navbar } from "react-bootstrap";
+import { Container, Navbar } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRotate } from "@fortawesome/free-solid-svg-icons";
 import DatabaseInsertTab from "./tabs/DatabaseInsertTab";
-
-type UserStatusProps = {
-  isAccessTokenExists: boolean;
-  isNotionInfoExists: boolean;
-};
-
-const getLoginStatus = (setUserStatus: CallableFunction) => {
-  const userStatus = {
-    isAccessTokenExists: false,
-    isNotionInfoExists: false,
-  };
-
-  chrome.runtime.sendMessage({ from: "popup", subject: "accessToken" }, (resp) => {
-    userStatus.isAccessTokenExists = resp;
-    if (!resp) {
-      setUserStatus(userStatus);
-    } else {
-      chrome.runtime.sendMessage({ from: "popup", subject: "notionInfo" }, (resp) => {
-        userStatus.isNotionInfoExists = resp;
-        setUserStatus(userStatus);
-      });
-    }
-  });
-};
+import Utils from "../common/utils";
+import { UserStatus } from "../common/class";
 
 const handleClick = () => {
   chrome.runtime.sendMessage({ from: "popup", subject: "fetchAllProblems" }, (resp) => {});
 };
 
 const App: React.FC<{}> = () => {
-  const [userStatus, setUserStatus] = useState<UserStatusProps>({
-    isAccessTokenExists: false,
-    isNotionInfoExists: false,
+  const [userStatus, setUserStatus] = useState<UserStatus>({
+    isLogined: false,
+    isNotionLinked: false,
   });
 
   useEffect(() => {
-    getLoginStatus(setUserStatus);
+    Utils.getUserStatus().then((resp) => setUserStatus(resp));
   }, []);
 
   return (
@@ -55,16 +33,16 @@ const App: React.FC<{}> = () => {
           <Navbar.Toggle />
           <Navbar.Collapse className="justify-content-end">
             <Navbar.Text>
-              {userStatus.isNotionInfoExists && (
+              {userStatus.isNotionLinked && (
                 <FontAwesomeIcon icon={faRotate} size="xl" onClick={handleClick} role="button" />
               )}
             </Navbar.Text>
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      {!userStatus.isAccessTokenExists ? (
+      {!userStatus.isLogined ? (
         <LoginTab />
-      ) : !userStatus.isNotionInfoExists ? (
+      ) : !userStatus.isNotionLinked ? (
         <DatabaseInsertTab />
       ) : (
         <TabList />

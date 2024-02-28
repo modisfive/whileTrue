@@ -1,4 +1,6 @@
-import { SiteType, SiteHost } from "./constants";
+import { UserStatus } from "./class";
+import { SiteType, SiteHost, StorageKey } from "./constants";
+import LocalStorage from "./storage";
 
 const Utils = {
   createProblemUrl: function (siteType: SiteType, problemNumber: string) {
@@ -23,6 +25,16 @@ const Utils = {
     }
     const target = url.match(regExr)[2];
     return target.length == 32;
+  },
+  getUserStatus: async function () {
+    return Promise.all([
+      LocalStorage.get(StorageKey.ACCESS_TOKEN).then((accessToken) =>
+        Utils.isPropertySaved(accessToken)
+      ),
+      LocalStorage.get(StorageKey.NOTION_INFO).then((notionInfo) =>
+        Utils.isPropertySaved(notionInfo)
+      ),
+    ]).then(([isLogined, isNotionLinked]) => new UserStatus(isLogined, isNotionLinked));
   },
 };
 

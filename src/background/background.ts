@@ -31,25 +31,8 @@ const handleMessageFromContent = (request: any, sendResponse: any) => {
 
 const handleMessageFromPopup = (request: any, sendResponse: any) => {
   switch (request.subject) {
-    case "accessToken":
-      LocalStorage.get(StorageKey.ACCESS_TOKEN).then((accessToken) =>
-        sendResponse(Utils.isPropertySaved(accessToken))
-      );
-      break;
-
-    case "notionInfo":
-      LocalStorage.get(StorageKey.NOTION_INFO).then((notionInfo) => {
-        sendResponse(Utils.isPropertySaved(notionInfo));
-      });
-      break;
-
     case "openProblemTab":
       chrome.tabs.create({ url: request.url, selected: true });
-      break;
-
-    case "openOptionsTab":
-      const optionsPage = `chrome-extension://${chrome.runtime.id}/options.html`;
-      chrome.tabs.create({ url: optionsPage, selected: true });
       break;
 
     case "insertProblem":
