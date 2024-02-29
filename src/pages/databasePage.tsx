@@ -87,7 +87,7 @@ const App: React.FC<{}> = () => {
         className="d-flex flex-column justify-content-center"
       >
         <Row className="d-flex justify-content-center mb-3">
-          <Image style={{ width: "auto", height: 400 }} src="/share-database.gif" />
+          <Image style={{ width: "auto", height: 400 }} src="/share-database.png" />
         </Row>
         <Row className="mb-5">
           <Col>
