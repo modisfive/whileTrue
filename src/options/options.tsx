@@ -1,10 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import "bootstrap/dist/css/bootstrap.css";
 import { Button, Col, Container, Image, ListGroup, Navbar, Row, Tab } from "react-bootstrap";
 import "./options.css";
+import LocalStorage from "../common/storage";
+import { IconType, StorageKey } from "../common/constants";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const App: React.FC<{}> = () => {
+  const [notionInfo, setNotionInfo] = useState(undefined);
+
+  useEffect(() => {
+    LocalStorage.get(StorageKey.NOTION_INFO).then((savedNotionInfo) => {
+      console.log(savedNotionInfo);
+      setNotionInfo(savedNotionInfo);
+    });
+  }, []);
+
   const handleDatabase = () => {
     chrome.runtime.sendMessage({ from: "options", subject: "databasePage" });
   };
@@ -27,7 +39,7 @@ const App: React.FC<{}> = () => {
             <Col sm={4}>
               <ListGroup>
                 <ListGroup.Item action href="#link1">
-                  현재 연결되어 있는 노션 정보
+                  현재 연결된 노션 데이터베이스
                 </ListGroup.Item>
                 <ListGroup.Item action href="#link2">
                   노션 데이터베이스 링크 다시 공유하기
@@ -42,18 +54,51 @@ const App: React.FC<{}> = () => {
             </Col>
             <Col sm={8}>
               <Tab.Content>
-                <Tab.Pane eventKey="#link1"></Tab.Pane>
+                <Tab.Pane eventKey="#link1">
+                  <div>
+                    {notionInfo === undefined ? (
+                      <span>연결된 데이터베이스가 없습니다.</span>
+                    ) : (
+                      <div className="d-flex align-items-center">
+                        {notionInfo.databaseIconType === IconType.EMOJI ? (
+                          <span>{notionInfo.databaseIconSrc}</span>
+                        ) : (
+                          <Image
+                            style={{ width: "auto", height: 30 }}
+                            src={notionInfo.databaseIconSrc}
+                            className="me-1"
+                          />
+                        )}
+                        <span>{notionInfo.databaseTitle}</span>
+                      </div>
+                    )}
+                  </div>
+                </Tab.Pane>
                 <Tab.Pane eventKey="#link2">
                   <Button onClick={handleDatabase} className="p-3">
                     공유하기
                   </Button>
                 </Tab.Pane>
                 <Tab.Pane eventKey="#link3">
-                  <Button variant="danger" className="p-3" onClick={handleExit}>
-                    탈퇴하기
-                  </Button>
+                  <div>
+                    <div>
+                      <span className="desc desc-error">
+                        탈퇴하시더라도 사용 중이던 노션 데이터베이스는 삭제되지 않습니다. <br />
+                        이후 다시 해당 데이터베이스를 연결하여 사용할 수 있습니다.
+                      </span>
+                    </div>
+                    <div className="d-flex justify-content-end">
+                      <Button variant="danger" className="p-3" onClick={handleExit}>
+                        탈퇴하기
+                      </Button>
+                    </div>
+                  </div>
                 </Tab.Pane>
-                <Tab.Pane eventKey="#link4"></Tab.Pane>
+                <Tab.Pane eventKey="#link4">
+                  <a href="https://github.com/namgons/whileTrue">
+                    <Image style={{ width: "auto", height: 40 }} src="/logo/github.svg" />
+                  </a>
+                </Tab.Pane>
               </Tab.Content>
             </Col>
           </Row>
