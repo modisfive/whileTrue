@@ -18,7 +18,7 @@ const parseProblemNumber = () => {
       isExist: true,
       problemNumber,
     };
-  } catch (error) {
+  } catch {
     return {
       isExist: false,
       problemNumber: null,

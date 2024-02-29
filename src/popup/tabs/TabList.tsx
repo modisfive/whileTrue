@@ -4,7 +4,6 @@ import ProblemInsertTab from "./ProblemInsertTab";
 import RandomSelectTab from "./RandomSelectTab";
 import { Tab, Tabs } from "react-bootstrap";
 import { Problem } from "../../common/class";
-import Utils from "../../common/utils";
 
 const parseProblemInfo = (setProblemInfo: CallableFunction, setKey: CallableFunction) => {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {

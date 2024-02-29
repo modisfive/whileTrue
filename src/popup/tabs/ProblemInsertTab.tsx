@@ -1,7 +1,6 @@
-import React, { FC, Fragment, useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { Problem } from "../../common/class";
 import { Button, Container, Image, Row, Spinner } from "react-bootstrap";
-import { SiteType } from "../../common/constants";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import Utils from "../../common/utils";

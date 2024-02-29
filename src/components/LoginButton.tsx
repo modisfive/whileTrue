@@ -1,6 +1,6 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.css";
-import { Button, Container, Image, Row } from "react-bootstrap";
+import { Button, Image } from "react-bootstrap";
 import LocalStorage from "../common/storage";
 import { OAuth, StorageKey } from "../common/constants";
 
