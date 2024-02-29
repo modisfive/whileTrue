@@ -106,15 +106,15 @@ const App: React.FC<{}> = () => {
         <Row>
           <Col>
             <Form className="w-100">
-              <div className="d-flex">
+              <div className="d-flex w-100">
                 <Form.Control
-                  className="mb-2 me-2"
+                  className="mb-2 me-2 w-75"
                   id="inlineFormInput"
                   value={databaseUrl}
                   onChange={handleChange}
                 />
-                <Button onClick={handleSubmit} className="mb-2">
-                  {isOnProgress ? <Spinner animation="border" size="sm" /> : "submit"}
+                <Button onClick={handleSubmit} className="mb-2 w-25">
+                  {isOnProgress ? <Spinner animation="border" size="sm" /> : "공유하기"}
                 </Button>
               </div>
             </Form>
