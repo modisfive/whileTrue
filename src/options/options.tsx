@@ -12,7 +12,6 @@ const App: React.FC<{}> = () => {
 
   useEffect(() => {
     LocalStorage.get(StorageKey.NOTION_INFO).then((savedNotionInfo) => {
-      console.log(savedNotionInfo);
       setNotionInfo(savedNotionInfo);
     });
   }, []);
