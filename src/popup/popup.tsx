@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "./popup.css";
 import TabList from "./tabs/TabList";
 import LoginTab from "./tabs/LoginTab";
-import { Container, Image, Navbar, Spinner } from "react-bootstrap";
+import { Container, Image, Navbar, OverlayTrigger, Spinner, Tooltip } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRotate } from "@fortawesome/free-solid-svg-icons";
 import DatabaseInsertTab from "./tabs/DatabaseInsertTab";
@@ -17,6 +17,11 @@ const App: React.FC<{}> = () => {
     isNotionLinked: false,
   });
   const [isOnProgress, setIsOnProgress] = useState(false);
+  const renderTooltip = (props) => (
+    <Tooltip id="button-tooltip" {...props}>
+      노션 데이터베이스 동기화
+    </Tooltip>
+  );
 
   const handleClick = () => {
     setIsOnProgress(true);
@@ -44,7 +49,13 @@ const App: React.FC<{}> = () => {
                 (isOnProgress ? (
                   <Spinner animation="border" size="sm" />
                 ) : (
-                  <FontAwesomeIcon icon={faRotate} onClick={handleClick} role="button" />
+                  <OverlayTrigger
+                    placement="left"
+                    delay={{ show: 250, hide: 400 }}
+                    overlay={renderTooltip}
+                  >
+                    <FontAwesomeIcon icon={faRotate} onClick={handleClick} role="button" />
+                  </OverlayTrigger>
                 ))}
             </Navbar.Text>
           </Navbar.Collapse>
