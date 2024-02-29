@@ -65,7 +65,7 @@ const handleMessageFromPopup = (request: any, sendResponse: any) => {
       break;
 
     case "selectRandomProblem":
-      LocalStorage.get(StorageKey.PROBLEM_LIST).then((problemList: any) => {
+      checkOrFetchProblemList().then((problemList: any) => {
         const totalCount = problemList.length;
         const randomIndex = Math.floor(Math.random() * totalCount);
         sendResponse(problemList[randomIndex]);
