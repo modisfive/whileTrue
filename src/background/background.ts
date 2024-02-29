@@ -18,8 +18,8 @@ const checkOrFetchProblemList = async () => {
   return await LocalStorage.get(StorageKey.PROBLEM_LIST).then((problemList) => {
     if (!Utils.isPropertySaved(problemList)) {
       return HostRequest.getAllProblemList().then((resp) => {
-        LocalStorage.set(StorageKey.PROBLEM_LIST, resp.data.problemPageList);
-        return resp.data.problemPageList;
+        LocalStorage.set(StorageKey.PROBLEM_LIST, resp.data.problemList);
+        return resp.data.problemList;
       });
     } else {
       return problemList;
@@ -55,7 +55,7 @@ const handleMessageFromPopup = (request: any, sendResponse: any) => {
 
     case "fetchAllProblems":
       HostRequest.getAllProblemList().then((resp: any) => {
-        LocalStorage.set(StorageKey.PROBLEM_LIST, resp.data.problemPageList);
+        LocalStorage.set(StorageKey.PROBLEM_LIST, resp.data.problemList);
         sendResponse();
       });
       break;
