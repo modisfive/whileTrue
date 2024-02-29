@@ -14,21 +14,6 @@ const fetchSolvedAcJson = async (problemNumber: string) => {
   }).then((resp) => resp.json());
 };
 
-const handleMessageFromContent = (request: any, sendResponse: any) => {
-  switch (request.subject) {
-    case "solvedAc":
-      fetchSolvedAcJson(request.problemNumber).then((resp) => sendResponse(resp));
-      break;
-
-    case "oauth":
-      startOAuthProcess(request.url);
-      break;
-
-    default:
-      break;
-  }
-};
-
 const handleMessageFromPopup = (request: any, sendResponse: any) => {
   switch (request.subject) {
     case "openProblemTab":
@@ -60,6 +45,43 @@ const handleMessageFromPopup = (request: any, sendResponse: any) => {
         LocalStorage.set(StorageKey.PROBLEM_LIST, resp.data.problemPageList);
         sendResponse();
       });
+      break;
+
+    case "checkProblemList":
+      LocalStorage.get(StorageKey.PROBLEM_LIST).then((problemList) => {
+        if (!Utils.isPropertySaved(problemList)) {
+          HostRequest.getAllProblemList()
+            .then((resp) => {
+              LocalStorage.set(StorageKey.PROBLEM_LIST, resp.data.problemPageList);
+            })
+            .then(() => sendResponse());
+        } else {
+          sendResponse();
+        }
+      });
+      break;
+
+    case "selectRandomProblem":
+      LocalStorage.get(StorageKey.PROBLEM_LIST).then((problemList: any) => {
+        const totalCount = problemList.length;
+        const randomIndex = Math.floor(Math.random() * totalCount);
+        sendResponse(problemList[randomIndex]);
+      });
+      break;
+
+    default:
+      break;
+  }
+};
+
+const handleMessageFromContent = (request: any, sendResponse: any) => {
+  switch (request.subject) {
+    case "solvedAc":
+      fetchSolvedAcJson(request.problemNumber).then((resp) => sendResponse(resp));
+      break;
+
+    case "oauth":
+      startOAuthProcess(request.url);
       break;
 
     default:
@@ -101,35 +123,6 @@ const handleMessageFromOptions = (request: any, sendResponse: any) => {
   }
 };
 
-const handleMessageFromProblemPage = (request: any, sendResponse: any) => {
-  switch (request.subject) {
-    case "checkProblemList":
-      LocalStorage.get(StorageKey.PROBLEM_LIST).then((problemList) => {
-        if (!Utils.isPropertySaved(problemList)) {
-          HostRequest.getAllProblemList()
-            .then((resp) => {
-              LocalStorage.set(StorageKey.PROBLEM_LIST, resp.data.problemPageList);
-            })
-            .then(() => sendResponse());
-        } else {
-          sendResponse();
-        }
-      });
-      break;
-
-    case "selectRandomProblem":
-      LocalStorage.get(StorageKey.PROBLEM_LIST).then((problemList: any) => {
-        const totalCount = problemList.length;
-        const randomIndex = Math.floor(Math.random() * totalCount);
-        sendResponse(problemList[randomIndex]);
-      });
-      break;
-
-    default:
-      break;
-  }
-};
-
 const handleMessage = (request: any, sender: any, sendResponse: any) => {
   switch (request.from) {
     case "content":
@@ -142,10 +135,6 @@ const handleMessage = (request: any, sender: any, sendResponse: any) => {
 
     case "options":
       handleMessageFromOptions(request, sendResponse);
-      break;
-
-    case "problemPage":
-      handleMessageFromProblemPage(request, sendResponse);
       break;
 
     default:

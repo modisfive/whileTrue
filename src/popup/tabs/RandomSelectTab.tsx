@@ -9,7 +9,7 @@ const RandomSelectTab: FC<{}> = () => {
 
   useEffect(() => {
     setIsOnProgress(true);
-    chrome.runtime.sendMessage({ from: "problemPage", subject: "checkProblemList" }, () => {
+    chrome.runtime.sendMessage({ from: "popup", subject: "checkProblemList" }, () => {
       setIsOnProgress(false);
     });
   }, []);
@@ -21,7 +21,7 @@ const RandomSelectTab: FC<{}> = () => {
   const handleClick2 = () => {
     setIsOnProgress(true);
     chrome.runtime.sendMessage(
-      { from: "problemPage", subject: "selectRandomProblem" },
+      { from: "popup", subject: "selectRandomProblem" },
       (selectedProblem) => {
         setIsOnProgress(false);
         setProblem(selectedProblem);
