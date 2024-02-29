@@ -76,13 +76,19 @@ const App: React.FC<{}> = () => {
 
   return (
     <Container className="App">
-      <Navbar style={{ height: "5%" }}>
+      <Navbar style={{ height: "7%" }}>
         <Navbar.Brand className="d-flex align-items-center">
           <Image style={{ width: "auto", height: 40 }} src={"/icon.png"} className="me-1" />
-          whileTrue 노션 데이터베이스
+          whileTrue 노션 데이터베이스 설정
         </Navbar.Brand>
       </Navbar>
-      <Container style={{ height: "95%" }} className="d-flex flex-column justify-content-center">
+      <Container
+        style={{ width: "80%", height: "93%" }}
+        className="d-flex flex-column justify-content-center"
+      >
+        <Row className="d-flex justify-content-center mb-3">
+          <Image style={{ width: "auto", height: 400 }} src="/share-database.gif" />
+        </Row>
         <Row className="mb-5">
           <Col>
             <span>문제를 저장할 Notion 데이터베이스 링크를 공유해주세요.</span>
@@ -102,7 +108,7 @@ const App: React.FC<{}> = () => {
             <Form className="w-100">
               <div className="d-flex">
                 <Form.Control
-                  className="mb-2 me-4"
+                  className="mb-2 me-2"
                   id="inlineFormInput"
                   value={databaseUrl}
                   onChange={handleChange}

@@ -17,6 +17,14 @@ img {
   -o-user-drag: none;
 }
 
+#root {
+  height: 100vh;
+}
+
+.App {
+  height: 100%;
+}
+
 .property {
   height: 7em;
 }
