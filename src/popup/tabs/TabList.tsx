@@ -38,7 +38,7 @@ const TabList: FC<{}> = () => {
       <Tab eventKey="currentProblem" title="문제 저장하기" disabled={!problemInfo.isExist}>
         {problemInfo.isExist && <ProblemInsertTab problem={problemInfo.problem} />}
       </Tab>
-      <Tab eventKey="randomSelect" title="문제 뽑기">
+      <Tab eventKey="randomSelect" title="문제 풀기">
         <RandomSelectTab />
       </Tab>
     </Tabs>
