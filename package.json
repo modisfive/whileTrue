@@ -1,12 +1,12 @@
 {
   "name": "whiletrue",
   "version": "1.0.0",
-  "description": "react chrome extension template",
+  "description": "다시 풀고 싶은 알고리즘 문제를 여러분의 노션에 저장하고, 랜덤으로 다시 풀어보세요!",
   "scripts": {
     "start": "webpack --watch --progress --config webpack.dev.js",
     "build": "webpack --progress --config webpack.prod.js"
   },
-  "author": "",
+  "author": "namgons",
   "devDependencies": {
     "@types/chrome": "^0.0.181",
     "@types/react": "^18.0.6",
