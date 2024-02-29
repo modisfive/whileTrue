@@ -83,7 +83,7 @@ const App: React.FC<{}> = () => {
         </Navbar.Brand>
       </Navbar>
       <Container
-        style={{ width: "80%", height: "93%" }}
+        style={{ width: "90%", height: "93%" }}
         className="d-flex flex-column justify-content-center"
       >
         <Row className="d-flex justify-content-center mb-3">
