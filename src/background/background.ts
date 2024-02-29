@@ -14,6 +14,19 @@ const fetchSolvedAcJson = async (problemNumber: string) => {
   }).then((resp) => resp.json());
 };
 
+const checkOrFetchProblemList = async () => {
+  return await LocalStorage.get(StorageKey.PROBLEM_LIST).then((problemList) => {
+    if (!Utils.isPropertySaved(problemList)) {
+      return HostRequest.getAllProblemList().then((resp) => {
+        LocalStorage.set(StorageKey.PROBLEM_LIST, resp.data.problemPageList);
+        return resp.data.problemPageList;
+      });
+    } else {
+      return problemList;
+    }
+  });
+};
+
 const handleMessageFromPopup = (request: any, sendResponse: any) => {
   switch (request.subject) {
     case "openProblemTab":
@@ -21,14 +34,14 @@ const handleMessageFromPopup = (request: any, sendResponse: any) => {
       break;
 
     case "insertProblem":
-      LocalStorage.get(StorageKey.PROBLEM_LIST).then((problemList: Array<Problem>) => {
-        problemList.push(request.problem);
-        LocalStorage.set(StorageKey.PROBLEM_LIST, problemList);
-      });
-      HostRequest.saveNewProblem(request.problem).then((resp) => {
-        if (resp.httpStatus == 200) {
-          sendResponse(true);
-        }
+      Promise.all([
+        checkOrFetchProblemList().then((problemList: Array<Problem>) => {
+          problemList.push(request.problem);
+          LocalStorage.set(StorageKey.PROBLEM_LIST, problemList);
+        }),
+        HostRequest.saveNewProblem(request.problem),
+      ]).then(([_, result]) => {
+        sendResponse(result.httpStatus == 200);
       });
       break;
 
@@ -48,17 +61,7 @@ const handleMessageFromPopup = (request: any, sendResponse: any) => {
       break;
 
     case "checkProblemList":
-      LocalStorage.get(StorageKey.PROBLEM_LIST).then((problemList) => {
-        if (!Utils.isPropertySaved(problemList)) {
-          HostRequest.getAllProblemList()
-            .then((resp) => {
-              LocalStorage.set(StorageKey.PROBLEM_LIST, resp.data.problemPageList);
-            })
-            .then(() => sendResponse());
-        } else {
-          sendResponse();
-        }
-      });
+      checkOrFetchProblemList().then(() => sendResponse());
       break;
 
     case "selectRandomProblem":
