@@ -29,6 +29,18 @@ const requestPost = async (targetUrl: string, accessToken: any, body: any) => {
   }).then((resp) => resp.json());
 };
 
+const requestDelete = async (targetUrl: string, accessToken: any) => {
+  return await fetch(targetUrl, {
+    method: "DELETE",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    credentials: "include",
+  }).then((resp) => resp.json());
+};
+
 const requestRefreshToken = async () => {
   const requestURL = `${HOST_URL}/member/auth/token/refresh`;
   return await fetch(requestURL, {
@@ -59,6 +71,18 @@ const sendPostRequest = async (targetUrl: string, accessToken: any, body: any) =
       return requestRefreshToken().then(async (resp) => {
         LocalStorage.set(StorageKey.ACCESS_TOKEN, resp.data.accessToken);
         return requestPost(targetUrl, resp.data.accessToken, body);
+      });
+    } else {
+      return resp;
+    }
+  });
+};
+
+const sendDeleteRequest = async (targetUrl: string, accessToken: any) => {
+  return await requestDelete(targetUrl, accessToken).then((resp) => {
+    if (resp.code === "AUTH-401-1") {
+      return requestRefreshToken().then(async (resp) => {
+        return requestDelete(targetUrl, resp.data.accessToken);
       });
     } else {
       return resp;
@@ -107,6 +131,11 @@ const HostRequest = {
     return await sendPostRequest(requestURL, accessToken, {
       problem,
     });
+  },
+  deleteMember: async function () {
+    const requestUrl = `${HOST_URL}/member`;
+    const accessToken = await LocalStorage.get(StorageKey.ACCESS_TOKEN);
+    return await sendDeleteRequest(requestUrl, accessToken);
   },
 };
 

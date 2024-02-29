@@ -86,6 +86,7 @@ const handleMessageFromOptions = (request: any, sendResponse: any) => {
       break;
 
     case "exit":
+      HostRequest.deleteMember();
       LocalStorage.remove(StorageKey.ACCESS_TOKEN);
       LocalStorage.remove(StorageKey.NOTION_INFO);
       LocalStorage.remove(StorageKey.OAUTH_PROCESS_STATUS);
