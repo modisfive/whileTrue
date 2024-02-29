@@ -19,7 +19,7 @@ const LoginButton: React.FC<{}> = () => {
       onClick={handleClick}
       className="d-flex justify-content-center align-items-center p-3"
     >
-      <Image width={35} height={35} className="mx-1" src="/notion_logo.png" />
+      <Image width={35} height={35} className="mx-1" src="/logo/notion_logo.png" />
       Notion 로그인
     </Button>
   );

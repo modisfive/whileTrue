@@ -12,6 +12,7 @@ enum IconType {
 
 enum SiteHost {
   BOJ = "www.acmicpc.net",
+  PROGRAMMERS = "school.programmers.co.kr",
 }
 
 enum StorageKey {

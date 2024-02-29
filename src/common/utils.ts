@@ -8,6 +8,9 @@ const Utils = {
       case SiteType.BOJ:
         return `https://${SiteHost.BOJ}/problem/${problemNumber}`;
 
+      case SiteType.PROGRAMMERS:
+        return `https://school.programmers.co.kr/learn/courses/30/lessons/${problemNumber}`;
+
       default:
         break;
     }

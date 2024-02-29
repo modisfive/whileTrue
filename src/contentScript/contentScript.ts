@@ -2,6 +2,7 @@ import { SiteHost, StorageKey } from "../common/constants";
 import LocalStorage from "../common/storage";
 import Utils from "../common/utils";
 import baekjoon from "./baekjoon";
+import programmers from "./programmers";
 
 if (window.location.host === "github.com") {
   LocalStorage.get(StorageKey.OAUTH_PROCESS_STATUS).then((isStarted) => {
@@ -21,6 +22,9 @@ const getProblemInfo = async () => {
   switch (currentHost) {
     case SiteHost.BOJ:
       return await baekjoon();
+
+    case SiteHost.PROGRAMMERS:
+      return await programmers();
 
     default:
       return {
