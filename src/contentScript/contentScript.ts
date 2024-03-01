@@ -4,7 +4,7 @@ import Utils from "../common/utils";
 import baekjoon from "./baekjoon";
 import programmers from "./programmers";
 
-if (window.location.host === "github.com") {
+if (window.location.host === "whiletrue.co.kr") {
   LocalStorage.get(StorageKey.OAUTH_PROCESS_STATUS).then((isStarted) => {
     if (isStarted) {
       chrome.runtime.sendMessage({
