@@ -15,9 +15,6 @@ const Utils = {
         break;
     }
   },
-  getCurrentHost: function () {
-    return window.location.host;
-  },
   isPropertySaved: function (property: any) {
     return typeof property !== "undefined";
   },

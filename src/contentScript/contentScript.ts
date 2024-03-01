@@ -1,6 +1,5 @@
 import { SiteHost, StorageKey } from "../common/constants";
 import LocalStorage from "../common/storage";
-import Utils from "../common/utils";
 import baekjoon from "./baekjoon";
 import programmers from "./programmers";
 
@@ -17,7 +16,7 @@ if (window.location.host === "whiletrue.co.kr") {
 }
 
 const getProblemInfo = async () => {
-  const currentHost = Utils.getCurrentHost();
+  const currentHost = window.location.host;
 
   switch (currentHost) {
     case SiteHost.BOJ:
