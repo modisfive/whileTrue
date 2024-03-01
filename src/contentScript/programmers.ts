@@ -1,6 +1,5 @@
 import { Problem } from "../common/class";
 import { SiteType } from "../common/constants";
-import Utils from "../common/utils";
 
 const parseProblemInformation = () => {
   try {
@@ -40,7 +39,7 @@ const programmers = async () => {
         level,
         problemNumber,
         problemTitle,
-        Utils.createProblemUrl(SiteType.PROGRAMMERS, problemNumber)
+        `https://school.programmers.co.kr/learn/courses/30/lessons/${problemNumber}`
       ),
     };
   }

@@ -1,6 +1,5 @@
 import { Problem } from "../common/class";
 import { SiteType } from "../common/constants";
-import Utils from "../common/utils";
 
 const getSolvedAcInfo = async (problemNumber: string) => {
   return await new Promise((resolve) => {
@@ -43,7 +42,7 @@ const baekjoon = async () => {
         solvedAcResp.level,
         problemNumber,
         solvedAcResp.titleKo,
-        Utils.createProblemUrl(SiteType.BOJ, problemNumber)
+        `https://www.acmicpc.net/problem/${problemNumber}`
       ),
     };
   }

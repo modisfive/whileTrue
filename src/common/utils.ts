@@ -3,18 +3,6 @@ import { SiteType, SiteHost, StorageKey } from "./constants";
 import LocalStorage from "./storage";
 
 const Utils = {
-  createProblemUrl: function (siteType: SiteType, problemNumber: string) {
-    switch (siteType) {
-      case SiteType.BOJ:
-        return `https://${SiteHost.BOJ}/problem/${problemNumber}`;
-
-      case SiteType.PROGRAMMERS:
-        return `https://school.programmers.co.kr/learn/courses/30/lessons/${problemNumber}`;
-
-      default:
-        break;
-    }
-  },
   isPropertySaved: function (property: any) {
     return typeof property !== "undefined";
   },
