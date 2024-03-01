@@ -17,17 +17,29 @@ const App: React.FC<{}> = () => {
     isNotionLinked: false,
   });
   const [isOnProgress, setIsOnProgress] = useState(false);
+  const [waitRefresh, setWaitRefresh] = useState(false);
   const renderTooltip = (props) => (
     <Tooltip id="button-tooltip" {...props}>
       노션 데이터베이스 동기화
     </Tooltip>
   );
 
-  const handleClick = () => {
+  const handleRefresh = () => {
+    if (waitRefresh) {
+      console.log("no refresh!!");
+      return;
+    }
+
     setIsOnProgress(true);
+    setWaitRefresh(true);
     chrome.runtime.sendMessage({ from: "popup", subject: "fetchAllProblems" }, () => {
+      console.log("Refreshed!!");
       setIsOnProgress(false);
     });
+    setTimeout(() => {
+      setWaitRefresh(false);
+      console.log("now refresh!!");
+    }, 10000);
   };
 
   useEffect(() => {
@@ -54,7 +66,7 @@ const App: React.FC<{}> = () => {
                     delay={{ show: 250, hide: 400 }}
                     overlay={renderTooltip}
                   >
-                    <FontAwesomeIcon icon={faRotate} onClick={handleClick} role="button" />
+                    <FontAwesomeIcon icon={faRotate} onClick={handleRefresh} role="button" />
                   </OverlayTrigger>
                 ))}
             </Navbar.Text>
