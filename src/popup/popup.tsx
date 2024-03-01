@@ -26,20 +26,14 @@ const App: React.FC<{}> = () => {
 
   const handleRefresh = () => {
     if (waitRefresh) {
-      console.log("no refresh!!");
       return;
     }
-
     setIsOnProgress(true);
-    setWaitRefresh(true);
     chrome.runtime.sendMessage({ from: "popup", subject: "fetchAllProblems" }, () => {
-      console.log("Refreshed!!");
       setIsOnProgress(false);
     });
-    setTimeout(() => {
-      setWaitRefresh(false);
-      console.log("now refresh!!");
-    }, 10000);
+    setWaitRefresh(true);
+    setTimeout(() => setWaitRefresh(false), 10000);
   };
 
   useEffect(() => {
