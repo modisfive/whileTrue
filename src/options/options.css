@@ -33,3 +33,8 @@ img {
   color: red;
   font-weight: 700;
 }
+
+.options-content {
+  display: flex;
+  justify-content: center;
+}

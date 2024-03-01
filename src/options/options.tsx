@@ -54,7 +54,7 @@ const App: React.FC<{}> = () => {
             <Col sm={8}>
               <Tab.Content>
                 <Tab.Pane eventKey="#link1">
-                  <div>
+                  <div className="options-content">
                     {notionInfo === undefined ? (
                       <span>연결된 데이터베이스가 없습니다.</span>
                     ) : (
@@ -74,29 +74,33 @@ const App: React.FC<{}> = () => {
                   </div>
                 </Tab.Pane>
                 <Tab.Pane eventKey="#link2">
-                  <Button onClick={handleDatabase} className="p-3">
-                    공유하기
-                  </Button>
+                  <div className="options-content">
+                    <Button onClick={handleDatabase} className="p-3">
+                      공유하기
+                    </Button>
+                  </div>
                 </Tab.Pane>
                 <Tab.Pane eventKey="#link3">
-                  <div>
-                    <div>
+                  <div className="options-content">
+                    <div className="w-100">
                       <span className="desc desc-error">
                         탈퇴하시더라도 사용 중이던 노션 데이터베이스는 삭제되지 않습니다. <br />
                         이후 다시 해당 데이터베이스를 연결하여 사용할 수 있습니다.
                       </span>
-                    </div>
-                    <div className="d-flex justify-content-end">
-                      <Button variant="danger" className="p-3" onClick={handleExit}>
-                        탈퇴하기
-                      </Button>
+                      <div className="d-flex justify-content-end">
+                        <Button variant="danger" className="p-3" onClick={handleExit}>
+                          탈퇴하기
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 </Tab.Pane>
                 <Tab.Pane eventKey="#link4">
-                  <a href="https://github.com/namgons/whileTrue">
-                    <Image style={{ width: "auto", height: 40 }} src="/logo/github.svg" />
-                  </a>
+                  <div className="options-content">
+                    <a href="https://github.com/namgons/whileTrue">
+                      <Image style={{ width: "auto", height: 40 }} src="/logo/github.svg" />
+                    </a>
+                  </div>
                 </Tab.Pane>
               </Tab.Content>
             </Col>
