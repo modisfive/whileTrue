@@ -37,5 +37,5 @@
 
 # 기여하기
 
-- 새로운 기능 제안, 질문 등은 [Discussion](https://github.com/namgons/whileTrue/discussions)을 활용해주세요.
-- 버그, 이슈 제보는 [Discussion](https://github.com/namgons/whileTrue/discussions)에 남겨주시거나 [Issue](https://github.com/namgons/whileTrue/issues)를 생성해주세요.
+- 새로운 기능 제안, 질문 등은 [Discussions](https://github.com/namgons/whileTrue/discussions)을 활용해주세요.
+- 버그, 이슈 제보는 [Discussions](https://github.com/namgons/whileTrue/discussions)에 남겨주시거나 [Issues](https://github.com/namgons/whileTrue/issues)를 생성해주세요.
