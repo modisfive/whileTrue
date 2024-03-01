@@ -18,7 +18,7 @@
 3. whileTrue와 공유할 워크스페이스, 페이지를 선택합니다.
    - whileTrue에서 제공하는 템플릿을 사용하는 것을 추천합니다.
 4. 문제를 저장할 노션 데이터베이스 링크를 공유합니다.
-   - whileTrue에서 제공하는 템플릿을 사용하는 경우 : 워크스페이스에 공유된 노션 데이터베이스의 링크를 공유합니다.
+   - whileTrue에서 제공하는 템플릿을 사용하는 경우 : 워크스페이스에 복제된 노션 데이터베이스의 링크를 공유합니다.
    - (※주의※) 기존의 노션 데이터베이스를 사용하는 경우 : 아래의 조건을 모두 만족해야 합니다.
      1. 데이터베이스 형식이어야 합니다.
      2. 3번 단계에서 공유한 워크스페이스, 페이지 아래에 있어야 합니다.
@@ -30,3 +30,8 @@
         | "문제 번호" | number 타입 |
         | "문제 제목" | title 타입 |
         | "URL" | url 타입 |
+
+# 기여하기
+
+- 새로운 기능 추가 제안, QnA 등은 [Discussion](https://github.com/namgons/whileTrue/discussions)을 활용해주세요.
+- 버그, 이슈 제보는 [Discussion](https://github.com/namgons/whileTrue/discussions)에 남겨주시거나 [Issue](https://github.com/namgons/whileTrue/issues)를 생성해주세요.
