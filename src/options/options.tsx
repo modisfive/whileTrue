@@ -26,7 +26,7 @@ const App: React.FC<{}> = () => {
 
   return (
     <Container className="App">
-      <Navbar style={{ height: "7%" }} className="mb-5">
+      <Navbar style={{ height: "7%" }} className="shadow p-3 mb-5 bg-body-tertiary rounded">
         <Navbar.Brand className="d-flex align-items-center">
           <Image style={{ width: "auto", height: 40 }} src={"/icon.png"} className="me-1" />
           whileTrue 설정

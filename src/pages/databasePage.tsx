@@ -76,7 +76,7 @@ const App: React.FC<{}> = () => {
 
   return (
     <Container className="App">
-      <Navbar style={{ height: "7%" }}>
+      <Navbar className="shadow p-3 mb-5 bg-body-tertiary rounded" style={{ height: "7%" }}>
         <Navbar.Brand className="d-flex align-items-center">
           <Image style={{ width: "auto", height: 40 }} src={"/icon.png"} className="me-1" />
           whileTrue 노션 데이터베이스 설정
