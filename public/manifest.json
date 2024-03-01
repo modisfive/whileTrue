@@ -30,7 +30,7 @@
       "matches": [
         "https://www.acmicpc.net/problem/*",
         "https://school.programmers.co.kr/learn/courses/30/lessons/*",
-        "https://whiletrue.co.kr/member/oauth/redirect"
+        "https://whiletrue.co.kr/member/oauth/redirect?*"
       ],
       "js": ["contentScript.js"]
     }
