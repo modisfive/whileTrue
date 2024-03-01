@@ -27,6 +27,15 @@ const checkOrFetchProblemList = async () => {
   });
 };
 
+const isProblemIncluded = (problemList, targetProblem) => {
+  for (let problem of problemList) {
+    if (problem.title === targetProblem.title && problem.url === targetProblem.url) {
+      return true;
+    }
+  }
+  return false;
+};
+
 const handleMessageFromPopup = (request: any, sendResponse: any) => {
   switch (request.subject) {
     case "openProblemTab":
@@ -46,11 +55,18 @@ const handleMessageFromPopup = (request: any, sendResponse: any) => {
       break;
 
     case "isProblemSaved":
-      HostRequest.isProblemExists(request.problem).then((resp) => {
-        if (resp.httpStatus == 200) {
-          sendResponse(resp.data.problemExists);
+      LocalStorage.get(StorageKey.PROBLEM_LIST).then((problemList) => {
+        if (Utils.isPropertySaved(problemList) && isProblemIncluded(problemList, request.problem)) {
+          sendResponse(true);
+        } else {
+          HostRequest.isProblemExists(request.problem).then((resp) => {
+            if (resp.httpStatus == 200) {
+              sendResponse(resp.data.problemExists);
+            }
+          });
         }
       });
+
       break;
 
     case "fetchAllProblems":
