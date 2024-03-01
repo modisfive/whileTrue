@@ -87,7 +87,7 @@ const App: React.FC<{}> = () => {
         className="d-flex flex-column justify-content-center"
       >
         <Row className="d-flex justify-content-center mb-3">
-          <Image style={{ width: "auto", height: 400 }} src="/share-database.png" />
+          <Image style={{ width: "auto", height: 300 }} src="/share-database.png" />
         </Row>
         <Row className="mb-5">
           <Col>
@@ -120,8 +120,20 @@ const App: React.FC<{}> = () => {
             </Form>
           </Col>
         </Row>
-        <Row className="d-flex" style={{ height: "20px" }}>
+        <Row className="d-flex mb-4" style={{ height: "20px" }}>
           <span>{msg()}</span>
+        </Row>
+        <Row className="d-flex">
+          <Col className="d-flex justify-content-center">
+            <a href="https://www.acmicpc.net/">
+              <Button variant="link">백준 바로가기</Button>
+            </a>
+          </Col>
+          <Col className="d-flex justify-content-center">
+            <a href="https://school.programmers.co.kr/learn/challenges?order=recent">
+              <Button variant="link">프로그래머스 바로가기</Button>
+            </a>
+          </Col>
         </Row>
       </Container>
     </Container>
