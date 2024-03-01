@@ -12,6 +12,9 @@ module.exports = merge(common, {
       new TerserPlugin({
         extractComments: false,
         terserOptions: {
+          compress: {
+            drop_console: true,
+          },
           format: {
             comments: false,
           },
