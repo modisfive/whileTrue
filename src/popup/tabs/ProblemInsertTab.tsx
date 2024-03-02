@@ -1,31 +1,34 @@
 import React, { FC, useEffect, useState } from "react";
-import { Problem } from "../../common/class";
+import { ProblemPage } from "../../common/class";
 import { Button, Container, Image, Row, Spinner } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import Utils from "../../common/utils";
 
 type CurrentProblemProp = {
-  problem: Problem;
+  problemPage: ProblemPage;
 };
 
-const ProblemInsertTab: FC<CurrentProblemProp> = ({ problem }) => {
+const ProblemInsertTab: FC<CurrentProblemProp> = ({ problemPage }) => {
   const [saveResult, setSaveResult] = useState(false);
   const [isOnProgress, setIsOnProgress] = useState(true);
 
   const handleSubmit = () => {
     setIsOnProgress(true);
-    chrome.runtime.sendMessage({ from: "popup", subject: "insertProblem", problem }, (resp) => {
+    chrome.runtime.sendMessage({ from: "popup", subject: "insertProblem", problemPage }, (resp) => {
       setIsOnProgress(false);
       setSaveResult(resp);
     });
   };
 
   useEffect(() => {
-    chrome.runtime.sendMessage({ from: "popup", subject: "isProblemSaved", problem }, (resp) => {
-      setIsOnProgress(false);
-      setSaveResult(resp);
-    });
+    chrome.runtime.sendMessage(
+      { from: "popup", subject: "isProblemSaved", problemPage },
+      (resp) => {
+        setIsOnProgress(false);
+        setSaveResult(resp);
+      }
+    );
   }, []);
 
   return (
@@ -33,11 +36,14 @@ const ProblemInsertTab: FC<CurrentProblemProp> = ({ problem }) => {
       <div style={{ height: "50%" }}>
         <div>
           <Row className="justify-content-center">
-            <Image style={{ width: "auto", height: 70 }} src={Utils.selectLogo(problem.siteType)} />
+            <Image
+              style={{ width: "auto", height: 70 }}
+              src={Utils.selectLogo(problemPage.siteType)}
+            />
           </Row>
           <Row>
             <span>
-              {problem.number}. {problem.title}
+              {problemPage.number}. {problemPage.title}
             </span>
           </Row>
         </div>

@@ -1,10 +1,10 @@
 import React, { FC, useEffect, useState } from "react";
-import { Problem } from "../../common/class";
+import { ProblemPage } from "../../common/class";
 import { Button, Container, Image, Row, Spinner } from "react-bootstrap";
 import Utils from "../../common/utils";
 
 const RandomSelectTab: FC<{}> = () => {
-  const [problem, setProblem] = useState<Problem>(undefined);
+  const [problemPage, setProblemPage] = useState<ProblemPage>(undefined);
   const [isOnProgress, setIsOnProgress] = useState(false);
 
   useEffect(() => {
@@ -15,7 +15,7 @@ const RandomSelectTab: FC<{}> = () => {
   }, []);
 
   const handleClick1 = () => {
-    chrome.runtime.sendMessage({ from: "popup", subject: "openProblemTab", url: problem.url });
+    chrome.runtime.sendMessage({ from: "popup", subject: "openProblemTab", url: problemPage.url });
   };
 
   const handleClick2 = () => {
@@ -24,7 +24,7 @@ const RandomSelectTab: FC<{}> = () => {
       { from: "popup", subject: "selectRandomProblem" },
       (selectedProblem) => {
         setIsOnProgress(false);
-        setProblem(selectedProblem);
+        setProblemPage(selectedProblem);
       }
     );
   };
@@ -36,7 +36,7 @@ const RandomSelectTab: FC<{}> = () => {
           <div className="h-100 d-flex justify-content-center align-items-center">
             <Spinner animation="border" />
           </div>
-        ) : problem === undefined ? (
+        ) : problemPage === undefined ? (
           <div className="h-100 d-flex justify-content-center align-items-center">
             <span>문제를 선택해주세요.</span>
           </div>
@@ -46,12 +46,12 @@ const RandomSelectTab: FC<{}> = () => {
               <Row className="justify-content-center">
                 <Image
                   style={{ width: "auto", height: 70 }}
-                  src={Utils.selectLogo(problem.siteType)}
+                  src={Utils.selectLogo(problemPage.siteType)}
                 />
               </Row>
               <Row>
                 <span>
-                  {problem.number}. {problem.title}
+                  {problemPage.number}. {problemPage.title}
                 </span>
               </Row>
             </div>
