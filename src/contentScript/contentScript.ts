@@ -28,7 +28,7 @@ const getProblemInfo = async () => {
     default:
       return {
         isExist: false,
-        problem: null,
+        problemPage: null,
       };
   }
 };

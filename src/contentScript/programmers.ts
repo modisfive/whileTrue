@@ -45,12 +45,12 @@ const programmers = async () => {
   if (!isExist) {
     return {
       isExist: false,
-      problem: null,
+      problemPage: null,
     };
   } else {
     return {
       isExist: true,
-      problem: new ProblemPage(
+      problemPage: new ProblemPage(
         SiteType.PROGRAMMERS,
         convertLevelTier(Number(level)),
         problemNumber,

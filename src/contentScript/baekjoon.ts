@@ -71,13 +71,13 @@ const baekjoon = async () => {
   if (!isExist) {
     return {
       isExist: false,
-      problem: null,
+      problemPage: null,
     };
   } else {
     const solvedAcResp: any = await getSolvedAcInfo(problemNumber);
     return {
       isExist: true,
-      problem: new ProblemPage(
+      problemPage: new ProblemPage(
         SiteType.BOJ,
         convertLevelTier(Number(solvedAcResp.level)),
         problemNumber,
