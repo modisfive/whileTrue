@@ -1,9 +1,10 @@
 ---
 name: Develop template
 about: 개발용 템플릿입니다.
-title: ""
-labels: ""
-assignees: ng-lee
+title: ''
+labels: ''
+assignees: ''
+
 ---
 
 ## 개발할 목록
