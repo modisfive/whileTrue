@@ -63,7 +63,6 @@ const handleMessageFromPopup = (request: any, sendResponse: any) => {
           sendResponse(true);
         } else {
           HostRequest.isProblemExists(request.problemPage).then((resp) => {
-            console.log(resp);
             if (resp.httpStatus == 200) {
               sendResponse(resp.data.problemExists);
             }
