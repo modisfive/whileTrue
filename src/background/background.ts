@@ -117,9 +117,11 @@ const handleMessageFromOptions = (request: any, sendResponse: any) => {
       HostRequest.sendDatabaseID(request.databaseUrl).then((resp: any) => {
         if (resp.httpStatus == 200) {
           LocalStorage.set(StorageKey.NOTION_INFO, resp.data);
-          sendResponse(true);
+          sendResponse("SUCCESS");
         } else if (resp.code === "MEMBER-400-2") {
-          sendResponse(false);
+          sendResponse("INVALID");
+        } else if (resp.code === "MEMBER-404-3") {
+          sendResponse("NOT_FOUND");
         }
       });
       break;

@@ -20,7 +20,7 @@ const App: React.FC<{}> = () => {
   const [databaseUrl, setDatabaseUrl] = useState("");
   const [isValidUrl, setIsValidUrl] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isSavedSucceed, setIsSavedSucceed] = useState(true);
+  const [isSavedSucceed, setIsSavedSucceed] = useState("SUCCESS");
   const [isOnProgress, setIsOnProgress] = useState(false);
 
   const renderTooltip = (props) => (
@@ -60,10 +60,16 @@ const App: React.FC<{}> = () => {
     }
 
     if (isSubmitted) {
-      if (isSavedSucceed) {
+      if (isSavedSucceed === "SUCCESS") {
         return <span className="desc desc-success">Notion 데이터베이스가 저장되었습니다.</span>;
-      } else {
+      } else if (isSavedSucceed === "INVALID") {
         return <span className="desc desc-error">형식을 확인해주세요</span>;
+      } else if (isSavedSucceed === "NOT_FOUND") {
+        return (
+          <span className="desc desc-error">
+            공유한 워크스페이스, 페이지 아래에 있거나, 데이터베이스 형식인지 확인해주세요.
+          </span>
+        );
       }
     } else {
       if (databaseUrl === "" || isValidUrl) {
