@@ -25,10 +25,12 @@ const App: React.FC<{}> = () => {
   );
 
   const handleRefresh = () => {
+    setIsOnProgress(true);
+
     if (waitRefresh) {
+      setTimeout(() => setIsOnProgress(false), 500);
       return;
     }
-    setIsOnProgress(true);
     chrome.runtime.sendMessage({ from: "popup", subject: "fetchAllProblems" }, () => {
       setIsOnProgress(false);
     });
