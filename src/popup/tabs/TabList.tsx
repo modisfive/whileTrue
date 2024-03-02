@@ -3,19 +3,19 @@ import "../popup.css";
 import ProblemInsertTab from "./ProblemInsertTab";
 import RandomSelectTab from "./RandomSelectTab";
 import { Tab, Tabs } from "react-bootstrap";
-import { Problem } from "../../common/class";
+import { ProblemPage } from "../../common/class";
 
-const parseProblemInfo = (setProblemInfo: CallableFunction, setKey: CallableFunction) => {
+const parseProblemPageInfo = (setProblemPageInfo: CallableFunction, setKey: CallableFunction) => {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     chrome.tabs.sendMessage(tabs[0].id, { from: "popup", subject: "currentProblem" }, (resp) => {
       if (chrome.runtime.lastError) {
-        setProblemInfo({
+        setProblemPageInfo({
           isExist: false,
-          problem: undefined,
+          problemPage: undefined,
         });
         setKey("randomSelect");
       } else {
-        setProblemInfo(resp);
+        setProblemPageInfo(resp);
         setKey(resp.isExist ? "currentProblem" : "randomSelect");
       }
     });
@@ -24,19 +24,19 @@ const parseProblemInfo = (setProblemInfo: CallableFunction, setKey: CallableFunc
 
 const TabList: FC<{}> = () => {
   const [key, setKey] = useState("currentProblem");
-  const [problemInfo, setProblemInfo] = useState<{ isExist: boolean; problem: Problem }>({
+  const [problemPageInfo, setProblemPageInfo] = useState({
     isExist: false,
-    problem: undefined,
+    problemPage: undefined,
   });
 
   useEffect(() => {
-    parseProblemInfo(setProblemInfo, setKey);
+    parseProblemPageInfo(setProblemPageInfo, setKey);
   }, []);
 
   return (
     <Tabs activeKey={key} onSelect={(k) => setKey(k)} transition={false} className="mb-3" justify>
-      <Tab eventKey="currentProblem" title="문제 저장하기" disabled={!problemInfo.isExist}>
-        {problemInfo.isExist && <ProblemInsertTab problem={problemInfo.problem} />}
+      <Tab eventKey="currentProblem" title="문제 저장하기" disabled={!problemPageInfo.isExist}>
+        {problemPageInfo.isExist && <ProblemInsertTab problemPage={problemPageInfo.problemPage} />}
       </Tab>
       <Tab eventKey="randomSelect" title="문제 풀기">
         <RandomSelectTab />

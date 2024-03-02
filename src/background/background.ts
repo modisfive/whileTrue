@@ -3,7 +3,7 @@ import LocalStorage from "../common/storage";
 import { StorageKey } from "../common/constants";
 import HostRequest from "../common/request";
 import startOAuthProcess from "./oauth";
-import { Problem } from "../common/class";
+import { ProblemPage } from "../common/class";
 
 const fetchSolvedAcJson = async (problemNumber: string) => {
   return await fetch(`https://solved.ac/api/v3/problem/show?problemId=${problemNumber}`, {
@@ -14,21 +14,21 @@ const fetchSolvedAcJson = async (problemNumber: string) => {
   }).then((resp) => resp.json());
 };
 
-const checkOrFetchProblemList = async () => {
-  return await LocalStorage.get(StorageKey.PROBLEM_LIST).then((problemList) => {
-    if (!Utils.isPropertySaved(problemList)) {
-      return HostRequest.getAllProblemList().then((resp) => {
-        LocalStorage.set(StorageKey.PROBLEM_LIST, resp.data.problemList);
-        return resp.data.problemList;
+const checkOrFetchProblemPageList = async () => {
+  return await LocalStorage.get(StorageKey.PROBLEM_PAGE_LIST).then((problemPageList) => {
+    if (!Utils.isPropertySaved(problemPageList)) {
+      return HostRequest.getAllProblemPageList().then((resp) => {
+        LocalStorage.set(StorageKey.PROBLEM_PAGE_LIST, resp.data.problemPageList);
+        return resp.data.problemPageList;
       });
     } else {
-      return problemList;
+      return problemPageList;
     }
   });
 };
 
-const isProblemIncluded = (problemList, targetProblem) => {
-  for (let problem of problemList) {
+const isProblemIncluded = (problemPageList, targetProblem) => {
+  for (let problem of problemPageList) {
     if (problem.title === targetProblem.title && problem.url === targetProblem.url) {
       return true;
     }
@@ -44,9 +44,9 @@ const handleMessageFromPopup = (request: any, sendResponse: any) => {
 
     case "insertProblem":
       Promise.all([
-        checkOrFetchProblemList().then((problemList: Array<Problem>) => {
-          problemList.push(request.problem);
-          LocalStorage.set(StorageKey.PROBLEM_LIST, problemList);
+        checkOrFetchProblemPageList().then((problemPageList: Array<ProblemPage>) => {
+          problemPageList.push(request.problemPage);
+          LocalStorage.set(StorageKey.PROBLEM_PAGE_LIST, problemPageList);
         }),
         HostRequest.saveNewProblem(request.problem),
       ]).then(([_, result]) => {
@@ -55,8 +55,11 @@ const handleMessageFromPopup = (request: any, sendResponse: any) => {
       break;
 
     case "isProblemSaved":
-      LocalStorage.get(StorageKey.PROBLEM_LIST).then((problemList) => {
-        if (Utils.isPropertySaved(problemList) && isProblemIncluded(problemList, request.problem)) {
+      LocalStorage.get(StorageKey.PROBLEM_PAGE_LIST).then((problemPageList) => {
+        if (
+          Utils.isPropertySaved(problemPageList) &&
+          isProblemIncluded(problemPageList, request.problemPage)
+        ) {
           sendResponse(true);
         } else {
           HostRequest.isProblemExists(request.problem).then((resp) => {
@@ -70,21 +73,21 @@ const handleMessageFromPopup = (request: any, sendResponse: any) => {
       break;
 
     case "fetchAllProblems":
-      HostRequest.getAllProblemList().then((resp: any) => {
-        LocalStorage.set(StorageKey.PROBLEM_LIST, resp.data.problemList);
+      HostRequest.getAllProblemPageList().then((resp: any) => {
+        LocalStorage.set(StorageKey.PROBLEM_PAGE_LIST, resp.data.problemPageList);
         sendResponse();
       });
       break;
 
     case "checkProblemList":
-      checkOrFetchProblemList().then(() => sendResponse());
+      checkOrFetchProblemPageList().then(() => sendResponse());
       break;
 
     case "selectRandomProblem":
-      checkOrFetchProblemList().then((problemList: any) => {
-        const totalCount = problemList.length;
+      checkOrFetchProblemPageList().then((problemPageList: any) => {
+        const totalCount = problemPageList.length;
         const randomIndex = Math.floor(Math.random() * totalCount);
-        sendResponse(problemList[randomIndex]);
+        sendResponse(problemPageList[randomIndex]);
       });
       break;
 
@@ -131,7 +134,7 @@ const handleMessageFromOptions = (request: any, sendResponse: any) => {
       LocalStorage.remove(StorageKey.ACCESS_TOKEN);
       LocalStorage.remove(StorageKey.NOTION_INFO);
       LocalStorage.remove(StorageKey.OAUTH_PROCESS_STATUS);
-      LocalStorage.remove(StorageKey.PROBLEM_LIST);
+      LocalStorage.remove(StorageKey.PROBLEM_PAGE_LIST);
       chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
         chrome.tabs.remove(tabs[0].id);
       });

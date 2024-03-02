@@ -1,4 +1,4 @@
-import { Problem } from "./class";
+import { ProblemPage } from "./class";
 import { StorageKey } from "./constants";
 import LocalStorage from "./storage";
 
@@ -113,23 +113,23 @@ const HostRequest = {
     const accessToken = await LocalStorage.get(StorageKey.ACCESS_TOKEN);
     return await sendGetRequest(requestURL, accessToken);
   },
-  getAllProblemList: async function () {
+  getAllProblemPageList: async function () {
     const requestURL = `${HOST_URL}/problem`;
     const accessToken = await LocalStorage.get(StorageKey.ACCESS_TOKEN);
     return await sendGetRequest(requestURL, accessToken);
   },
-  saveNewProblem: async function (problem: Problem) {
+  saveNewProblem: async function (problemPage: ProblemPage) {
     const requestURL = `${HOST_URL}/problem`;
     const accessToken = await LocalStorage.get(StorageKey.ACCESS_TOKEN);
     return await sendPostRequest(requestURL, accessToken, {
-      problem,
+      problemPage,
     });
   },
-  isProblemExists: async function (problem: Problem) {
+  isProblemExists: async function (problemPage: ProblemPage) {
     const requestURL = `${HOST_URL}/problem/check`;
     const accessToken = await LocalStorage.get(StorageKey.ACCESS_TOKEN);
     return await sendPostRequest(requestURL, accessToken, {
-      problem,
+      problemPage,
     });
   },
   deleteMember: async function () {

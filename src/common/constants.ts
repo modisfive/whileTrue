@@ -19,7 +19,7 @@ enum StorageKey {
   OAUTH_PROCESS_STATUS = "oauth_process_status",
   ACCESS_TOKEN = "access_token",
   NOTION_INFO = "notion_information",
-  PROBLEM_LIST = "problem_list",
+  PROBLEM_PAGE_LIST = "problem_page_list",
 }
 
 enum OAuth {
