@@ -48,7 +48,7 @@ const handleMessageFromPopup = (request: any, sendResponse: any) => {
           problemPageList.push(request.problemPage);
           LocalStorage.set(StorageKey.PROBLEM_PAGE_LIST, problemPageList);
         }),
-        HostRequest.saveNewProblem(request.problem),
+        HostRequest.saveNewProblem(request.problemPage),
       ]).then(([_, result]) => {
         sendResponse(result.httpStatus == 200);
       });
@@ -62,7 +62,8 @@ const handleMessageFromPopup = (request: any, sendResponse: any) => {
         ) {
           sendResponse(true);
         } else {
-          HostRequest.isProblemExists(request.problem).then((resp) => {
+          HostRequest.isProblemExists(request.problemPage).then((resp) => {
+            console.log(resp);
             if (resp.httpStatus == 200) {
               sendResponse(resp.data.problemExists);
             }
