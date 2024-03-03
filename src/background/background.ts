@@ -55,21 +55,9 @@ const handleMessageFromPopup = (request: any, sendResponse: any) => {
       break;
 
     case "isProblemSaved":
-      LocalStorage.get(StorageKey.PROBLEM_PAGE_LIST).then((problemPageList) => {
-        if (
-          Utils.isPropertySaved(problemPageList) &&
-          isProblemIncluded(problemPageList, request.problemPage)
-        ) {
-          sendResponse(true);
-        } else {
-          HostRequest.isProblemExists(request.problemPage).then((resp) => {
-            if (resp.httpStatus == 200) {
-              sendResponse(resp.data.problemExists);
-            }
-          });
-        }
+      checkOrFetchProblemPageList().then((problemPageList: Array<ProblemPage>) => {
+        sendResponse(isProblemIncluded(problemPageList, request.problemPage));
       });
-
       break;
 
     case "fetchAllProblems":
