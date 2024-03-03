@@ -21,6 +21,7 @@ const ProblemInsertTab: FC<{ problemPage: ProblemPage; setIsError: CallableFunct
         setIsError(true);
         setSaveResult(false);
       } else {
+        setIsError(false);
         setSaveResult(true);
       }
     });

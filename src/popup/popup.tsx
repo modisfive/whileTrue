@@ -11,12 +11,13 @@ import DatabaseInsertTab from "./tabs/DatabaseInsertTab";
 import Utils from "../common/utils";
 import { UserStatus } from "../common/class";
 import { RESP_STATUS } from "../common/constants";
+import ErrorTab from "./tabs/ErrorTab";
 
 const App: React.FC<{}> = () => {
   const [userStatus, setUserStatus] = useState<UserStatus>({
     isLogined: false,
     isNotionLinked: false,
-    isError: false,
+    isError: RESP_STATUS.SUCCESS,
   });
   const [isOnProgress, setIsOnProgress] = useState(false);
   const [waitRefresh, setWaitRefresh] = useState(false);
@@ -36,6 +37,7 @@ const App: React.FC<{}> = () => {
     }
     chrome.runtime.sendMessage({ from: "popup", subject: "fetchAllProblems" }, (resp) => {
       setIsOnProgress(false);
+      setIsError(false);
       if (resp === RESP_STATUS.FAILED) {
         setIsError(true);
       }
@@ -46,7 +48,7 @@ const App: React.FC<{}> = () => {
 
   useEffect(() => {
     Utils.getUserStatus().then((resp) => setUserStatus(resp));
-  }, [isError]);
+  }, []);
 
   const body = () => {
     if (!userStatus.isLogined) {
@@ -55,8 +57,8 @@ const App: React.FC<{}> = () => {
     if (!userStatus.isNotionLinked) {
       return <DatabaseInsertTab />;
     }
-    if (userStatus.isError) {
-      return <span>에러!</span>;
+    if (userStatus.isError === RESP_STATUS.FAILED || isError) {
+      return <ErrorTab />;
     }
     return <TabList setIsError={setIsError} />;
   };

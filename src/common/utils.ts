@@ -1,5 +1,5 @@
 import { UserStatus } from "./class";
-import { SiteType, SiteHost, StorageKey } from "./constants";
+import { SiteType, SiteHost, StorageKey, RESP_STATUS } from "./constants";
 import LocalStorage from "./storage";
 
 const Utils = {
@@ -26,7 +26,7 @@ const Utils = {
         if (Utils.isPropertySaved(isError)) {
           return isError;
         } else {
-          return false;
+          return RESP_STATUS.SUCCESS;
         }
       }),
     ]).then(
