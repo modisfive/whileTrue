@@ -27,7 +27,7 @@ const checkOrFetchProblemPageList = async () => {
   });
 };
 
-const isProblemIncluded = (problemPageList, targetProblem) => {
+const isProblemIncluded = (problemPageList: Array<ProblemPage>, targetProblem: ProblemPage) => {
   for (let problem of problemPageList) {
     if (problem.title === targetProblem.title && problem.url === targetProblem.url) {
       return true;
