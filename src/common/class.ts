@@ -31,9 +31,11 @@ export class ProblemPage {
 export class UserStatus {
   isLogined: boolean;
   isNotionLinked: boolean;
+  isError: boolean;
 
-  constructor(isLogined: boolean, isNotionLinked: boolean) {
+  constructor(isLogined: boolean, isNotionLinked: boolean, isError: boolean) {
     this.isLogined = isLogined;
     this.isNotionLinked = isNotionLinked;
+    this.isError = isError;
   }
 }

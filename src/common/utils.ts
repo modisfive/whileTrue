@@ -22,7 +22,16 @@ const Utils = {
       LocalStorage.get(StorageKey.NOTION_INFO).then((notionInfo) =>
         Utils.isPropertySaved(notionInfo)
       ),
-    ]).then(([isLogined, isNotionLinked]) => new UserStatus(isLogined, isNotionLinked));
+      LocalStorage.get(StorageKey.IS_ERROR).then((isError) => {
+        if (Utils.isPropertySaved(isError)) {
+          return isError;
+        } else {
+          return false;
+        }
+      }),
+    ]).then(
+      ([isLogined, isNotionLinked, isError]) => new UserStatus(isLogined, isNotionLinked, isError)
+    );
   },
   selectLogo: function (siteType: SiteType) {
     switch (siteType) {

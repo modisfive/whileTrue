@@ -2,15 +2,19 @@ import React, { FC, useEffect, useState } from "react";
 import { ProblemPage } from "../../common/class";
 import { Button, Container, Image, Row, Spinner } from "react-bootstrap";
 import Utils from "../../common/utils";
+import { RESP_STATUS } from "../../common/constants";
 
-const RandomSelectTab: FC<{}> = () => {
+const RandomSelectTab: FC<{ setIsError: CallableFunction }> = ({ setIsError }) => {
   const [problemPage, setProblemPage] = useState<ProblemPage>(undefined);
   const [isOnProgress, setIsOnProgress] = useState(false);
 
   useEffect(() => {
     setIsOnProgress(true);
-    chrome.runtime.sendMessage({ from: "popup", subject: "checkProblemList" }, () => {
+    chrome.runtime.sendMessage({ from: "popup", subject: "checkProblemList" }, (resp) => {
       setIsOnProgress(false);
+      if (resp === RESP_STATUS.FAILED) {
+        setIsError(true);
+      }
     });
   }, []);
 
@@ -20,13 +24,14 @@ const RandomSelectTab: FC<{}> = () => {
 
   const handleClick2 = () => {
     setIsOnProgress(true);
-    chrome.runtime.sendMessage(
-      { from: "popup", subject: "selectRandomProblem" },
-      (selectedProblem) => {
-        setIsOnProgress(false);
-        setProblemPage(selectedProblem);
+    chrome.runtime.sendMessage({ from: "popup", subject: "selectRandomProblem" }, (resp) => {
+      setIsOnProgress(false);
+      if (resp == RESP_STATUS.FAILED) {
+        setIsError(true);
+      } else {
+        setProblemPage(resp);
       }
-    );
+    });
   };
 
   return (

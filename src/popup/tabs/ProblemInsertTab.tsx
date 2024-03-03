@@ -4,12 +4,12 @@ import { Button, Container, Image, Row, Spinner } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import Utils from "../../common/utils";
+import { RESP_STATUS } from "../../common/constants";
 
-type CurrentProblemProp = {
-  problemPage: ProblemPage;
-};
-
-const ProblemInsertTab: FC<CurrentProblemProp> = ({ problemPage }) => {
+const ProblemInsertTab: FC<{ problemPage: ProblemPage; setIsError: CallableFunction }> = ({
+  problemPage,
+  setIsError,
+}) => {
   const [saveResult, setSaveResult] = useState(false);
   const [isOnProgress, setIsOnProgress] = useState(true);
 
@@ -17,7 +17,12 @@ const ProblemInsertTab: FC<CurrentProblemProp> = ({ problemPage }) => {
     setIsOnProgress(true);
     chrome.runtime.sendMessage({ from: "popup", subject: "insertProblem", problemPage }, (resp) => {
       setIsOnProgress(false);
-      setSaveResult(resp);
+      if (resp === RESP_STATUS.FAILED) {
+        setIsError(true);
+        setSaveResult(false);
+      } else {
+        setSaveResult(true);
+      }
     });
   };
 
@@ -26,7 +31,12 @@ const ProblemInsertTab: FC<CurrentProblemProp> = ({ problemPage }) => {
       { from: "popup", subject: "isProblemSaved", problemPage },
       (resp) => {
         setIsOnProgress(false);
-        setSaveResult(resp);
+        if (resp === RESP_STATUS.FAILED) {
+          setIsError(true);
+          setSaveResult(false);
+        } else {
+          setSaveResult(true);
+        }
       }
     );
   }, []);

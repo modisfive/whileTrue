@@ -10,14 +10,17 @@ import { faRotate } from "@fortawesome/free-solid-svg-icons";
 import DatabaseInsertTab from "./tabs/DatabaseInsertTab";
 import Utils from "../common/utils";
 import { UserStatus } from "../common/class";
+import { RESP_STATUS } from "../common/constants";
 
 const App: React.FC<{}> = () => {
   const [userStatus, setUserStatus] = useState<UserStatus>({
     isLogined: false,
     isNotionLinked: false,
+    isError: false,
   });
   const [isOnProgress, setIsOnProgress] = useState(false);
   const [waitRefresh, setWaitRefresh] = useState(false);
+  const [isError, setIsError] = useState(false);
   const renderTooltip = (props) => (
     <Tooltip id="button-tooltip" {...props}>
       노션 데이터베이스 동기화
@@ -31,8 +34,11 @@ const App: React.FC<{}> = () => {
       setTimeout(() => setIsOnProgress(false), 500);
       return;
     }
-    chrome.runtime.sendMessage({ from: "popup", subject: "fetchAllProblems" }, () => {
+    chrome.runtime.sendMessage({ from: "popup", subject: "fetchAllProblems" }, (resp) => {
       setIsOnProgress(false);
+      if (resp === RESP_STATUS.FAILED) {
+        setIsError(true);
+      }
     });
     setWaitRefresh(true);
     setTimeout(() => setWaitRefresh(false), 10000);
@@ -40,7 +46,34 @@ const App: React.FC<{}> = () => {
 
   useEffect(() => {
     Utils.getUserStatus().then((resp) => setUserStatus(resp));
-  }, []);
+  }, [isError]);
+
+  const body = () => {
+    if (!userStatus.isLogined) {
+      return <LoginTab />;
+    }
+    if (!userStatus.isNotionLinked) {
+      return <DatabaseInsertTab />;
+    }
+    if (userStatus.isError) {
+      return <span>에러!</span>;
+    }
+    return <TabList setIsError={setIsError} />;
+  };
+
+  const refreshBtn = () => {
+    if (!userStatus.isNotionLinked) {
+      return;
+    }
+    if (isOnProgress) {
+      return <Spinner animation="border" size="sm" />;
+    }
+    return (
+      <OverlayTrigger placement="left" delay={{ show: 250, hide: 400 }} overlay={renderTooltip}>
+        <FontAwesomeIcon icon={faRotate} onClick={handleRefresh} role="button" />
+      </OverlayTrigger>
+    );
+  };
 
   return (
     <Container className="App">
@@ -52,30 +85,11 @@ const App: React.FC<{}> = () => {
           </Navbar.Brand>
           <Navbar.Toggle />
           <Navbar.Collapse className="justify-content-end">
-            <Navbar.Text>
-              {userStatus.isNotionLinked &&
-                (isOnProgress ? (
-                  <Spinner animation="border" size="sm" />
-                ) : (
-                  <OverlayTrigger
-                    placement="left"
-                    delay={{ show: 250, hide: 400 }}
-                    overlay={renderTooltip}
-                  >
-                    <FontAwesomeIcon icon={faRotate} onClick={handleRefresh} role="button" />
-                  </OverlayTrigger>
-                ))}
-            </Navbar.Text>
+            <Navbar.Text>{refreshBtn()}</Navbar.Text>
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      {!userStatus.isLogined ? (
-        <LoginTab />
-      ) : !userStatus.isNotionLinked ? (
-        <DatabaseInsertTab />
-      ) : (
-        <TabList />
-      )}
+      {body()}
     </Container>
   );
 };
