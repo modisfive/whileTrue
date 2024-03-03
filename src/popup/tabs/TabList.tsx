@@ -3,7 +3,6 @@ import "../popup.css";
 import ProblemInsertTab from "./ProblemInsertTab";
 import RandomSelectTab from "./RandomSelectTab";
 import { Tab, Tabs } from "react-bootstrap";
-import { ProblemPage } from "../../common/class";
 
 const parseProblemPageInfo = (setProblemPageInfo: CallableFunction, setKey: CallableFunction) => {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -22,7 +21,7 @@ const parseProblemPageInfo = (setProblemPageInfo: CallableFunction, setKey: Call
   });
 };
 
-const TabList: FC<{}> = () => {
+const TabList: FC<{ setIsError: CallableFunction }> = ({ setIsError }) => {
   const [key, setKey] = useState("currentProblem");
   const [problemPageInfo, setProblemPageInfo] = useState({
     isExist: false,
@@ -36,10 +35,12 @@ const TabList: FC<{}> = () => {
   return (
     <Tabs activeKey={key} onSelect={(k) => setKey(k)} transition={false} className="mb-3" justify>
       <Tab eventKey="currentProblem" title="문제 저장하기" disabled={!problemPageInfo.isExist}>
-        {problemPageInfo.isExist && <ProblemInsertTab problemPage={problemPageInfo.problemPage} />}
+        {problemPageInfo.isExist && (
+          <ProblemInsertTab problemPage={problemPageInfo.problemPage} setIsError={setIsError} />
+        )}
       </Tab>
       <Tab eventKey="randomSelect" title="문제 풀기">
-        <RandomSelectTab />
+        <RandomSelectTab setIsError={setIsError} />
       </Tab>
     </Tabs>
   );
