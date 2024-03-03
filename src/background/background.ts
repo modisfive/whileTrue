@@ -39,7 +39,7 @@ const isProblemIncluded = (problemPageList: Array<ProblemPage>, targetProblem: P
 const handleMessageFromPopup = (request: any, sendResponse: any) => {
   switch (request.subject) {
     case "openProblemTab":
-      chrome.tabs.create({ url: request.url, selected: true });
+      chrome.tabs.create({ url: request.url, selected: true }).then(() => sendResponse());
       break;
 
     case "insertProblem":
@@ -91,7 +91,7 @@ const handleMessageFromContent = (request: any, sendResponse: any) => {
       break;
 
     case "oauth":
-      startOAuthProcess(request.url);
+      startOAuthProcess(request.url).then(() => sendResponse());
       break;
 
     default:
@@ -116,17 +116,20 @@ const handleMessageFromOptions = (request: any, sendResponse: any) => {
 
     case "databasePage":
       const databasePage = `chrome-extension://${chrome.runtime.id}/database.html`;
-      chrome.tabs.create({ url: databasePage, selected: true });
+      chrome.tabs.create({ url: databasePage, selected: true }).then(() => sendResponse());
       break;
 
     case "exit":
-      HostRequest.deleteMember();
-      LocalStorage.remove(StorageKey.ACCESS_TOKEN);
-      LocalStorage.remove(StorageKey.NOTION_INFO);
-      LocalStorage.remove(StorageKey.OAUTH_PROCESS_STATUS);
-      LocalStorage.remove(StorageKey.PROBLEM_PAGE_LIST);
-      chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
-        chrome.tabs.remove(tabs[0].id);
+      Promise.all([
+        HostRequest.deleteMember(),
+        LocalStorage.remove(StorageKey.ACCESS_TOKEN),
+        LocalStorage.remove(StorageKey.NOTION_INFO),
+        LocalStorage.remove(StorageKey.OAUTH_PROCESS_STATUS),
+        LocalStorage.remove(StorageKey.PROBLEM_PAGE_LIST),
+      ]).then(() => {
+        chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
+          chrome.tabs.remove(tabs[0].id);
+        });
       });
       break;
 
