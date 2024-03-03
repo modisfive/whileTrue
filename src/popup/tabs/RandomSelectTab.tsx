@@ -12,6 +12,7 @@ const RandomSelectTab: FC<{ setIsError: CallableFunction }> = ({ setIsError }) =
     setIsOnProgress(true);
     chrome.runtime.sendMessage({ from: "popup", subject: "checkProblemList" }, (resp) => {
       setIsOnProgress(false);
+      setIsError(false);
       if (resp === RESP_STATUS.FAILED) {
         setIsError(true);
       }
@@ -29,6 +30,7 @@ const RandomSelectTab: FC<{ setIsError: CallableFunction }> = ({ setIsError }) =
       if (resp == RESP_STATUS.FAILED) {
         setIsError(true);
       } else {
+        setIsError(false);
         setProblemPage(resp);
       }
     });
