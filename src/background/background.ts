@@ -31,7 +31,7 @@ const checkOrFetchProblemPageList = async () => {
   });
 };
 
-const handleRespResult = (status: RESP_STATUS, sendResponse) => {
+const handleRespResult = (status: RESP_STATUS, sendResponse: CallableFunction) => {
   LocalStorage.set(StorageKey.IS_ERROR, status).then(() => sendResponse(status));
 };
 
