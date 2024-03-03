@@ -1,9 +1,9 @@
-import { SiteHost, StorageKey } from "../common/constants";
+import { OAuth, SiteHost, StorageKey } from "../common/constants";
 import LocalStorage from "../common/storage";
 import baekjoon from "./baekjoon";
 import programmers from "./programmers";
 
-if (window.location.host === "whiletrue.co.kr") {
+if (window.location.host === OAuth.REDIRECT_HOST) {
   LocalStorage.get(StorageKey.OAUTH_PROCESS_STATUS).then((isStarted) => {
     if (isStarted) {
       chrome.runtime.sendMessage({
