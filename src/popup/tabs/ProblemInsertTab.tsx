@@ -36,7 +36,7 @@ const ProblemInsertTab: FC<{ problemPage: ProblemPage; setIsError: CallableFunct
           setIsError(true);
           setSaveResult(false);
         } else {
-          setSaveResult(true);
+          setSaveResult(resp);
         }
       }
     );
