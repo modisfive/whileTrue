@@ -63,11 +63,13 @@ const App: React.FC<{}> = () => {
       if (isSavedSucceed === "SUCCESS") {
         return <span className="desc desc-success">Notion 데이터베이스가 저장되었습니다.</span>;
       } else if (isSavedSucceed === "INVALID") {
-        return <span className="desc desc-error">형식을 확인해주세요</span>;
+        return (
+          <span className="desc desc-error">데이터베이스 칼럼명과 속성이 올바르지 않습니다.</span>
+        );
       } else if (isSavedSucceed === "NOT_FOUND") {
         return (
           <span className="desc desc-error">
-            공유한 워크스페이스, 페이지 아래에 있거나, 데이터베이스 형식인지 확인해주세요.
+            공유한 워크스페이스와 페이지 아래에 있거나, 데이터베이스 형식인지 확인해주세요.
           </span>
         );
       }
@@ -75,7 +77,7 @@ const App: React.FC<{}> = () => {
       if (databaseUrl === "" || isValidUrl) {
         return <span></span>;
       } else {
-        return <span className="desc desc-error">Notion Database URL 형식에 맞지 않습니다.</span>;
+        return <span className="desc desc-error">노션 데이터베이스 URL 형식에 맞지 않습니다.</span>;
       }
     }
   };
