@@ -3,13 +3,19 @@
     <h1>whileTrue</h1>
 </div>
 
-<img src="https://img.shields.io/badge/license-MIT-blue" /> <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fnamgons%2FwhileTrue&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false"/>
+<p>
+<img alt="Chrome Web Store Version" src="https://img.shields.io/chrome-web-store/v/ockglcdfpkebaiaaocinjdcpiieceocn"> <img src="https://img.shields.io/badge/license-MIT-blue" /> <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fnamgons%2FwhileTrue&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false"/>
+</p>
 
 <br />
 
 # whileTrue 확장 프로그램
 
 다시 풀고 싶은 알고리즘 문제를 더욱 편리하게 노션에 기록해보세요. 이후, 노션 데이터베이스에 저장된 알고리즘 문제들을 랜덤으로 뽑아 다시 풀어볼 수 있습니다.
+
+# 설치하기
+
+[![Chrome Web Store](upload/chrome-web-store.png)](https://chromewebstore.google.com/detail/whiletrue/ockglcdfpkebaiaaocinjdcpiieceocn)
 
 # 시작하기
 
