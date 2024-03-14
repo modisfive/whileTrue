@@ -9,12 +9,6 @@
 
 <br />
 
-# whileTrue 확장 프로그램
-
-다시 풀고 싶은 알고리즘 문제를 더욱 편리하게 노션에 기록해보세요. 이후, 노션 데이터베이스에 저장된 알고리즘 문제들을 랜덤으로 뽑아 다시 풀어볼 수 있습니다.
-
-\*백준 온라인 저지와 프로그래머스를 지원합니다.
-
 # 설치하기
 
 <div align="center">
@@ -22,6 +16,47 @@
       <img src="upload/chrome-web-store.png">
    </a>
 </div>
+
+# whileTrue 확장 프로그램
+
+다시 풀고 싶은 알고리즘 문제를 더욱 편리하게 노션에 기록해보세요. 이후, 노션 데이터베이스에 저장된 알고리즘 문제들을 랜덤으로 뽑아 다시 풀어볼 수 있습니다.
+
+\*백준 온라인 저지와 프로그래머스를 지원합니다.
+
+<table>
+  <tr>
+    <td align="center">
+        <img src="upload/screenshot-baekjoon.png" alt="백준 문제 저장" />
+    </td>
+    <td align="center">
+        <img src="upload/screenshot-programmers.png" alt="프로그래머스 문제 저장" />
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+        <b>백준 문제 저장</b>
+    </td>
+    <td align="center">
+        <b>프로그래머스 문제 저장</b>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+        <img src="upload/screenshot-random.png" alt="문제 랜덤 추출" />
+    </td>
+    <td align="center">
+        <img src="upload/screenshot-notion.png" alt="저장된 문제 리스트" />
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+        <b>문제 랜덤 추출</b>
+    </td>
+    <td align="center">
+        <b>저장된 문제 리스트</b>
+    </td>
+  </tr>
+</table>
 
 # 시작하기
 
