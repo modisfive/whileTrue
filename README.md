@@ -89,4 +89,4 @@
 
 # 관련 링크
 
-- [whileTrue 프로젝트 후기](https://namgons.github.io/2/)
+- [whileTrue 프로젝트 후기](https://dotpointing.tistory.com/3)
