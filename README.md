@@ -1,7 +1,6 @@
 <div align="center">
     <img width="200" src="upload/logo.png"/>
     <h1>whileTrue</h1>
-    <p>2024.06.19 부로 서비스 종료되었습니다. 감사합니다.</p>
 </div>
 
 <p>
