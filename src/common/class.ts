@@ -1,4 +1,4 @@
-import { IconType, SiteType } from "./constants";
+import { IconType, RESP_STATUS, SiteType } from "./constants";
 
 export class ProblemPage {
   siteType: SiteType;
@@ -30,10 +30,10 @@ export class ProblemPage {
 
 export class UserStatus {
   isNotionLinked: boolean;
-  isError: string;
+  respStatus: string;
 
-  constructor(isNotionLinked: boolean, isError: string) {
+  constructor(isNotionLinked: boolean, respStatus: RESP_STATUS) {
     this.isNotionLinked = isNotionLinked;
-    this.isError = isError;
+    this.respStatus = respStatus;
   }
 }
