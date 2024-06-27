@@ -8,19 +8,38 @@ const handleRespResult = (status: RESP_STATUS, sendResponse: CallableFunction) =
   LocalStorage.set(StorageKey.IS_ERROR, status).then(() => sendResponse(status));
 };
 
-const checkOrFetchProblemPageList = async () => {
+/**
+ * 문제 있는지 확인한 후, 이미 저장되어 있으면 저장된 문제 리스트 가져오기
+ * 저장되어 있지 않다면, 사용자 노션에서 가져오기
+ */
+const getProblemPageList = async (): Promise<Array<ProblemPage> | RESP_STATUS> => {
+  const isSaved = await checkProblemPageList();
+  if (isSaved) {
+    return await LocalStorage.get(StorageKey.PROBLEM_PAGE_LIST);
+  }
+
+  return await fetchProblemPageList();
+};
+
+/**
+ * 로컬에 저장된 문제 리스트가 있는지 확인하기
+ */
+const checkProblemPageList = async () => {
   return await LocalStorage.get(StorageKey.PROBLEM_PAGE_LIST).then((problemPageList) => {
-    if (!Utils.isPropertySaved(problemPageList)) {
-      return HostRequest.getAllProblemPageList().then((resp) => {
-        if (resp.httpStatus === 200) {
-          LocalStorage.set(StorageKey.PROBLEM_PAGE_LIST, resp.data.problemPageList);
-          return resp.data.problemPageList;
-        } else {
-          return RESP_STATUS.FAILED;
-        }
-      });
+    return Utils.isPropertySaved(problemPageList);
+  });
+};
+
+/**
+ * 사용자 노션에서 문제 리스트 가져오기
+ */
+const fetchProblemPageList = async (): Promise<Array<ProblemPage> | RESP_STATUS> => {
+  return HostRequest.getAllProblemPageList().then((resp) => {
+    if (resp.httpStatus === 200) {
+      LocalStorage.set(StorageKey.PROBLEM_PAGE_LIST, resp.data.problemPageList);
+      return resp.data.problemPageList;
     } else {
-      return problemPageList;
+      return RESP_STATUS.FAILED;
     }
   });
 };
@@ -42,7 +61,7 @@ const handleMessageFromPopup = (request: any, sendResponse: any) => {
 
     case "insertProblem":
       Promise.all([
-        checkOrFetchProblemPageList().then((result: Array<ProblemPage> | string) => {
+        getProblemPageList().then((result: Array<ProblemPage> | RESP_STATUS) => {
           if (result === RESP_STATUS.FAILED) {
             return result;
           } else {
@@ -62,7 +81,7 @@ const handleMessageFromPopup = (request: any, sendResponse: any) => {
       break;
 
     case "isProblemSaved":
-      checkOrFetchProblemPageList().then((result: Array<ProblemPage> | string) => {
+      getProblemPageList().then((result: Array<ProblemPage> | RESP_STATUS) => {
         if (result === RESP_STATUS.FAILED) {
           handleRespResult(RESP_STATUS.FAILED, sendResponse);
         } else {
@@ -74,18 +93,17 @@ const handleMessageFromPopup = (request: any, sendResponse: any) => {
       break;
 
     case "fetchAllProblems":
-      HostRequest.getAllProblemPageList().then((resp: any) => {
-        if (resp.httpStatus === 200) {
-          LocalStorage.set(StorageKey.PROBLEM_PAGE_LIST, resp.data.problemPageList);
-          handleRespResult(RESP_STATUS.SUCCESS, sendResponse);
-        } else {
+      fetchProblemPageList().then((result: Array<ProblemPage> | RESP_STATUS) => {
+        if (result === RESP_STATUS.FAILED) {
           handleRespResult(RESP_STATUS.FAILED, sendResponse);
+        } else {
+          handleRespResult(RESP_STATUS.SUCCESS, sendResponse);
         }
       });
       break;
 
     case "checkProblemList":
-      checkOrFetchProblemPageList().then((result: Array<ProblemPage> | string) => {
+      getProblemPageList().then((result: Array<ProblemPage> | RESP_STATUS) => {
         if (result === RESP_STATUS.FAILED) {
           handleRespResult(RESP_STATUS.FAILED, sendResponse);
         } else {
@@ -95,7 +113,7 @@ const handleMessageFromPopup = (request: any, sendResponse: any) => {
       break;
 
     case "selectRandomProblem":
-      checkOrFetchProblemPageList().then((result: Array<ProblemPage> | string) => {
+      getProblemPageList().then((result: Array<ProblemPage> | RESP_STATUS) => {
         if (result === RESP_STATUS.FAILED) {
           handleRespResult(RESP_STATUS.FAILED, sendResponse);
         } else {
