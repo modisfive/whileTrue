@@ -31,10 +31,12 @@ const App: React.FC<{}> = () => {
   const handleRefresh = () => {
     setIsOnProgress(true);
 
+    /* 연속해서 새로고침하는 경우를 방지하기 위한 코드 (10초에 한번씩만 새로고침할 수 있다) */
     if (waitRefresh) {
       setTimeout(() => setIsOnProgress(false), 500);
       return;
     }
+
     chrome.runtime.sendMessage({ from: "popup", subject: "fetchAllProblems" }, (resp) => {
       setIsOnProgress(false);
       setIsError(false);
