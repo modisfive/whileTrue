@@ -15,7 +15,7 @@ import ErrorTab from "./tabs/ErrorTab";
 const App: React.FC<{}> = () => {
   const [userStatus, setUserStatus] = useState<UserStatus>({
     isNotionLinked: false,
-    isError: RESP_STATUS.SUCCESS,
+    respStatus: RESP_STATUS.SUCCESS,
   });
   const [isOnProgress, setIsOnProgress] = useState(false);
   const [waitRefresh, setWaitRefresh] = useState(false);
@@ -54,7 +54,7 @@ const App: React.FC<{}> = () => {
     if (!userStatus.isNotionLinked) {
       return <LoginTab />;
     }
-    if (userStatus.isError === RESP_STATUS.FAILED || isError) {
+    if (userStatus.respStatus === RESP_STATUS.FAILED || isError) {
       return <ErrorTab />;
     }
     return <TabList setIsError={setIsError} />;
