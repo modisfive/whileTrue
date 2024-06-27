@@ -2,7 +2,6 @@ import Utils from "../common/utils";
 import LocalStorage from "../common/storage";
 import { RESP_STATUS, StorageKey } from "../common/constants";
 import HostRequest from "../common/request";
-import startOAuthProcess from "./oauth";
 import { ProblemPage } from "../common/class";
 
 const fetchSolvedAcJson = async (problemNumber: string) => {
@@ -118,6 +117,11 @@ const handleMessageFromPopup = (request: any, sendResponse: any) => {
       });
       break;
 
+    case "databasePage":
+      const databasePage = `chrome-extension://${chrome.runtime.id}/database.html`;
+      chrome.tabs.create({ url: databasePage, selected: true }).then(() => sendResponse());
+      break;
+
     default:
       break;
   }
@@ -127,10 +131,6 @@ const handleMessageFromContent = (request: any, sendResponse: any) => {
   switch (request.subject) {
     case "solvedAc":
       fetchSolvedAcJson(request.problemNumber).then((resp) => sendResponse(resp));
-      break;
-
-    case "oauth":
-      startOAuthProcess(request.url).then(() => sendResponse());
       break;
 
     default:
@@ -163,7 +163,6 @@ const handleMessageFromOptions = (request: any, sendResponse: any) => {
         HostRequest.deleteMember(),
         LocalStorage.remove(StorageKey.ACCESS_TOKEN),
         LocalStorage.remove(StorageKey.NOTION_INFO),
-        LocalStorage.remove(StorageKey.OAUTH_PROCESS_STATUS),
         LocalStorage.remove(StorageKey.PROBLEM_PAGE_LIST),
       ]).then(() => {
         chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
