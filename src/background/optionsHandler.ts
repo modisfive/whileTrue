@@ -1,5 +1,5 @@
 import { StorageKey } from "../common/constants";
-import HostRequest from "../common/request";
+import HostRequest from "../api/request";
 import LocalStorage from "../common/storage";
 
 const handleMessageFromOptions = (request: any, sendResponse: any) => {
@@ -24,7 +24,6 @@ const handleMessageFromOptions = (request: any, sendResponse: any) => {
 
     case "exit":
       Promise.all([
-        HostRequest.deleteMember(),
         LocalStorage.remove(StorageKey.ACCESS_TOKEN),
         LocalStorage.remove(StorageKey.NOTION_INFO),
         LocalStorage.remove(StorageKey.PROBLEM_PAGE_LIST),

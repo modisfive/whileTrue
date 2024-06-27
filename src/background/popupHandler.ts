@@ -1,6 +1,6 @@
 import { ProblemPage } from "../common/class";
 import { RESP_STATUS, StorageKey } from "../common/constants";
-import HostRequest from "../common/request";
+import HostRequest from "../api/request";
 import LocalStorage from "../common/storage";
 import Utils from "../common/utils";
 
