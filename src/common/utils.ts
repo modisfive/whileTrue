@@ -19,18 +19,18 @@ const Utils = {
       LocalStorage.get(StorageKey.ACCESS_TOKEN).then((accessToken) =>
         Utils.isPropertySaved(accessToken)
       ),
-      LocalStorage.get(StorageKey.NOTION_INFO).then((notionInfo) =>
-        Utils.isPropertySaved(notionInfo)
+      LocalStorage.get(StorageKey.DATABASE_ID).then((databaseId) =>
+        Utils.isPropertySaved(databaseId)
       ),
-      LocalStorage.get(StorageKey.RESP_STATUS).then((isError) => {
-        if (Utils.isPropertySaved(isError)) {
-          return isError;
-        } else {
-          return RESP_STATUS.SUCCESS;
+      LocalStorage.get(StorageKey.RESP_STATUS).then((respStatus) => {
+        if (Utils.isPropertySaved(respStatus)) {
+          return respStatus;
         }
+        return RESP_STATUS.SUCCESS;
       }),
     ]).then(
-      ([isLogined, isNotionLinked, isError]) => new UserStatus(isLogined, isNotionLinked, isError)
+      ([isAccessTokenSaved, isDatabaseIdSaved, respStatus]) =>
+        new UserStatus(isAccessTokenSaved && isDatabaseIdSaved, respStatus)
     );
   },
   selectLogo: function (siteType: SiteType) {

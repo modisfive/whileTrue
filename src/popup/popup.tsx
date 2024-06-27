@@ -7,7 +7,6 @@ import LoginTab from "./tabs/LoginTab";
 import { Container, Image, Navbar, OverlayTrigger, Spinner, Tooltip } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRotate } from "@fortawesome/free-solid-svg-icons";
-import DatabaseInsertTab from "./tabs/databaseInsertTab";
 import Utils from "../common/utils";
 import { UserStatus } from "../common/class";
 import { RESP_STATUS } from "../common/constants";
@@ -15,7 +14,6 @@ import ErrorTab from "./tabs/ErrorTab";
 
 const App: React.FC<{}> = () => {
   const [userStatus, setUserStatus] = useState<UserStatus>({
-    isLogined: false,
     isNotionLinked: false,
     isError: RESP_STATUS.SUCCESS,
   });
@@ -53,11 +51,8 @@ const App: React.FC<{}> = () => {
   }, []);
 
   const body = () => {
-    if (!userStatus.isLogined) {
-      return <LoginTab />;
-    }
     if (!userStatus.isNotionLinked) {
-      return <DatabaseInsertTab />;
+      return <LoginTab />;
     }
     if (userStatus.isError === RESP_STATUS.FAILED || isError) {
       return <ErrorTab />;
