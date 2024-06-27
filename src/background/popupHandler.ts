@@ -5,7 +5,7 @@ import LocalStorage from "../common/storage";
 import Utils from "../common/utils";
 
 const handleRespResult = (status: RESP_STATUS, sendResponse: CallableFunction) => {
-  LocalStorage.set(StorageKey.IS_ERROR, status).then(() => sendResponse(status));
+  LocalStorage.set(StorageKey.RESP_STATUS, status).then(() => sendResponse(status));
 };
 
 /**
@@ -85,7 +85,7 @@ const handleMessageFromPopup = (request: any, sendResponse: any) => {
         if (result === RESP_STATUS.FAILED) {
           handleRespResult(RESP_STATUS.FAILED, sendResponse);
         } else {
-          LocalStorage.set(StorageKey.IS_ERROR, RESP_STATUS.SUCCESS).then(() =>
+          LocalStorage.set(StorageKey.RESP_STATUS, RESP_STATUS.SUCCESS).then(() =>
             sendResponse(isProblemIncluded(result as Array<ProblemPage>, request.problemPage))
           );
         }
@@ -117,7 +117,7 @@ const handleMessageFromPopup = (request: any, sendResponse: any) => {
         if (result === RESP_STATUS.FAILED) {
           handleRespResult(RESP_STATUS.FAILED, sendResponse);
         } else {
-          LocalStorage.set(StorageKey.IS_ERROR, RESP_STATUS.SUCCESS).then(() => {
+          LocalStorage.set(StorageKey.RESP_STATUS, RESP_STATUS.SUCCESS).then(() => {
             const totalCount = result.length;
             const randomIndex = Math.floor(Math.random() * totalCount);
             sendResponse(result[randomIndex]);

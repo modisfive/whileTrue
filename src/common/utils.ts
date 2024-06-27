@@ -22,7 +22,7 @@ const Utils = {
       LocalStorage.get(StorageKey.NOTION_INFO).then((notionInfo) =>
         Utils.isPropertySaved(notionInfo)
       ),
-      LocalStorage.get(StorageKey.IS_ERROR).then((isError) => {
+      LocalStorage.get(StorageKey.RESP_STATUS).then((isError) => {
         if (Utils.isPropertySaved(isError)) {
           return isError;
         } else {

@@ -20,7 +20,7 @@ enum StorageKey {
   DATABASE_ID = "database_id",
   NOTION_INFO = "notion_information",
   PROBLEM_PAGE_LIST = "problem_page_list",
-  IS_ERROR = "is_error",
+  RESP_STATUS = "response_status",
 }
 
 enum RESP_STATUS {
