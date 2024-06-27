@@ -1,19 +1,6 @@
-import { OAuth, SiteHost, StorageKey } from "../common/constants";
-import LocalStorage from "../common/storage";
+import { SiteHost } from "../common/constants";
 import baekjoon from "./baekjoon";
 import programmers from "./programmers";
-
-if (window.location.host === OAuth.REDIRECT_HOST) {
-  LocalStorage.get(StorageKey.OAUTH_PROCESS_STATUS).then((isStarted) => {
-    if (isStarted) {
-      chrome.runtime.sendMessage({
-        from: "content",
-        subject: "oauth",
-        url: window.location.href,
-      });
-    }
-  });
-}
 
 const getProblemInfo = async () => {
   const currentHost = window.location.host;

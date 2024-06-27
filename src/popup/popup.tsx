@@ -7,7 +7,7 @@ import LoginTab from "./tabs/LoginTab";
 import { Container, Image, Navbar, OverlayTrigger, Spinner, Tooltip } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRotate } from "@fortawesome/free-solid-svg-icons";
-import DatabaseInsertTab from "./tabs/DatabaseInsertTab";
+import DatabaseInsertTab from "./tabs/databaseInsertTab";
 import Utils from "../common/utils";
 import { UserStatus } from "../common/class";
 import { RESP_STATUS } from "../common/constants";
