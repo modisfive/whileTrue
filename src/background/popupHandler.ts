@@ -34,7 +34,7 @@ const checkProblemPageList = async () => {
  * 사용자 노션에서 문제 리스트 가져오기
  */
 const fetchProblemPageList = async (): Promise<Array<ProblemPage> | RESP_STATUS> => {
-  return HostRequest.getAllProblemPageList().then((resp) => {
+  return HostRequest.fetchAllProblemPageList().then((resp) => {
     if (resp.httpStatus === 200) {
       LocalStorage.set(StorageKey.PROBLEM_PAGE_LIST, resp.data.problemPageList);
       return resp.data.problemPageList;
