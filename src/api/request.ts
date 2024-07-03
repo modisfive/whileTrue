@@ -30,42 +30,17 @@ const requestPost = async (targetUrl: string, accessToken: any, body: any) => {
 };
 
 const HostRequest = {
-  sendAccessCode: async function (accessCode: string) {
-    const requestURL = `${HOST_URL}/member/oauth/${accessCode}`;
-    return await fetch(requestURL, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-      },
-      credentials: "include",
-    }).then((resp) => resp.json());
+  validateUserNotion: async function name(accessToken: string, databaseUrl: string) {
+    const requestURL = "";
+    // return await requestGet(requestURL);
   },
-  sendDatabaseID: async function (notionDatabaseUrl: string) {
-    const requestURL = `${HOST_URL}/member/notion-database-id`;
-    const accessToken = await LocalStorage.get(StorageKey.ACCESS_TOKEN);
-    return await requestPost(requestURL, accessToken, {
-      notionDatabaseUrl,
-    });
-  },
-  getMemberNotionInfo: async function () {
-    const requestURL = `${HOST_URL}/member/notion-space`;
-    const accessToken = await LocalStorage.get(StorageKey.ACCESS_TOKEN);
-    return await requestGet(requestURL, accessToken);
-  },
-  getAllProblemPageList: async function () {
+  fetchAllProblemPageList: async function () {
     const requestURL = `${HOST_URL}/problem`;
     const accessToken = await LocalStorage.get(StorageKey.ACCESS_TOKEN);
     return await requestGet(requestURL, accessToken);
   },
   saveNewProblem: async function (problemPage: ProblemPage) {
     const requestURL = `${HOST_URL}/problem`;
-    const accessToken = await LocalStorage.get(StorageKey.ACCESS_TOKEN);
-    return await requestPost(requestURL, accessToken, {
-      problemPage,
-    });
-  },
-  isProblemExists: async function (problemPage: ProblemPage) {
-    const requestURL = `${HOST_URL}/problem/check`;
     const accessToken = await LocalStorage.get(StorageKey.ACCESS_TOKEN);
     return await requestPost(requestURL, accessToken, {
       problemPage,
