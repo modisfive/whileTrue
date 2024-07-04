@@ -14,10 +14,15 @@ const Utils = {
     const target = url.match(regExr)[3];
     return target.length == 32;
   },
+  parseNotionDatabaseId: function (url: string) {
+    const regExr = /https:\/\/www\.notion\.so(\/(.+?))?\/(.+?)\?v=(.+)/;
+    const target = url.match(regExr)[3];
+    return target;
+  },
   getUserStatus: async function () {
     return Promise.all([
-      LocalStorage.get(StorageKey.ACCESS_TOKEN).then((accessToken) =>
-        Utils.isPropertySaved(accessToken)
+      LocalStorage.get(StorageKey.NOTION_API_KEY).then((notionApiKey) =>
+        Utils.isPropertySaved(notionApiKey)
       ),
       LocalStorage.get(StorageKey.DATABASE_ID).then((databaseId) =>
         Utils.isPropertySaved(databaseId)
@@ -29,8 +34,8 @@ const Utils = {
         return RESP_STATUS.SUCCESS;
       }),
     ]).then(
-      ([isAccessTokenSaved, isDatabaseIdSaved, respStatus]) =>
-        new UserStatus(isAccessTokenSaved && isDatabaseIdSaved, respStatus)
+      ([isNotionApiKeySaved, isDatabaseIdSaved, respStatus]) =>
+        new UserStatus(isNotionApiKeySaved && isDatabaseIdSaved, respStatus)
     );
   },
   selectLogo: function (siteType: SiteType) {

@@ -4,13 +4,14 @@ import "bootstrap/dist/css/bootstrap.css";
 import { Button, Col, Container, Form, Image, Navbar, Row, Spinner } from "react-bootstrap";
 import "./databasePage.css";
 import Utils from "../common/utils";
+import { RESP_STATUS } from "../common/constants";
 
 const App: React.FC<{}> = () => {
   const [notionApiKey, setNotionApiKey] = useState("");
   const [databaseUrl, setDatabaseUrl] = useState("");
   const [isValidUrl, setIsValidUrl] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isSavedSucceed, setIsSavedSucceed] = useState("SUCCESS");
+  const [isSavedSucceed, setIsSavedSucceed] = useState(RESP_STATUS.SUCCESS);
   const [isOnProgress, setIsOnProgress] = useState(false);
 
   const handleChange1 = (e) => {
@@ -52,15 +53,15 @@ const App: React.FC<{}> = () => {
       return <span className="desc">저장 중...</span>;
     }
     if (isSubmitted) {
-      if (isSavedSucceed === "SUCCESS") {
+      if (isSavedSucceed === RESP_STATUS.SUCCESS) {
         return <span className="desc desc-success">Notion 데이터베이스가 저장되었습니다.</span>;
       }
-      if (isSavedSucceed === "INVALID") {
+      if (isSavedSucceed === RESP_STATUS.INVALID) {
         return (
           <span className="desc desc-error">데이터베이스 칼럼명과 속성이 올바르지 않습니다.</span>
         );
       }
-      if (isSavedSucceed === "NOT_FOUND") {
+      if (isSavedSucceed === RESP_STATUS.NOT_FOUND) {
         return (
           <span className="desc desc-error">
             공유한 워크스페이스와 페이지 아래에 있거나, 데이터베이스 형식인지 확인해주세요.
