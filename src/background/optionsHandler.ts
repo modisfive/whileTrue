@@ -5,16 +5,16 @@ import LocalStorage from "../common/storage";
 const handleMessageFromOptions = (request: any, sendResponse: any) => {
   switch (request.subject) {
     case "databaseUrl":
-      HostRequest.validateUserNotion(request.databaseUrl).then((resp: any) => {
-        if (resp.httpStatus == 200) {
-          LocalStorage.set(StorageKey.NOTION_INFO, resp.data);
-          sendResponse("SUCCESS");
-        } else if (resp.code === "MEMBER-400-2") {
-          sendResponse("INVALID");
-        } else if (resp.code === "MEMBER-404-3") {
-          sendResponse("NOT_FOUND");
-        }
-      });
+      // HostRequest.validateUserNotion(request.databaseUrl).then((resp: any) => {
+      //   if (resp.httpStatus == 200) {
+      //     LocalStorage.set(StorageKey.NOTION_INFO, resp.data);
+      //     sendResponse("SUCCESS");
+      //   } else if (resp.code === "MEMBER-400-2") {
+      //     sendResponse("INVALID");
+      //   } else if (resp.code === "MEMBER-404-3") {
+      //     sendResponse("NOT_FOUND");
+      //   }
+      // });
       break;
 
     case "databasePage":
