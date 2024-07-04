@@ -3,6 +3,8 @@ import { RESP_STATUS, StorageKey } from "../common/constants";
 import HostRequest from "../api/request";
 import LocalStorage from "../common/storage";
 import Utils from "../common/utils";
+import ProblemListResponseDto from "../api/dto/response/ProblemListResponseDto";
+import SuccessResponseDto from "../api/dto/response/SuccessResponseDto";
 
 const handleRespResult = (status: RESP_STATUS, sendResponse: CallableFunction) => {
   LocalStorage.set(StorageKey.RESP_STATUS, status).then(() => sendResponse(status));
@@ -34,10 +36,10 @@ const checkProblemPageList = async () => {
  * 사용자 노션에서 문제 리스트 가져오기
  */
 const fetchProblemPageList = async (): Promise<Array<ProblemPage> | RESP_STATUS> => {
-  return HostRequest.fetchAllProblemPageList().then((resp) => {
-    if (resp.httpStatus === 200) {
-      LocalStorage.set(StorageKey.PROBLEM_PAGE_LIST, resp.data.problemPageList);
-      return resp.data.problemPageList;
+  return HostRequest.fetchAllProblemPageList().then((resp: ProblemListResponseDto) => {
+    if (resp.validCheck === RESP_STATUS.SUCCESS) {
+      LocalStorage.set(StorageKey.PROBLEM_PAGE_LIST, resp.problemPageList);
+      return resp.problemPageList;
     } else {
       return RESP_STATUS.FAILED;
     }
@@ -60,24 +62,17 @@ const handleMessageFromPopup = (request: any, sendResponse: any) => {
       break;
 
     case "insertProblem":
-      Promise.all([
-        getProblemPageList().then((result: Array<ProblemPage> | RESP_STATUS) => {
-          if (result === RESP_STATUS.FAILED) {
-            return result;
+      Promise.all([getProblemPageList(), HostRequest.saveNewProblem(request.problemPage)]).then(
+        ([result1, result2]: [Array<ProblemPage> | RESP_STATUS, SuccessResponseDto]) => {
+          if (result1 !== RESP_STATUS.FAILED && result2.isSucceed === RESP_STATUS.SUCCESS) {
+            (result1 as Array<ProblemPage>).push(request.problemPage);
+            LocalStorage.set(StorageKey.PROBLEM_PAGE_LIST, result1);
+            handleRespResult(RESP_STATUS.SUCCESS, sendResponse);
           } else {
-            (result as Array<ProblemPage>).push(request.problemPage);
-            LocalStorage.set(StorageKey.PROBLEM_PAGE_LIST, result);
-            return RESP_STATUS.SUCCESS;
+            handleRespResult(RESP_STATUS.FAILED, sendResponse);
           }
-        }),
-        HostRequest.saveNewProblem(request.problemPage),
-      ]).then(([result1, result2]) => {
-        if (result1 === RESP_STATUS.SUCCESS && result2.httpStatus === 200) {
-          handleRespResult(RESP_STATUS.SUCCESS, sendResponse);
-        } else {
-          handleRespResult(RESP_STATUS.FAILED, sendResponse);
         }
-      });
+      );
       break;
 
     case "isProblemSaved":

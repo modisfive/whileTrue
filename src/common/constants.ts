@@ -16,9 +16,8 @@ enum SiteHost {
 }
 
 enum StorageKey {
-  ACCESS_TOKEN = "access_token",
+  NOTION_API_KEY = "notion_api_key",
   DATABASE_ID = "database_id",
-  NOTION_INFO = "notion_information",
   PROBLEM_PAGE_LIST = "problem_page_list",
   RESP_STATUS = "response_status",
 }
