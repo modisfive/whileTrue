@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, FC } from "react";
 import { createRoot } from "react-dom/client";
 import "bootstrap/dist/css/bootstrap.css";
 import "./popup.css";
@@ -12,7 +12,7 @@ import { UserStatus } from "../common/class";
 import { RESP_STATUS } from "../common/constants";
 import ErrorTab from "./tabs/ErrorTab";
 
-const App: React.FC<{}> = () => {
+const App: FC = () => {
   const [userStatus, setUserStatus] = useState<UserStatus>({
     isNotionLinked: false,
     respStatus: RESP_STATUS.SUCCESS,
@@ -20,11 +20,10 @@ const App: React.FC<{}> = () => {
   const [isOnProgress, setIsOnProgress] = useState(false);
   const [waitRefresh, setWaitRefresh] = useState(false);
   const [isError, setIsError] = useState(false);
-  const renderTooltip = (props) => (
-    <Tooltip id="button-tooltip" {...props}>
-      노션 데이터베이스 동기화
-    </Tooltip>
-  );
+
+  useEffect(() => {
+    Utils.getUserStatus().then(setUserStatus);
+  }, []);
 
   const handleRefresh = () => {
     setIsOnProgress(true);
@@ -37,41 +36,33 @@ const App: React.FC<{}> = () => {
 
     chrome.runtime.sendMessage({ from: "popup", subject: "fetchAllProblems" }, (resp) => {
       setIsOnProgress(false);
-      setIsError(false);
-      if (resp === RESP_STATUS.FAILED) {
-        setIsError(true);
-      }
+      setIsError(resp === RESP_STATUS.FAILED);
     });
+
     setWaitRefresh(true);
     setTimeout(() => setWaitRefresh(false), 10000);
   };
 
-  useEffect(() => {
-    Utils.getUserStatus().then((resp) => setUserStatus(resp));
-  }, []);
+  const renderTooltip = (props: any) => (
+    <Tooltip id="button-tooltip" {...props}>
+      노션 데이터베이스 동기화
+    </Tooltip>
+  );
 
-  const body = () => {
-    if (!userStatus.isNotionLinked) {
-      return <LoginTab />;
-    }
-    if (userStatus.respStatus === RESP_STATUS.FAILED || isError) {
-      return <ErrorTab />;
-    }
-    return <TabList setIsError={setIsError} />;
-  };
-
-  const refreshBtn = () => {
-    if (!userStatus.isNotionLinked) {
-      return;
-    }
-    if (isOnProgress) {
-      return <Spinner animation="border" size="sm" />;
-    }
+  const refreshButton = () => {
+    if (!userStatus.isNotionLinked) return null;
+    if (isOnProgress) return <Spinner animation="border" size="sm" />;
     return (
       <OverlayTrigger placement="left" delay={{ show: 250, hide: 400 }} overlay={renderTooltip}>
         <FontAwesomeIcon icon={faRotate} onClick={handleRefresh} role="button" />
       </OverlayTrigger>
     );
+  };
+
+  const renderBody = () => {
+    if (!userStatus.isNotionLinked) return <LoginTab />;
+    if (userStatus.respStatus === RESP_STATUS.FAILED || isError) return <ErrorTab />;
+    return <TabList setIsError={setIsError} />;
   };
 
   return (
@@ -84,11 +75,11 @@ const App: React.FC<{}> = () => {
           </Navbar.Brand>
           <Navbar.Toggle />
           <Navbar.Collapse className="justify-content-end">
-            <Navbar.Text>{refreshBtn()}</Navbar.Text>
+            <Navbar.Text>{refreshButton()}</Navbar.Text>
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      {body()}
+      {renderBody()}
     </Container>
   );
 };
