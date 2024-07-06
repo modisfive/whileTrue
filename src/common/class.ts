@@ -30,7 +30,7 @@ export class ProblemPage {
 
 export class UserStatus {
   isNotionLinked: boolean;
-  respStatus: string;
+  respStatus: RESP_STATUS;
 
   constructor(isNotionLinked: boolean, respStatus: RESP_STATUS) {
     this.isNotionLinked = isNotionLinked;
