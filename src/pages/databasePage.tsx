@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, ChangeEvent } from "react";
 import { createRoot } from "react-dom/client";
 import "bootstrap/dist/css/bootstrap.css";
 import { Button, Col, Container, Form, Image, Navbar, Row, Spinner } from "react-bootstrap";
@@ -6,21 +6,36 @@ import "./databasePage.css";
 import Utils from "../common/utils";
 import { RESP_STATUS } from "../common/constants";
 
-const App: React.FC<{}> = () => {
-  const [notionApiKey, setNotionApiKey] = useState("");
-  const [databaseUrl, setDatabaseUrl] = useState("");
-  const [isValidUrl, setIsValidUrl] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isSavedSucceed, setIsSavedSucceed] = useState(RESP_STATUS.SUCCESS);
-  const [isOnProgress, setIsOnProgress] = useState(false);
+const renderProgressMessage = () => <span className="desc">저장 중...</span>;
+const renderSuccessMessage = () => (
+  <span className="desc desc-success">Notion 데이터베이스가 저장되었습니다.</span>
+);
+const renderInvalidMessage = () => (
+  <span className="desc desc-error">데이터베이스 칼럼명과 속성이 올바르지 않습니다.</span>
+);
+const renderNotFoundMessage = () => (
+  <span className="desc desc-error">
+    공유한 워크스페이스와 페이지 아래에 있거나, 데이터베이스 형식인지 확인해주세요.
+  </span>
+);
+const renderUrlInvalidMessage = () => (
+  <span className="desc desc-error">노션 데이터베이스 URL 형식에 맞지 않습니다.</span>
+);
 
-  const handleChange1 = (e) => {
-    const apiKey = e.target.value.trim();
-    setNotionApiKey(apiKey);
+const App: React.FC = () => {
+  const [notionApiKey, setNotionApiKey] = useState<string>("");
+  const [databaseUrl, setDatabaseUrl] = useState<string>("");
+  const [isValidUrl, setIsValidUrl] = useState<boolean>(false);
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+  const [isSavedSucceed, setIsSavedSucceed] = useState<RESP_STATUS>(RESP_STATUS.SUCCESS);
+  const [isOnProgress, setIsOnProgress] = useState<boolean>(false);
+
+  const handleApiKeyChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setNotionApiKey(e.target.value.trim());
     setIsSubmitted(false);
   };
 
-  const handleChange2 = (e) => {
+  const handleDatabaseUrlChange = (e: ChangeEvent<HTMLInputElement>) => {
     const url = e.target.value.trim();
     setDatabaseUrl(url);
     setIsValidUrl(Utils.validateNotionDatabaseUrl(url));
@@ -40,7 +55,7 @@ const App: React.FC<{}> = () => {
         notionApiKey: notionApiKey,
         databaseUrl: databaseUrl,
       },
-      (resp) => {
+      (resp: RESP_STATUS) => {
         setIsSubmitted(true);
         setIsSavedSucceed(resp);
         setIsOnProgress(false);
@@ -48,31 +63,26 @@ const App: React.FC<{}> = () => {
     );
   };
 
-  const msg = () => {
+  const renderMessage = () => {
     if (isOnProgress) {
-      return <span className="desc">저장 중...</span>;
+      return renderProgressMessage();
     }
     if (isSubmitted) {
-      if (isSavedSucceed === RESP_STATUS.SUCCESS) {
-        return <span className="desc desc-success">Notion 데이터베이스가 저장되었습니다.</span>;
-      }
-      if (isSavedSucceed === RESP_STATUS.INVALID) {
-        return (
-          <span className="desc desc-error">데이터베이스 칼럼명과 속성이 올바르지 않습니다.</span>
-        );
-      }
-      if (isSavedSucceed === RESP_STATUS.NOT_FOUND) {
-        return (
-          <span className="desc desc-error">
-            공유한 워크스페이스와 페이지 아래에 있거나, 데이터베이스 형식인지 확인해주세요.
-          </span>
-        );
+      switch (isSavedSucceed) {
+        case RESP_STATUS.SUCCESS:
+          return renderSuccessMessage();
+        case RESP_STATUS.INVALID:
+          return renderInvalidMessage();
+        case RESP_STATUS.NOT_FOUND:
+          return renderNotFoundMessage();
+        default:
+          return null;
       }
     }
     if (databaseUrl !== "" && !isValidUrl) {
-      return <span className="desc desc-error">노션 데이터베이스 URL 형식에 맞지 않습니다.</span>;
+      return renderUrlInvalidMessage();
     }
-    return <span></span>;
+    return null;
   };
 
   return (
@@ -101,7 +111,7 @@ const App: React.FC<{}> = () => {
               <Form.Control
                 placeholder="Notion API Key"
                 value={notionApiKey}
-                onChange={handleChange1}
+                onChange={handleApiKeyChange}
               />
             </Form.Group>
             <Form.Group className="mb-5">
@@ -109,9 +119,9 @@ const App: React.FC<{}> = () => {
               <Form.Control
                 placeholder="Notion 데이터베이스 링크"
                 value={databaseUrl}
-                onChange={handleChange2}
+                onChange={handleDatabaseUrlChange}
               />
-              <Form.Text className="text-muted">{msg()}</Form.Text>
+              <Form.Text className="text-muted">{renderMessage()}</Form.Text>
             </Form.Group>
             <Button onClick={handleSubmit} className="w-100">
               {isOnProgress ? <Spinner animation="border" size="sm" /> : "공유하기"}
