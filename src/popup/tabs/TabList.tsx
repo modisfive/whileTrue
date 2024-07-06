@@ -19,6 +19,23 @@ interface Props {
   setIsError: CallableFunction;
 }
 
+const parseProblemPageInfo = (): Promise<ProblemPageInfo> => {
+  return new Promise((resolve) => {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      chrome.tabs.sendMessage(tabs[0].id, { from: "popup", subject: "currentProblem" }, (resp) => {
+        if (chrome.runtime.lastError) {
+          resolve({ isExist: false, problemPage: undefined });
+        } else {
+          resolve({
+            isExist: resp.isExist,
+            problemPage: resp.isExist ? resp.problemPage : undefined,
+          });
+        }
+      });
+    });
+  });
+};
+
 const TabList: FC<Props> = ({ setIsError }) => {
   const [key, setKey] = useState<string>(TabKey.CURRENT_PROBLEM);
   const [problemPageInfo, setProblemPageInfo] = useState<ProblemPageInfo>({
@@ -26,25 +43,11 @@ const TabList: FC<Props> = ({ setIsError }) => {
     problemPage: undefined,
   });
 
-  const parseProblemPageInfo = () => {
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      chrome.tabs.sendMessage(tabs[0].id, { from: "popup", subject: "currentProblem" }, (resp) => {
-        if (chrome.runtime.lastError) {
-          setProblemPageInfo({ isExist: false, problemPage: undefined });
-          setKey(TabKey.RANDOM_SELECT);
-        } else {
-          setProblemPageInfo({
-            isExist: resp.isExist,
-            problemPage: resp.isExist ? resp.problemPage : undefined,
-          });
-          setKey(resp.isExist ? TabKey.CURRENT_PROBLEM : TabKey.RANDOM_SELECT);
-        }
-      });
-    });
-  };
-
   useEffect(() => {
-    parseProblemPageInfo();
+    parseProblemPageInfo().then((info) => {
+      setProblemPageInfo(info);
+      setKey(info.isExist ? TabKey.CURRENT_PROBLEM : TabKey.RANDOM_SELECT);
+    });
   }, []);
 
   const renderProblemInsertTab = () => {
