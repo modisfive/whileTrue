@@ -22,20 +22,20 @@ const requestPost = async (targetUrl: string, body: any) => {
 };
 
 const HostRequest = {
-  validateUserNotion: async function (
+  async validateUserNotion(
     notionApiKey: string,
     databaseId: string
   ): Promise<CheckDatabaseResponseDto> {
     const requestURL = `${HOST_URL}/api/notion/database/check`;
     return await requestPost(requestURL, new DefaultDatabaseRequestDto(notionApiKey, databaseId));
   },
-  fetchAllProblemPageList: async function (): Promise<ProblemListResponseDto> {
+  async fetchAllProblemPageList(): Promise<ProblemListResponseDto> {
     const requestURL = `${HOST_URL}/api/notion/problem/list`;
     const notionApiKey = await LocalStorage.get(StorageKey.NOTION_API_KEY);
     const databaseId = await LocalStorage.get(StorageKey.DATABASE_ID);
     return await requestPost(requestURL, new DefaultDatabaseRequestDto(notionApiKey, databaseId));
   },
-  saveNewProblem: async function (problemPage: ProblemPage): Promise<SuccessResponseDto> {
+  async saveNewProblem(problemPage: ProblemPage): Promise<SuccessResponseDto> {
     const requestURL = `${HOST_URL}/api/notion/problem/save`;
     const notionApiKey = await LocalStorage.get(StorageKey.NOTION_API_KEY);
     const databaseId = await LocalStorage.get(StorageKey.DATABASE_ID);
