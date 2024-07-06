@@ -12,6 +12,8 @@ import { UserStatus } from "../common/class";
 import { RESP_STATUS } from "../common/constants";
 import ErrorTab from "./tabs/ErrorTab";
 
+const REFRESH_INTERVAL = 10000; // 10초
+
 const App: FC = () => {
   const [userStatus, setUserStatus] = useState<UserStatus>({
     isNotionLinked: false,
@@ -40,7 +42,7 @@ const App: FC = () => {
     });
 
     setWaitRefresh(true);
-    setTimeout(() => setWaitRefresh(false), 10000);
+    setTimeout(() => setWaitRefresh(false), REFRESH_INTERVAL);
   };
 
   const renderTooltip = (props: any) => (
