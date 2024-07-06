@@ -7,7 +7,7 @@ const fetchSolvedAcJson = async (problemNumber: string) => {
   }).then((resp) => resp.json());
 };
 
-const handleMessageFromContent = (request: any, sendResponse: any) => {
+const handleMessageFromContent = (request: any, sendResponse: CallableFunction) => {
   switch (request.subject) {
     case "solvedAc":
       fetchSolvedAcJson(request.problemNumber).then((resp) => sendResponse(resp));
