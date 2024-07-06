@@ -1,10 +1,10 @@
-import React from "react";
+import React, { FC } from "react";
 import "bootstrap/dist/css/bootstrap.css";
-import { Button, Container, Row } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 
-const ErrorTab: React.FC<{}> = () => {
+const ErrorTab: FC = () => {
   return (
     <Container className="h-75">
       <div className="h-100 d-flex flex-column justify-content-center">
