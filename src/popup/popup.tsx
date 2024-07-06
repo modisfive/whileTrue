@@ -17,25 +17,25 @@ const App: FC = () => {
     isNotionLinked: false,
     respStatus: RESP_STATUS.SUCCESS,
   });
-  const [isOnProgress, setIsOnProgress] = useState(false);
-  const [waitRefresh, setWaitRefresh] = useState(false);
-  const [isError, setIsError] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [waitRefresh, setWaitRefresh] = useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(false);
 
   useEffect(() => {
     Utils.getUserStatus().then(setUserStatus);
   }, []);
 
   const handleRefresh = () => {
-    setIsOnProgress(true);
+    setIsLoading(true);
 
     /* 연속해서 새로고침하는 경우를 방지하기 위한 코드 (10초에 한번씩만 새로고침할 수 있다) */
     if (waitRefresh) {
-      setTimeout(() => setIsOnProgress(false), 500);
+      setTimeout(() => setIsLoading(false), 500);
       return;
     }
 
     chrome.runtime.sendMessage({ from: "popup", subject: "fetchAllProblems" }, (resp) => {
-      setIsOnProgress(false);
+      setIsLoading(false);
       setIsError(resp === RESP_STATUS.FAILED);
     });
 
@@ -51,7 +51,7 @@ const App: FC = () => {
 
   const refreshButton = () => {
     if (!userStatus.isNotionLinked) return null;
-    if (isOnProgress) return <Spinner animation="border" size="sm" />;
+    if (isLoading) return <Spinner animation="border" size="sm" />;
     return (
       <OverlayTrigger placement="left" delay={{ show: 250, hide: 400 }} overlay={renderTooltip}>
         <FontAwesomeIcon icon={faRotate} onClick={handleRefresh} role="button" />
