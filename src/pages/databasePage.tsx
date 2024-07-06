@@ -112,6 +112,7 @@ const App: React.FC = () => {
                 placeholder="Notion API Key"
                 value={notionApiKey}
                 onChange={handleApiKeyChange}
+                type="password"
               />
             </Form.Group>
             <Form.Group className="mb-5">
