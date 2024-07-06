@@ -1,44 +1,37 @@
 import { UserStatus } from "./class";
-import { SiteType, SiteHost, StorageKey, RESP_STATUS } from "./constants";
+import { SiteType, StorageKey, RESP_STATUS } from "./constants";
 import LocalStorage from "./storage";
 
+const NOTION_URL_REGEX = /https:\/\/www\.notion\.so(\/(.+?))?\/(.+?)\?v=(.+)/;
+
 const Utils = {
-  isPropertySaved: function (property: any) {
+  isPropertySaved(property: any): boolean {
     return typeof property !== "undefined";
   },
-  validateNotionDatabaseUrl: function (url: string) {
-    const regExr = /https:\/\/www\.notion\.so(\/(.+?))?\/(.+?)\?v=(.+)/;
-    if (!regExr.test(url)) {
-      return false;
-    }
-    const target = url.match(regExr)[3];
-    return target.length == 32;
+
+  validateNotionDatabaseUrl(url: string): boolean {
+    const match = url.match(NOTION_URL_REGEX);
+    return match ? match[3].length === 32 : false;
   },
-  parseNotionDatabaseId: function (url: string) {
-    const regExr = /https:\/\/www\.notion\.so(\/(.+?))?\/(.+?)\?v=(.+)/;
-    const target = url.match(regExr)[3];
-    return target;
+
+  parseNotionDatabaseId(url: string): string {
+    return url.match(NOTION_URL_REGEX)[3];
   },
-  getUserStatus: async function () {
-    return Promise.all([
-      LocalStorage.get(StorageKey.NOTION_API_KEY).then((notionApiKey) =>
-        Utils.isPropertySaved(notionApiKey)
-      ),
-      LocalStorage.get(StorageKey.DATABASE_ID).then((databaseId) =>
-        Utils.isPropertySaved(databaseId)
-      ),
-      LocalStorage.get(StorageKey.RESP_STATUS).then((respStatus) => {
-        if (Utils.isPropertySaved(respStatus)) {
-          return respStatus;
-        }
-        return RESP_STATUS.SUCCESS;
-      }),
-    ]).then(
-      ([isNotionApiKeySaved, isDatabaseIdSaved, respStatus]) =>
-        new UserStatus(isNotionApiKeySaved && isDatabaseIdSaved, respStatus)
-    );
+
+  async getUserStatus(): Promise<UserStatus> {
+    const [notionApiKey, databaseId, respStatus] = await Promise.all([
+      LocalStorage.get(StorageKey.NOTION_API_KEY),
+      LocalStorage.get(StorageKey.DATABASE_ID),
+      LocalStorage.get(StorageKey.RESP_STATUS),
+    ]);
+
+    const isNotionLinked = this.isPropertySaved(notionApiKey) && this.isPropertySaved(databaseId);
+    const finalRespStatus = this.isPropertySaved(respStatus) ? respStatus : RESP_STATUS.SUCCESS;
+
+    return new UserStatus(isNotionLinked, finalRespStatus);
   },
-  selectLogo: function (siteType: SiteType) {
+
+  selectLogo(siteType: SiteType): string {
     switch (siteType) {
       case SiteType.BOJ:
         return "/logo/baekjoon_logo.png";
