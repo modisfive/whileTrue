@@ -6,8 +6,9 @@ import Utils from "../common/utils";
 import ProblemListResponseDto from "../api/dto/response/ProblemListResponseDto";
 import SuccessResponseDto from "../api/dto/response/SuccessResponseDto";
 
-const handleRespResult = (status: RESP_STATUS, sendResponse: CallableFunction) => {
-  LocalStorage.set(StorageKey.RESP_STATUS, status).then(() => sendResponse(status));
+const handleRespResult = async (status: RESP_STATUS, sendResponse: CallableFunction) => {
+  await LocalStorage.set(StorageKey.RESP_STATUS, status);
+  sendResponse(status);
 };
 
 /**
@@ -27,105 +28,112 @@ const getProblemPageList = async (): Promise<Array<ProblemPage> | RESP_STATUS> =
  * 로컬에 저장된 문제 리스트가 있는지 확인하기
  */
 const checkProblemPageList = async () => {
-  return await LocalStorage.get(StorageKey.PROBLEM_PAGE_LIST).then((problemPageList) => {
-    return Utils.isPropertySaved(problemPageList);
-  });
+  const problemPageList = await LocalStorage.get(StorageKey.PROBLEM_PAGE_LIST);
+  return Utils.isPropertySaved(problemPageList);
 };
 
 /**
  * 사용자 노션에서 문제 리스트 가져오기
  */
 const fetchProblemPageList = async (): Promise<Array<ProblemPage> | RESP_STATUS> => {
-  return HostRequest.fetchAllProblemPageList().then((resp: ProblemListResponseDto) => {
-    if (resp.validCheck === RESP_STATUS.SUCCESS) {
-      LocalStorage.set(StorageKey.PROBLEM_PAGE_LIST, resp.problemPageList);
-      return resp.problemPageList;
-    } else {
-      return RESP_STATUS.FAILED;
-    }
-  });
+  const resp: ProblemListResponseDto = await HostRequest.fetchAllProblemPageList();
+  if (resp.validCheck === RESP_STATUS.SUCCESS) {
+    await LocalStorage.set(StorageKey.PROBLEM_PAGE_LIST, resp.problemPageList);
+    return resp.problemPageList;
+  } else {
+    return RESP_STATUS.FAILED;
+  }
 };
 
 const isProblemIncluded = (problemPageList: Array<ProblemPage>, targetProblem: ProblemPage) => {
-  for (let problem of problemPageList) {
-    if (problem.title === targetProblem.title && problem.url === targetProblem.url) {
-      return true;
-    }
-  }
-  return false;
+  return problemPageList.some(
+    (problem) => problem.title === targetProblem.title && problem.url === targetProblem.url
+  );
 };
 
-const handleMessageFromPopup = (request: any, sendResponse: any) => {
+const handleOpenProblemTab = async (request: any) => {
+  await chrome.tabs.create({ url: request.url, selected: true });
+};
+
+const handleInsertProblem = async (request: any, sendResponse: CallableFunction) => {
+  const [problemPageList, saveResult]: [Array<ProblemPage> | RESP_STATUS, SuccessResponseDto] =
+    await Promise.all([getProblemPageList(), HostRequest.saveNewProblem(request.problemPage)]);
+
+  if (problemPageList !== RESP_STATUS.FAILED && saveResult.isSucceed === RESP_STATUS.SUCCESS) {
+    (problemPageList as Array<ProblemPage>).push(request.problemPage);
+    await LocalStorage.set(StorageKey.PROBLEM_PAGE_LIST, problemPageList);
+    handleRespResult(RESP_STATUS.SUCCESS, sendResponse);
+  } else {
+    handleRespResult(RESP_STATUS.FAILED, sendResponse);
+  }
+};
+
+const handleIsProblemSaved = async (request: any, sendResponse: CallableFunction) => {
+  const problemPageList = await getProblemPageList();
+  if (problemPageList === RESP_STATUS.FAILED) {
+    handleRespResult(RESP_STATUS.FAILED, sendResponse);
+  } else {
+    await LocalStorage.set(StorageKey.RESP_STATUS, RESP_STATUS.SUCCESS);
+    sendResponse(isProblemIncluded(problemPageList as Array<ProblemPage>, request.problemPage));
+  }
+};
+
+const handleFetchAllProblems = async (sendResponse: CallableFunction) => {
+  const result = await fetchProblemPageList();
+  handleRespResult(
+    result === RESP_STATUS.FAILED ? RESP_STATUS.FAILED : RESP_STATUS.SUCCESS,
+    sendResponse
+  );
+};
+
+const handleCheckProblemList = async (sendResponse: CallableFunction) => {
+  const result = await getProblemPageList();
+  handleRespResult(
+    result === RESP_STATUS.FAILED ? RESP_STATUS.FAILED : RESP_STATUS.SUCCESS,
+    sendResponse
+  );
+};
+
+const handleSelectRandomProblem = async (sendResponse: CallableFunction) => {
+  const problemPageList = await getProblemPageList();
+  if (problemPageList === RESP_STATUS.FAILED) {
+    handleRespResult(RESP_STATUS.FAILED, sendResponse);
+  } else {
+    await LocalStorage.set(StorageKey.RESP_STATUS, RESP_STATUS.SUCCESS);
+    const totalCount = problemPageList.length;
+    const randomIndex = Math.floor(Math.random() * totalCount);
+    sendResponse(problemPageList[randomIndex]);
+  }
+};
+
+const handleDatabasePage = async () => {
+  const databasePage = `chrome-extension://${chrome.runtime.id}/database.html`;
+  await chrome.tabs.create({ url: databasePage, selected: true });
+};
+
+const handleMessageFromPopup = (request: any, sendResponse: CallableFunction) => {
   switch (request.subject) {
     case "openProblemTab":
-      chrome.tabs.create({ url: request.url, selected: true }).then(() => sendResponse());
+      handleOpenProblemTab(request);
       break;
-
     case "insertProblem":
-      Promise.all([getProblemPageList(), HostRequest.saveNewProblem(request.problemPage)]).then(
-        ([result1, result2]: [Array<ProblemPage> | RESP_STATUS, SuccessResponseDto]) => {
-          if (result1 !== RESP_STATUS.FAILED && result2.isSucceed === RESP_STATUS.SUCCESS) {
-            (result1 as Array<ProblemPage>).push(request.problemPage);
-            LocalStorage.set(StorageKey.PROBLEM_PAGE_LIST, result1);
-            handleRespResult(RESP_STATUS.SUCCESS, sendResponse);
-          } else {
-            handleRespResult(RESP_STATUS.FAILED, sendResponse);
-          }
-        }
-      );
+      handleInsertProblem(request, sendResponse);
       break;
-
     case "isProblemSaved":
-      getProblemPageList().then((result: Array<ProblemPage> | RESP_STATUS) => {
-        if (result === RESP_STATUS.FAILED) {
-          handleRespResult(RESP_STATUS.FAILED, sendResponse);
-        } else {
-          LocalStorage.set(StorageKey.RESP_STATUS, RESP_STATUS.SUCCESS).then(() =>
-            sendResponse(isProblemIncluded(result as Array<ProblemPage>, request.problemPage))
-          );
-        }
-      });
+      handleIsProblemSaved(request, sendResponse);
       break;
-
     case "fetchAllProblems":
-      fetchProblemPageList().then((result: Array<ProblemPage> | RESP_STATUS) => {
-        if (result === RESP_STATUS.FAILED) {
-          handleRespResult(RESP_STATUS.FAILED, sendResponse);
-        } else {
-          handleRespResult(RESP_STATUS.SUCCESS, sendResponse);
-        }
-      });
+      handleFetchAllProblems(sendResponse);
       break;
-
     case "checkProblemList":
-      getProblemPageList().then((result: Array<ProblemPage> | RESP_STATUS) => {
-        if (result === RESP_STATUS.FAILED) {
-          handleRespResult(RESP_STATUS.FAILED, sendResponse);
-        } else {
-          handleRespResult(RESP_STATUS.SUCCESS, sendResponse);
-        }
-      });
+      handleCheckProblemList(sendResponse);
       break;
-
     case "selectRandomProblem":
-      getProblemPageList().then((result: Array<ProblemPage> | RESP_STATUS) => {
-        if (result === RESP_STATUS.FAILED) {
-          handleRespResult(RESP_STATUS.FAILED, sendResponse);
-        } else {
-          LocalStorage.set(StorageKey.RESP_STATUS, RESP_STATUS.SUCCESS).then(() => {
-            const totalCount = result.length;
-            const randomIndex = Math.floor(Math.random() * totalCount);
-            sendResponse(result[randomIndex]);
-          });
-        }
-      });
+      handleSelectRandomProblem(sendResponse);
       break;
-
     case "databasePage":
-      const databasePage = `chrome-extension://${chrome.runtime.id}/database.html`;
-      chrome.tabs.create({ url: databasePage, selected: true }).then(() => sendResponse());
+      handleDatabasePage();
       break;
-
     default:
       break;
   }
