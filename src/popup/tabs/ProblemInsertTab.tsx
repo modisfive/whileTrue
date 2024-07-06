@@ -12,41 +12,41 @@ interface Props {
 }
 
 const ProblemInsertTab: FC<Props> = ({ problemPage, setIsError }) => {
-  const [saveResult, setSaveResult] = useState<boolean | null>(null);
-  const [isOnProgress, setIsOnProgress] = useState(true);
+  const [isSaved, setIsSaved] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     chrome.runtime.sendMessage(
       { from: "popup", subject: "isProblemSaved", problemPage },
       (resp) => {
-        setIsOnProgress(false);
+        setIsLoading(false);
         if (resp === RESP_STATUS.FAILED) {
           setIsError(true);
-          setSaveResult(false);
+          setIsSaved(false);
         } else {
-          setSaveResult(resp);
+          setIsSaved(resp);
         }
       }
     );
   }, []);
 
   const handleSubmit = () => {
-    setIsOnProgress(true);
+    setIsLoading(true);
     chrome.runtime.sendMessage({ from: "popup", subject: "insertProblem", problemPage }, (resp) => {
-      setIsOnProgress(false);
+      setIsLoading(false);
       if (resp === RESP_STATUS.FAILED) {
         setIsError(true);
-        setSaveResult(false);
+        setIsSaved(false);
       } else {
         setIsError(false);
-        setSaveResult(true);
+        setIsSaved(true);
       }
     });
   };
 
   const renderSaveButton = () => {
-    if (isOnProgress) return <Spinner animation="border" />;
-    if (saveResult) return <FontAwesomeIcon icon={faCircleCheck} size="2x" color="green" />;
+    if (isLoading) return <Spinner animation="border" />;
+    if (isSaved) return <FontAwesomeIcon icon={faCircleCheck} size="2x" color="green" />;
     return (
       <Button variant="success" onClick={handleSubmit}>
         저장하기
