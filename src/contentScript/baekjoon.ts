@@ -51,29 +51,12 @@ const convertLevelTier = (level: number) => {
 };
 
 const parseProblemNumber = () => {
-  try {
-    const problemNumber = document.querySelector('meta[name="problem-id"]').getAttribute("content");
-    return {
-      isExist: true,
-      problemNumber,
-    };
-  } catch {
-    return {
-      isExist: false,
-      problemNumber: null,
-    };
-  }
+  return document.querySelector('meta[name="problem-id"]').getAttribute("content");
 };
 
 const baekjoon = async () => {
-  const { isExist, problemNumber } = parseProblemNumber();
-
-  if (!isExist) {
-    return {
-      isExist: false,
-      problemPage: null,
-    };
-  } else {
+  try {
+    const problemNumber = parseProblemNumber();
     const solvedAcResp: any = await getSolvedAcInfo(problemNumber);
     return {
       isExist: true,
@@ -86,6 +69,11 @@ const baekjoon = async () => {
         IconType.EXTERNAL,
         `https://d2gd6pc034wcta.cloudfront.net/tier/${solvedAcResp.level}.svg`
       ),
+    };
+  } catch {
+    return {
+      isExist: false,
+      problemPage: null,
     };
   }
 };
