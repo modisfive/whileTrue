@@ -7,7 +7,8 @@ import CheckDatabaseResponseDto from "./dto/response/CheckDatabaseResponseDto";
 import ProblemListResponseDto from "./dto/response/ProblemListResponseDto";
 import SuccessResponseDto from "./dto/response/SuccessResponseDto";
 
-const HOST_URL = "https://whiletrue-notion-api.fly.dev";
+// const HOST_URL = "https://whiletrue-notion-api.fly.dev";
+const HOST_URL = "http://localhost:3000";
 
 const requestPost = async (targetUrl: string, body: any) => {
   return await fetch(targetUrl, {
