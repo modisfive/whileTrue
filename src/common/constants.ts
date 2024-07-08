@@ -27,6 +27,7 @@ enum RESP_STATUS {
   FAILED = "failed",
   NOT_FOUND = "not_found",
   INVALID = "invalid",
+  UNAUTHORIZED = "unauthorized",
 }
 
 export { SiteType, IconType, SiteHost, StorageKey, RESP_STATUS };

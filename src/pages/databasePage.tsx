@@ -94,6 +94,8 @@ const FormRow: FC = () => {
           return renderInvalidMessage();
         case RESP_STATUS.NOT_FOUND:
           return renderNotFoundMessage();
+        case RESP_STATUS.UNAUTHORIZED:
+          return renderUnauthorizedMessage();
         default:
           return null;
       }
@@ -157,8 +159,11 @@ const renderInvalidMessage = () => (
 );
 const renderNotFoundMessage = () => (
   <span className="desc desc-error">
-    공유한 워크스페이스와 페이지 아래에 있거나, 데이터베이스 형식인지 확인해주세요.
+    데이터베이스에 API를 연결했는지, 데이터베이스 형식인지 확인해주세요.
   </span>
+);
+const renderUnauthorizedMessage = () => (
+  <span className="desc desc-error">Notion API Key가 유효하지 않습니다.</span>
 );
 const renderUrlInvalidMessage = () => (
   <span className="desc desc-error">노션 데이터베이스 URL 형식에 맞지 않습니다.</span>
