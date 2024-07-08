@@ -34,7 +34,7 @@ const CustomNavbar: FC = () => (
 const GuideRow: FC = () => (
   <Row className="mb-5">
     <Col className="d-flex justify-content-center">
-      <a href="https://school.programmers.co.kr/learn/challenges?order=recent">
+      <a href="https://github.com/namgons/whileTrue/blob/main/start_guide.md" target="_blank">
         <Button variant="link">Notion 연결 매뉴얼 바로가기</Button>
       </a>
     </Col>
