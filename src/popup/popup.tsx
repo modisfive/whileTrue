@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, FC } from "react";
 import { createRoot } from "react-dom/client";
 import "bootstrap/dist/css/bootstrap.css";
 import "./popup.css";
@@ -7,74 +7,64 @@ import LoginTab from "./tabs/LoginTab";
 import { Container, Image, Navbar, OverlayTrigger, Spinner, Tooltip } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRotate } from "@fortawesome/free-solid-svg-icons";
-import DatabaseInsertTab from "./tabs/DatabaseInsertTab";
 import Utils from "../common/utils";
 import { UserStatus } from "../common/class";
 import { RESP_STATUS } from "../common/constants";
 import ErrorTab from "./tabs/ErrorTab";
 
-const App: React.FC<{}> = () => {
+const REFRESH_INTERVAL = 10000; // 10초
+
+const App: FC = () => {
   const [userStatus, setUserStatus] = useState<UserStatus>({
-    isLogined: false,
     isNotionLinked: false,
-    isError: RESP_STATUS.SUCCESS,
+    respStatus: RESP_STATUS.SUCCESS,
   });
-  const [isOnProgress, setIsOnProgress] = useState(false);
-  const [waitRefresh, setWaitRefresh] = useState(false);
-  const [isError, setIsError] = useState(false);
-  const renderTooltip = (props) => (
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [waitRefresh, setWaitRefresh] = useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(false);
+
+  useEffect(() => {
+    Utils.getUserStatus().then(setUserStatus);
+  }, []);
+
+  const handleRefresh = () => {
+    setIsLoading(true);
+
+    /* 연속해서 새로고침하는 경우를 방지하기 위한 코드 (10초에 한번씩만 새로고침할 수 있다) */
+    if (waitRefresh) {
+      setTimeout(() => setIsLoading(false), 500);
+      return;
+    }
+
+    chrome.runtime.sendMessage({ from: "popup", subject: "fetchAllProblems" }, (resp) => {
+      setIsLoading(false);
+      setIsError(resp === RESP_STATUS.FAILED);
+    });
+
+    setWaitRefresh(true);
+    setTimeout(() => setWaitRefresh(false), REFRESH_INTERVAL);
+  };
+
+  const renderTooltip = (props: any) => (
     <Tooltip id="button-tooltip" {...props}>
       노션 데이터베이스 동기화
     </Tooltip>
   );
 
-  const handleRefresh = () => {
-    setIsOnProgress(true);
-
-    if (waitRefresh) {
-      setTimeout(() => setIsOnProgress(false), 500);
-      return;
-    }
-    chrome.runtime.sendMessage({ from: "popup", subject: "fetchAllProblems" }, (resp) => {
-      setIsOnProgress(false);
-      setIsError(false);
-      if (resp === RESP_STATUS.FAILED) {
-        setIsError(true);
-      }
-    });
-    setWaitRefresh(true);
-    setTimeout(() => setWaitRefresh(false), 10000);
-  };
-
-  useEffect(() => {
-    Utils.getUserStatus().then((resp) => setUserStatus(resp));
-  }, []);
-
-  const body = () => {
-    if (!userStatus.isLogined) {
-      return <LoginTab />;
-    }
-    if (!userStatus.isNotionLinked) {
-      return <DatabaseInsertTab />;
-    }
-    if (userStatus.isError === RESP_STATUS.FAILED || isError) {
-      return <ErrorTab />;
-    }
-    return <TabList setIsError={setIsError} />;
-  };
-
-  const refreshBtn = () => {
-    if (!userStatus.isNotionLinked) {
-      return;
-    }
-    if (isOnProgress) {
-      return <Spinner animation="border" size="sm" />;
-    }
+  const refreshButton = () => {
+    if (!userStatus.isNotionLinked) return null;
+    if (isLoading) return <Spinner animation="border" size="sm" />;
     return (
       <OverlayTrigger placement="left" delay={{ show: 250, hide: 400 }} overlay={renderTooltip}>
         <FontAwesomeIcon icon={faRotate} onClick={handleRefresh} role="button" />
       </OverlayTrigger>
     );
+  };
+
+  const renderBody = () => {
+    if (!userStatus.isNotionLinked) return <LoginTab />;
+    if (userStatus.respStatus === RESP_STATUS.FAILED || isError) return <ErrorTab />;
+    return <TabList setIsError={setIsError} />;
   };
 
   return (
@@ -87,11 +77,11 @@ const App: React.FC<{}> = () => {
           </Navbar.Brand>
           <Navbar.Toggle />
           <Navbar.Collapse className="justify-content-end">
-            <Navbar.Text>{refreshBtn()}</Navbar.Text>
+            <Navbar.Text>{refreshButton()}</Navbar.Text>
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      {body()}
+      {renderBody()}
     </Container>
   );
 };

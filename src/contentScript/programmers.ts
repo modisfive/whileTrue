@@ -18,36 +18,20 @@ const convertLevelEmoji = (level: number) => {
 };
 
 const parseProblemInformation = () => {
-  try {
-    const content = document.querySelector(".main > .lesson-content");
-    const level = content.getAttribute("data-challenge-level");
-    const problemNumber = content.getAttribute("data-lesson-id");
-    const problemTitle = content.getAttribute("data-lesson-title").trim();
-    return {
-      isExist: true,
-      level,
-      problemNumber,
-      problemTitle,
-    };
-  } catch {
-    return {
-      isExist: false,
-      level: null,
-      problemNumber: null,
-      problemTitle: null,
-    };
-  }
+  const content = document.querySelector(".main > .lesson-content");
+  const level = content.getAttribute("data-challenge-level");
+  const problemNumber = content.getAttribute("data-lesson-id");
+  const problemTitle = content.getAttribute("data-lesson-title").trim();
+  return {
+    level,
+    problemNumber,
+    problemTitle,
+  };
 };
 
 const programmers = async () => {
-  const { isExist, level, problemNumber, problemTitle } = parseProblemInformation();
-
-  if (!isExist) {
-    return {
-      isExist: false,
-      problemPage: null,
-    };
-  } else {
+  try {
+    const { level, problemNumber, problemTitle } = parseProblemInformation();
     return {
       isExist: true,
       problemPage: new ProblemPage(
@@ -59,6 +43,11 @@ const programmers = async () => {
         IconType.EMOJI,
         convertLevelEmoji(Number(level))
       ),
+    };
+  } catch {
+    return {
+      isExist: false,
+      problemPage: null,
     };
   }
 };
