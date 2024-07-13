@@ -1,45 +1,70 @@
 import React, { FC, useEffect, useState } from "react";
-import "../popup.css";
+import { Tab, Tabs } from "react-bootstrap";
 import ProblemInsertTab from "./ProblemInsertTab";
 import RandomSelectTab from "./RandomSelectTab";
-import { Tab, Tabs } from "react-bootstrap";
+import "../popup.css";
+import { ProblemPage } from "../../common/class";
 
-const parseProblemPageInfo = (setProblemPageInfo: CallableFunction, setKey: CallableFunction) => {
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    chrome.tabs.sendMessage(tabs[0].id, { from: "popup", subject: "currentProblem" }, (resp) => {
-      if (chrome.runtime.lastError) {
-        setProblemPageInfo({
-          isExist: false,
-          problemPage: undefined,
-        });
-        setKey("randomSelect");
-      } else {
-        setProblemPageInfo(resp);
-        setKey(resp.isExist ? "currentProblem" : "randomSelect");
-      }
+enum TabKey {
+  CURRENT_PROBLEM = "currentProblem",
+  RANDOM_SELECT = "randomSelect",
+}
+
+interface ProblemPageInfo {
+  isExist: boolean;
+  problemPage: ProblemPage;
+}
+
+interface Props {
+  setIsError: CallableFunction;
+}
+
+const parseProblemPageInfo = (): Promise<ProblemPageInfo> => {
+  return new Promise((resolve) => {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      chrome.tabs.sendMessage(tabs[0].id, { from: "popup", subject: "currentProblem" }, (resp) => {
+        if (chrome.runtime.lastError) {
+          resolve({ isExist: false, problemPage: undefined });
+        } else {
+          resolve({
+            isExist: resp.isExist,
+            problemPage: resp.isExist ? resp.problemPage : undefined,
+          });
+        }
+      });
     });
   });
 };
 
-const TabList: FC<{ setIsError: CallableFunction }> = ({ setIsError }) => {
-  const [key, setKey] = useState("currentProblem");
-  const [problemPageInfo, setProblemPageInfo] = useState({
+const TabList: FC<Props> = ({ setIsError }) => {
+  const [key, setKey] = useState<string>(TabKey.CURRENT_PROBLEM);
+  const [problemPageInfo, setProblemPageInfo] = useState<ProblemPageInfo>({
     isExist: false,
     problemPage: undefined,
   });
 
   useEffect(() => {
-    parseProblemPageInfo(setProblemPageInfo, setKey);
+    parseProblemPageInfo().then((info) => {
+      setProblemPageInfo(info);
+      setKey(info.isExist ? TabKey.CURRENT_PROBLEM : TabKey.RANDOM_SELECT);
+    });
   }, []);
 
+  const renderProblemInsertTab = () => {
+    if (problemPageInfo.isExist)
+      return <ProblemInsertTab problemPage={problemPageInfo.problemPage} setIsError={setIsError} />;
+  };
+
   return (
-    <Tabs activeKey={key} onSelect={(k) => setKey(k)} transition={false} className="mb-3" justify>
-      <Tab eventKey="currentProblem" title="문제 저장하기" disabled={!problemPageInfo.isExist}>
-        {problemPageInfo.isExist && (
-          <ProblemInsertTab problemPage={problemPageInfo.problemPage} setIsError={setIsError} />
-        )}
+    <Tabs activeKey={key} onSelect={setKey} transition={false} className="mb-3" justify>
+      <Tab
+        eventKey={TabKey.CURRENT_PROBLEM}
+        title="문제 저장하기"
+        disabled={!problemPageInfo.isExist}
+      >
+        {renderProblemInsertTab()}
       </Tab>
-      <Tab eventKey="randomSelect" title="문제 풀기">
+      <Tab eventKey={TabKey.RANDOM_SELECT} title="문제 풀기">
         <RandomSelectTab setIsError={setIsError} />
       </Tab>
     </Tabs>
