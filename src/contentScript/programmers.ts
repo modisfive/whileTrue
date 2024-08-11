@@ -19,10 +19,16 @@ const convertLevelEmoji = (level: number) => {
 
 const parseProblemInformation = () => {
   const content = document.querySelector(".main > .lesson-content");
+  const source =
+    content.getAttribute("data-challenge-category").trim() !== "database"
+      ? SiteType.PROGRAMMERS
+      : SiteType.PROGRAMMERS_SQL;
   const level = content.getAttribute("data-challenge-level");
   const problemNumber = content.getAttribute("data-lesson-id");
   const problemTitle = content.getAttribute("data-lesson-title").trim();
+
   return {
+    source,
     level,
     problemNumber,
     problemTitle,
@@ -31,11 +37,11 @@ const parseProblemInformation = () => {
 
 const programmers = async () => {
   try {
-    const { level, problemNumber, problemTitle } = parseProblemInformation();
+    const { source, level, problemNumber, problemTitle } = parseProblemInformation();
     return {
       isExist: true,
       problemPage: new ProblemPage(
-        SiteType.PROGRAMMERS,
+        source,
         convertLevelTier(Number(level)),
         problemNumber,
         problemTitle,
