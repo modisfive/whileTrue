@@ -36,6 +36,7 @@ const Utils = {
       case SiteType.BOJ:
         return "/logo/baekjoon_logo.png";
       case SiteType.PROGRAMMERS:
+      case SiteType.PROGRAMMERS_SQL:
         return "/logo/programmers_logo.png";
     }
   },
