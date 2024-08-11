@@ -6,6 +6,7 @@ enum SiteHost {
 enum SiteType {
   BOJ = "BOJ",
   PROGRAMMERS = "PROGRAMMERS",
+  PROGRAMMERS_SQL = "PROGRAMMERS_SQL",
   SWEA = "SWEA",
 }
 
