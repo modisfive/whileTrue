@@ -1,6 +1,6 @@
 {
   "name": "whiletrue",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "다시 풀고 싶은 알고리즘 문제를 여러분의 노션에 저장하고, 랜덤으로 다시 풀어보세요!",
   "scripts": {
     "clean": "npm cache clean -f && rm -rf dist",
