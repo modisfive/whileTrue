@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import "bootstrap/dist/css/bootstrap.css";
 import { Button, Col, Container, Image, ListGroup, Navbar, Row, Tab } from "react-bootstrap";
 import "./options.css";
+import SelectOptions from "./selectOptions";
 
 const App: FC = () => {
   return (
@@ -35,6 +36,9 @@ const CustomNavbar: FC = () => (
 
 const Sidebar: FC = () => (
   <ListGroup>
+    <ListGroup.Item action href="#link1">
+      랜덤 문제 옵션
+    </ListGroup.Item>
     <ListGroup.Item action href="#link2">
       노션 데이터베이스 링크 다시 공유하기
     </ListGroup.Item>
@@ -58,6 +62,9 @@ const TabContent: FC = () => {
 
   return (
     <Tab.Content>
+      <Tab.Pane eventKey="#link1">
+        <SelectOptions />
+      </Tab.Pane>
       <Tab.Pane eventKey="#link2">
         <div className="options-content">
           <Button onClick={handleDatabase} className="p-3">
