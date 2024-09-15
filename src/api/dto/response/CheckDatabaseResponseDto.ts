@@ -1,4 +1,5 @@
-import { IconType, RESP_STATUS } from "../../../common/constants";
+import { IconType } from "../../../common/enums/icon.enum";
+import { RESP_STATUS } from "../../../common/enums/response-status.enum";
 
 class CheckDatabaseResponseDto {
   validCheck;

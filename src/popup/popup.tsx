@@ -8,14 +8,14 @@ import { Container, Image, Navbar, OverlayTrigger, Spinner, Tooltip } from "reac
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRotate } from "@fortawesome/free-solid-svg-icons";
 import Utils from "../common/utils";
-import { UserStatus } from "../common/class";
-import { RESP_STATUS } from "../common/constants";
 import ErrorTab from "./tabs/ErrorTab";
+import { RESP_STATUS } from "../common/enums/response-status.enum";
+import { IUserStatus } from "../common/models/user-status.model";
 
 const REFRESH_INTERVAL = 10000; // 10초
 
 const App: FC = () => {
-  const [userStatus, setUserStatus] = useState<UserStatus>({
+  const [userStatus, setUserStatus] = useState<IUserStatus>({
     isNotionLinked: false,
     respStatus: RESP_STATUS.SUCCESS,
   });

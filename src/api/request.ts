@@ -1,5 +1,5 @@
 import { ProblemPage } from "../common/class";
-import { StorageKey } from "../common/constants";
+import { StorageKey } from "../common/enums/storage.enum";
 import LocalStorage from "../common/storage";
 import DefaultDatabaseRequestDto from "./dto/request/DefaultDatabaseRequestDto";
 import ProblemPageRequestDto from "./dto/request/ProblemPageRequestDto";

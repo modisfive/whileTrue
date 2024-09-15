@@ -1,9 +1,10 @@
-import { RESP_STATUS, StorageKey } from "../common/constants";
 import HostRequest from "../api/request";
 import LocalStorage from "../common/storage";
 import CheckDatabaseResponseDto from "../api/dto/response/CheckDatabaseResponseDto";
 import Utils from "../common/utils";
 import { initialize } from "./initalSettings";
+import { RESP_STATUS } from "../common/enums/response-status.enum";
+import { StorageKey } from "../common/enums/storage.enum";
 
 const handleDatabaseUrl = async (request: any, sendResponse: CallableFunction) => {
   const databaseId = Utils.parseNotionDatabaseId(request.databaseUrl);

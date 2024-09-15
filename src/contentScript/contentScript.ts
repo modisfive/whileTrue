@@ -1,4 +1,4 @@
-import { SiteHost } from "../common/constants";
+import { SiteHost } from "../common/enums/site.enum";
 import baekjoon from "./baekjoon";
 import programmers from "./programmers";
 

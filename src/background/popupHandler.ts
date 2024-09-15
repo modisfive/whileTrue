@@ -1,10 +1,12 @@
 import { ProblemPage } from "../common/class";
-import { RESP_STATUS, SiteType, StorageKey } from "../common/constants";
 import HostRequest from "../api/request";
 import LocalStorage from "../common/storage";
 import Utils from "../common/utils";
 import ProblemListResponseDto from "../api/dto/response/ProblemListResponseDto";
 import SuccessResponseDto from "../api/dto/response/SuccessResponseDto";
+import { RESP_STATUS } from "../common/enums/response-status.enum";
+import { StorageKey } from "../common/enums/storage.enum";
+import { SiteType } from "../common/enums/site.enum";
 
 type Result<T> = { success: boolean; data: T };
 
