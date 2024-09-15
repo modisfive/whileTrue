@@ -1,5 +1,5 @@
-import { ProblemOptions } from "../common/class";
 import { StorageKey } from "../common/enums/storage.enum";
+import { ProblemOptions } from "../common/models/problem-options.model";
 import LocalStorage from "../common/storage";
 
 /* 연동 초기 설정 */

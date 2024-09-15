@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import { Button, Col, Container, Image, ListGroup, Navbar, Row, Tab } from "react-bootstrap";
 import "./options.css";
 import SelectOptions from "./select-options";
+import NotionDatabaseForm from "../components/NotionDatabaseForm";
 
 const App: FC = () => {
   return (
@@ -67,9 +68,10 @@ const TabContent: FC = () => {
       </Tab.Pane>
       <Tab.Pane eventKey="#link2">
         <div className="options-content">
-          <Button onClick={handleDatabase} className="p-3">
+          <NotionDatabaseForm />
+          {/* <Button onClick={handleDatabase} className="p-3">
             공유하기
-          </Button>
+          </Button> */}
         </div>
       </Tab.Pane>
       <Tab.Pane eventKey="#link3">

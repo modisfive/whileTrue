@@ -1,14 +1,14 @@
 import HostRequest from "../api/request";
 import LocalStorage from "../common/storage";
-import CheckDatabaseResponseDto from "../api/dto/response/CheckDatabaseResponseDto";
 import Utils from "../common/utils";
 import { initialize } from "./initalSettings";
 import { RESP_STATUS } from "../common/enums/response-status.enum";
 import { StorageKey } from "../common/enums/storage.enum";
+import { ICheckDatabaseResponse } from "../api/dto/response/check-database-response.dto";
 
 const handleDatabaseUrl = async (request: any, sendResponse: CallableFunction) => {
   const databaseId = Utils.parseNotionDatabaseId(request.databaseUrl);
-  const resp: CheckDatabaseResponseDto = await HostRequest.validateUserNotion(
+  const resp: ICheckDatabaseResponse = await HostRequest.validateUserNotion(
     request.notionApiKey,
     databaseId
   );

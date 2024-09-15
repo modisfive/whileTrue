@@ -1,12 +1,12 @@
-import { ProblemPage } from "../common/class";
 import HostRequest from "../api/request";
 import LocalStorage from "../common/storage";
 import Utils from "../common/utils";
-import ProblemListResponseDto from "../api/dto/response/ProblemListResponseDto";
-import SuccessResponseDto from "../api/dto/response/SuccessResponseDto";
 import { RESP_STATUS } from "../common/enums/response-status.enum";
 import { StorageKey } from "../common/enums/storage.enum";
 import { SiteType } from "../common/enums/site.enum";
+import { IProblemPage } from "../common/models/problem-page.model";
+import { IProblemListResponse } from "../api/dto/response/problem-list-response.dto";
+import { ISuccessResponse } from "../api/dto/response/success-response.dto";
 
 type Result<T> = { success: boolean; data: T };
 
@@ -19,7 +19,7 @@ const handleRespResult = async (status: RESP_STATUS, sendResponse: CallableFunct
  * 문제 있는지 확인한 후, 이미 저장되어 있으면 저장된 문제 리스트 가져오기
  * 저장되어 있지 않다면, 사용자 노션에서 가져오기
  */
-const getProblemPageList = async (): Promise<Result<Array<ProblemPage>>> => {
+const getProblemPageList = async (): Promise<Result<Array<IProblemPage>>> => {
   const isSaved = await checkProblemPageList();
 
   if (isSaved) {
@@ -39,8 +39,8 @@ const checkProblemPageList = async () => {
 /**
  * 사용자 노션에서 문제 리스트 가져오기
  */
-const fetchProblemPageList = async (): Promise<Result<Array<ProblemPage>>> => {
-  const resp: ProblemListResponseDto = await HostRequest.fetchAllProblemPageList();
+const fetchProblemPageList = async (): Promise<Result<Array<IProblemPage>>> => {
+  const resp: IProblemListResponse = await HostRequest.fetchAllProblemPageList();
   if (resp.validCheck === RESP_STATUS.SUCCESS) {
     await LocalStorage.set(StorageKey.PROBLEM_PAGE_LIST, resp.problemPageList);
     return { success: true, data: resp.problemPageList }; // 성공 시 문제 목록 반환
@@ -49,7 +49,7 @@ const fetchProblemPageList = async (): Promise<Result<Array<ProblemPage>>> => {
   }
 };
 
-const isProblemIncluded = (problemPageList: Array<ProblemPage>, targetProblem: ProblemPage) => {
+const isProblemIncluded = (problemPageList: Array<IProblemPage>, targetProblem: IProblemPage) => {
   return problemPageList.some(
     (problem) => problem.title === targetProblem.title && problem.url === targetProblem.url
   );
@@ -60,7 +60,7 @@ const handleOpenProblemTab = async (request: any) => {
 };
 
 const handleInsertProblem = async (request: any, sendResponse: CallableFunction) => {
-  const [result, saveResult]: [Result<Array<ProblemPage>>, SuccessResponseDto] = await Promise.all([
+  const [result, saveResult]: [Result<Array<IProblemPage>>, ISuccessResponse] = await Promise.all([
     getProblemPageList(),
     HostRequest.saveNewProblem(request.problemPage),
   ]);
@@ -114,7 +114,7 @@ const handleSelectRandomProblem = async (sendResponse: CallableFunction) => {
     problemOptions.includeProgrammersSql && SiteType.PROGRAMMERS_SQL,
   ].filter(Boolean);
 
-  const filteredProblems = problemPageList.filter((problem: ProblemPage) =>
+  const filteredProblems = problemPageList.filter((problem: IProblemPage) =>
     allowedSiteTypes.includes(problem.siteType)
   );
 
@@ -128,7 +128,7 @@ const handleSelectRandomProblem = async (sendResponse: CallableFunction) => {
 };
 
 // 랜덤 문제 선택 함수
-const selectRandomProblem = (problems: Array<ProblemPage>): ProblemPage => {
+const selectRandomProblem = (problems: Array<IProblemPage>): IProblemPage => {
   const randomIndex = Math.floor(Math.random() * problems.length);
   return problems[randomIndex];
 };
