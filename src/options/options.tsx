@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import "bootstrap/dist/css/bootstrap.css";
 import { Button, Col, Container, Image, ListGroup, Navbar, Row, Tab } from "react-bootstrap";
 import "./options.css";
-import SelectOptions from "./selectOptions";
+import SelectOptions from "./select-options";
 
 const App: FC = () => {
   return (
