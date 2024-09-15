@@ -1,11 +1,10 @@
 import React, { FC, useEffect, useState } from "react";
 import SwitchComponent from "../components/SwitchComponent";
 import LocalStorage from "../common/storage";
-import { StorageKey } from "../common/constants";
-import { ProblemOptions } from "../common/class";
 import { Button } from "react-bootstrap";
+import { StorageKey } from "../common/enums/storage.enum";
+import { ProblemOptions } from "../common/models/problem-options.model";
 
-// 공통 상태 관리 훅
 const useProblemOptions = () => {
   const [options, setOptions] = useState<ProblemOptions>({
     includeBoj: true,

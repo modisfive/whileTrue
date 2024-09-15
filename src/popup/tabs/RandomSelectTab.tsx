@@ -1,15 +1,15 @@
 import React, { FC, useEffect, useState } from "react";
-import { ProblemPage } from "../../common/class";
 import { Button, Container, Image, Row, Spinner } from "react-bootstrap";
 import Utils from "../../common/utils";
-import { RESP_STATUS } from "../../common/constants";
+import { RESP_STATUS } from "../../common/enums/response-status.enum";
+import { IProblemPage } from "../../common/models/problem-page.model";
 
 interface Props {
   setIsError: CallableFunction;
 }
 
 const RandomSelectTab: FC<Props> = ({ setIsError }) => {
-  const [problemPage, setProblemPage] = useState<ProblemPage | null>(null);
+  const [problemPage, setProblemPage] = useState<IProblemPage | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {

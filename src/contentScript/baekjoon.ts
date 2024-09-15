@@ -1,5 +1,6 @@
-import { ProblemPage } from "../common/class";
-import { IconType, SiteType } from "../common/constants";
+import { IconType } from "../common/enums/icon.enum";
+import { SiteType } from "../common/enums/site.enum";
+import { ProblemPage } from "../common/models/problem-page.model";
 
 const getSolvedAcInfo = async (problemNumber: string) => {
   return await new Promise((resolve) => {

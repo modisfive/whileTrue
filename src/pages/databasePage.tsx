@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import { Button, Col, Container, Form, Image, Navbar, Row, Spinner } from "react-bootstrap";
 import "./databasePage.css";
 import Utils from "../common/utils";
-import { RESP_STATUS } from "../common/constants";
+import { RESP_STATUS } from "../common/enums/response-status.enum";
 
 const App: FC = () => {
   return (

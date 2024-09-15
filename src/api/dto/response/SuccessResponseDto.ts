@@ -1,4 +1,4 @@
-import { RESP_STATUS } from "../../../common/constants";
+import { RESP_STATUS } from "../../../common/enums/response-status.enum";
 
 class SuccessResponseDto {
   isSucceed;
