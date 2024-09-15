@@ -3,7 +3,6 @@ import HostRequest from "../api/request";
 import LocalStorage from "../common/storage";
 import CheckDatabaseResponseDto from "../api/dto/response/CheckDatabaseResponseDto";
 import Utils from "../common/utils";
-import { ProblemOptions } from "../common/class";
 import { initialize } from "./initalSettings";
 
 const handleDatabaseUrl = async (request: any, sendResponse: CallableFunction) => {

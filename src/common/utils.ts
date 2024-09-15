@@ -1,4 +1,4 @@
-import { UserStatus } from "./class";
+import { ProblemPage, UserStatus } from "./class";
 import { SiteType, StorageKey, RESP_STATUS } from "./constants";
 import LocalStorage from "./storage";
 
@@ -47,7 +47,17 @@ const Utils = {
       LocalStorage.get(StorageKey.PROBLEM_PAGE_LIST),
     ]);
 
-    const filteredProblems = [];
+    const allowedSiteType = [
+      problemOptions.includeBoj && SiteType.BOJ,
+      problemOptions.includeProgrammers && SiteType.PROGRAMMERS,
+      problemOptions.includeProgrammersSql && SiteType.PROGRAMMERS_SQL,
+    ].filter(Boolean);
+
+    const filteredProblems = allProblems.filter((problem: ProblemPage) =>
+      allowedSiteType.includes(problem.siteType)
+    );
+
+    await LocalStorage.set(StorageKey.FILTERED_PROBLEM, filteredProblems);
   },
 };
 
