@@ -3,6 +3,8 @@ import HostRequest from "../api/request";
 import LocalStorage from "../common/storage";
 import CheckDatabaseResponseDto from "../api/dto/response/CheckDatabaseResponseDto";
 import Utils from "../common/utils";
+import { ProblemOptions } from "../common/class";
+import { initialize } from "./initalSettings";
 
 const handleDatabaseUrl = async (request: any, sendResponse: CallableFunction) => {
   const databaseId = Utils.parseNotionDatabaseId(request.databaseUrl);
@@ -11,9 +13,9 @@ const handleDatabaseUrl = async (request: any, sendResponse: CallableFunction) =
     databaseId
   );
 
+  /* 연동 성공 시 초기 기본 설정 */
   if (resp.validCheck === RESP_STATUS.SUCCESS) {
-    await LocalStorage.set(StorageKey.NOTION_API_KEY, request.notionApiKey);
-    await LocalStorage.set(StorageKey.DATABASE_ID, resp.databaseId);
+    await initialize({ notionApiKey: request.notionApiKey, databaseId: resp.databaseId });
   }
   await LocalStorage.set(StorageKey.RESP_STATUS, resp.validCheck);
   sendResponse(resp.validCheck);

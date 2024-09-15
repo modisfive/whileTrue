@@ -40,6 +40,15 @@ const Utils = {
         return "/logo/programmers_logo.png";
     }
   },
+
+  async filterProblems() {
+    const [problemOptions, allProblems] = await Promise.all([
+      LocalStorage.get(StorageKey.PROBLEM_OPTIONS),
+      LocalStorage.get(StorageKey.PROBLEM_PAGE_LIST),
+    ]);
+
+    const filteredProblems = [];
+  },
 };
 
 export default Utils;
