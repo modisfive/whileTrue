@@ -40,25 +40,6 @@ const Utils = {
         return "/logo/programmers_logo.png";
     }
   },
-
-  async filterProblems() {
-    const [problemOptions, allProblems] = await Promise.all([
-      LocalStorage.get(StorageKey.PROBLEM_OPTIONS),
-      LocalStorage.get(StorageKey.PROBLEM_PAGE_LIST),
-    ]);
-
-    const allowedSiteType = [
-      problemOptions.includeBoj && SiteType.BOJ,
-      problemOptions.includeProgrammers && SiteType.PROGRAMMERS,
-      problemOptions.includeProgrammersSql && SiteType.PROGRAMMERS_SQL,
-    ].filter(Boolean);
-
-    const filteredProblems = allProblems.filter((problem: ProblemPage) =>
-      allowedSiteType.includes(problem.siteType)
-    );
-
-    await LocalStorage.set(StorageKey.FILTERED_PROBLEM, filteredProblems);
-  },
 };
 
 export default Utils;
