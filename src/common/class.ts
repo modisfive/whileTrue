@@ -37,3 +37,15 @@ export class UserStatus {
     this.respStatus = respStatus;
   }
 }
+
+export class ProblemOptions {
+  includeBoj: boolean;
+  includeProgrammers: boolean;
+  includeProgrammersSql: boolean;
+
+  constructor(includeBoj: boolean, includeProgrammers: boolean, includeProgrammersSql: boolean) {
+    this.includeBoj = includeBoj;
+    this.includeProgrammers = includeProgrammers;
+    this.includeProgrammersSql = includeProgrammersSql;
+  }
+}
