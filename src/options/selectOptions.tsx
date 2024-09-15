@@ -4,7 +4,6 @@ import LocalStorage from "../common/storage";
 import { StorageKey } from "../common/constants";
 import { ProblemOptions } from "../common/class";
 import { Button } from "react-bootstrap";
-import Utils from "../common/utils";
 
 // 공통 상태 관리 훅
 const useProblemOptions = () => {
@@ -29,7 +28,6 @@ const useProblemOptions = () => {
 
   const saveOptions = () => {
     LocalStorage.set(StorageKey.PROBLEM_OPTIONS, options);
-    Utils.filterProblems();
   };
 
   return { options, toggleOption, saveOptions };
