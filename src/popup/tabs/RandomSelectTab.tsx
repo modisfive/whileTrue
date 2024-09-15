@@ -8,6 +8,18 @@ interface Props {
   setIsError: CallableFunction;
 }
 
+const renderLoading = () => (
+  <div className="h-100 d-flex justify-content-center align-items-center">
+    <Spinner animation="border" />
+  </div>
+);
+
+const renderNoProblem = () => (
+  <div className="h-100 d-flex justify-content-center align-items-center">
+    <span>문제를 선택해주세요.</span>
+  </div>
+);
+
 const RandomSelectTab: FC<Props> = ({ setIsError }) => {
   const [problemPage, setProblemPage] = useState<IProblemPage | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -35,43 +47,34 @@ const RandomSelectTab: FC<Props> = ({ setIsError }) => {
     chrome.runtime.sendMessage({ from: "popup", subject: "openProblemTab", url: problemPage.url });
   };
 
-  const renderBody = () => {
-    if (isLoading) {
-      return (
-        <div className="h-100 d-flex justify-content-center align-items-center">
-          <Spinner animation="border" />
-        </div>
-      );
-    }
-    if (!problemPage) {
-      return (
-        <div className="h-100 d-flex justify-content-center align-items-center">
-          <span>문제를 선택해주세요.</span>
-        </div>
-      );
-    }
-    return (
-      <>
-        <div>
-          <Row className="justify-content-center">
-            <Image
-              style={{ width: "auto", height: 70 }}
-              src={Utils.selectLogo(problemPage.siteType)}
-            />
-          </Row>
-          <Row>
-            <span>
-              {problemPage.number}. {problemPage.title}
-            </span>
-          </Row>
-        </div>
-        <Row className="mt-4">
-          <Button variant="primary" onClick={handleOpenProblemTab}>
-            바로가기
-          </Button>
+  // 렌더링 함수 분리
+  const renderProblem = () => (
+    <>
+      <div>
+        <Row className="justify-content-center">
+          <Image
+            style={{ width: "auto", height: 70 }}
+            src={Utils.selectLogo(problemPage?.siteType)}
+          />
         </Row>
-      </>
-    );
+        <Row>
+          <span>
+            {problemPage?.number}. {problemPage?.title}
+          </span>
+        </Row>
+      </div>
+      <Row className="mt-4">
+        <Button variant="primary" onClick={handleOpenProblemTab}>
+          바로가기
+        </Button>
+      </Row>
+    </>
+  );
+
+  const renderBody = () => {
+    if (isLoading) return renderLoading();
+    if (!problemPage) return renderNoProblem();
+    return renderProblem();
   };
 
   return (
