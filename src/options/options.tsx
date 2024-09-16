@@ -82,7 +82,7 @@ const TabContent: FC = () => {
       </Tab.Pane>
       <Tab.Pane eventKey="#link4">
         <div className="options-content">
-          <a href="https://github.com/namgons/whileTrue">
+          <a href="https://github.com/modisfive/whileTrue">
             <Image style={{ width: "auto", height: 40 }} src="/logo/github.svg" />
           </a>
         </div>

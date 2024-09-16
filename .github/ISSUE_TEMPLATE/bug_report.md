@@ -3,7 +3,7 @@ name: Bug report
 about: 버그 제보 템플릿입니다! 제보 해주셔서 감사합니다.
 title: ""
 labels: ""
-assignees: namgons
+assignees: modisfive
 ---
 
 ## Issue 내용

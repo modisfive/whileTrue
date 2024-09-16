@@ -3,7 +3,7 @@ name: Develop template
 about: 개발용 템플릿입니다.
 title: ""
 labels: ""
-assignees: "namgons"
+assignees: "modisfive"
 ---
 
 ## 개발할 목록
