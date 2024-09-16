@@ -79,7 +79,12 @@ const NotionDatabaseForm: FC = () => {
     <Row className="mb-5">
       <Form className="flex align-items-center justify-content-center">
         <Form.Group className="mb-5">
-          <Form.Label>Notion API Key를 입력해주세요.</Form.Label>
+          <Form.Label>
+            Notion API Key를 입력해주세요.{" "}
+            <span>
+              [ <a href="https://www.notion.so/profile/integrations">Notion API 생성하기</a> ]
+            </span>
+          </Form.Label>
           <Form.Control
             placeholder="Notion API Key"
             value={notionApiKey}
