@@ -44,7 +44,7 @@ const Sidebar: FC = () => (
       노션 데이터베이스 링크 다시 공유하기
     </ListGroup.Item>
     <ListGroup.Item action href="#link3">
-      탈퇴하기
+      연결 해제하기
     </ListGroup.Item>
     <ListGroup.Item action href="#link4">
       프로젝트 정보
@@ -68,13 +68,13 @@ const TabContent: FC = () => {
       <Tab.Pane eventKey="#link3">
         <div className="options-content">
           <div className="w-100">
-            <span className="desc desc-error">
+            <span>
               탈퇴하더라도 사용 중이던 노션 데이터베이스는 삭제되지 않습니다. <br />
               이후 다시 해당 데이터베이스를 연결하여 사용할 수 있습니다.
             </span>
             <div className="d-flex justify-content-end">
               <Button variant="danger" className="p-3" onClick={handleExit}>
-                탈퇴하기
+                연결 해제하기
               </Button>
             </div>
           </div>
