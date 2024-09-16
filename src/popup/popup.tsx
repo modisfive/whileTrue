@@ -2,13 +2,13 @@ import React, { useEffect, useState, FC } from "react";
 import { createRoot } from "react-dom/client";
 import "bootstrap/dist/css/bootstrap.css";
 import "./popup.css";
-import TabList from "./tabs/TabList";
-import LoginTab from "./tabs/LoginTab";
+import TabList from "./tabs/tab-list";
+import LoginTab from "./tabs/login-tab";
 import { Container, Image, Navbar, OverlayTrigger, Spinner, Tooltip } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRotate } from "@fortawesome/free-solid-svg-icons";
 import Utils from "../common/utils";
-import ErrorTab from "./tabs/ErrorTab";
+import ErrorTab from "./tabs/error-tab";
 import { RESP_STATUS } from "../common/enums/response-status.enum";
 import { IUserStatus } from "../common/models/user-status.model";
 

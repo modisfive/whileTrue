@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Container } from "react-bootstrap";
-import LoginButton from "../../components/LoginButton";
+import LoginButton from "../../components/login-button";
 
 const LoginTab: FC = () => {
   return (

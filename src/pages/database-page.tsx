@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import "bootstrap/dist/css/bootstrap.css";
 import { Button, Col, Container, Image, Navbar, Row } from "react-bootstrap";
 import "./databasePage.css";
-import NotionDatabaseForm from "../components/NotionDatabaseForm";
+import NotionDatabaseForm from "../components/notion-database-form";
 
 const App: FC = () => {
   return (
