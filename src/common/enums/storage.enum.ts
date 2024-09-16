@@ -5,4 +5,5 @@ export enum StorageKey {
   RESP_STATUS = "response_status",
   PROBLEM_OPTIONS = "problem_options",
   FILTERED_PROBLEM = "filtered_problem",
+  DATABASE_URL = "database_url",
 }

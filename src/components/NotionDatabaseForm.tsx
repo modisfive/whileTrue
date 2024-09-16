@@ -1,7 +1,10 @@
-import React, { ChangeEvent, FC, useState } from "react";
+import React, { ChangeEvent, FC, useEffect, useState } from "react";
 import { RESP_STATUS } from "../common/enums/response-status.enum";
 import Utils from "../common/utils";
 import { Button, Form, Row, Spinner } from "react-bootstrap";
+import LocalStorage from "../common/storage";
+import { StorageKey } from "../common/enums/storage.enum";
+import "./NotionDatabaseForm.css";
 
 const STATUS_MESSAGES = {
   [RESP_STATUS.SUCCESS]: "Notion 데이터베이스가 저장되었습니다.",
@@ -15,6 +18,15 @@ const NotionDatabaseForm: FC = () => {
   const [databaseUrl, setDatabaseUrl] = useState<string>("");
   const [isOnProgress, setIsOnProgress] = useState<boolean>(false);
   const [submitStatus, setSubmitStatus] = useState<RESP_STATUS | null>(null);
+
+  useEffect(() => {
+    LocalStorage.get(StorageKey.NOTION_API_KEY).then((savedNotionApiKey) =>
+      setNotionApiKey(savedNotionApiKey)
+    );
+    LocalStorage.get(StorageKey.DATABASE_URL).then((savedDatabaseUrl) => {
+      setDatabaseUrl(savedDatabaseUrl);
+    });
+  }, []);
 
   const handleApiKeyChange = (e: ChangeEvent<HTMLInputElement>) => {
     setNotionApiKey(e.target.value.trim());

@@ -25,15 +25,6 @@ img {
   height: 100%;
 }
 
-.desc {
-  font-size: 0.9em;
-}
-
-.desc-error {
-  color: red;
-  font-weight: 700;
-}
-
 .options-content {
   display: flex;
   justify-content: center;

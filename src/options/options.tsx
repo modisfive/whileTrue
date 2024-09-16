@@ -53,10 +53,6 @@ const Sidebar: FC = () => (
 );
 
 const TabContent: FC = () => {
-  const handleDatabase = () => {
-    chrome.runtime.sendMessage({ from: "options", subject: "databasePage" });
-  };
-
   const handleExit = () => {
     chrome.runtime.sendMessage({ from: "options", subject: "exit" });
   };
@@ -67,12 +63,7 @@ const TabContent: FC = () => {
         <SelectOptions />
       </Tab.Pane>
       <Tab.Pane eventKey="#link2">
-        <div className="options-content">
-          <NotionDatabaseForm />
-          {/* <Button onClick={handleDatabase} className="p-3">
-            공유하기
-          </Button> */}
-        </div>
+        <NotionDatabaseForm />
       </Tab.Pane>
       <Tab.Pane eventKey="#link3">
         <div className="options-content">
