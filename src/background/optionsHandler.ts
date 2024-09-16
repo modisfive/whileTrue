@@ -15,7 +15,11 @@ const handleDatabaseUrl = async (request: any, sendResponse: CallableFunction) =
 
   /* 연동 성공 시 초기 기본 설정 */
   if (resp.validCheck === RESP_STATUS.SUCCESS) {
-    await initialize({ notionApiKey: request.notionApiKey, databaseId: resp.databaseId });
+    await initialize({
+      notionApiKey: request.notionApiKey,
+      databaseUrl: request.databaseUrl,
+      databaseId: resp.databaseId,
+    });
   }
   await LocalStorage.set(StorageKey.RESP_STATUS, resp.validCheck);
   sendResponse(resp.validCheck);
