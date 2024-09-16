@@ -4,7 +4,7 @@ import Utils from "../common/utils";
 import { Button, Form, Row, Spinner } from "react-bootstrap";
 import LocalStorage from "../common/storage";
 import { StorageKey } from "../common/enums/storage.enum";
-import "./NotionDatabaseForm.css";
+import "./notion-database-form.css";
 
 const STATUS_MESSAGES = {
   [RESP_STATUS.SUCCESS]: "Notion 데이터베이스가 저장되었습니다.",

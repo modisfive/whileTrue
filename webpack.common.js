@@ -8,8 +8,8 @@ module.exports = {
     popup: path.resolve("src/popup/popup.tsx"),
     options: path.resolve("src/options/options.tsx"),
     background: path.resolve("src/background/background.ts"),
-    contentScript: path.resolve("src/contentScript/contentScript.ts"),
-    database: path.resolve("src/pages/databasePage.tsx"),
+    contentScript: path.resolve("src/contentScript/content-script.ts"),
+    database: path.resolve("src/pages/database-page.tsx"),
   },
   module: {
     rules: [
