@@ -1,12 +1,11 @@
-import { ProblemPage } from "../common/class";
-import { StorageKey } from "../common/constants";
+import { StorageKey } from "../common/enums/storage.enum";
+import { IProblemPage } from "../common/models/problem-page.model";
 import LocalStorage from "../common/storage";
-import DefaultDatabaseRequestDto from "./dto/request/DefaultDatabaseRequestDto";
-import ProblemPageRequestDto from "./dto/request/ProblemPageRequestDto";
-import CheckDatabaseResponseDto from "./dto/response/CheckDatabaseResponseDto";
-import ProblemListResponseDto from "./dto/response/ProblemListResponseDto";
-import SuccessResponseDto from "./dto/response/SuccessResponseDto";
-
+import DefaultDatabaseRequestDto from "./dto/request/default-database-request.dto";
+import ProblemPageRequestDto from "./dto/request/problem-page-request.dto";
+import { ICheckDatabaseResponse } from "./dto/response/check-database-response.dto";
+import { IProblemListResponse } from "./dto/response/problem-list-response.dto";
+import { ISuccessResponse } from "./dto/response/success-response.dto";
 const HOST_URL = "https://whiletrue-notion-api.fly.dev";
 
 const requestPost = async (targetUrl: string, body: any) => {
@@ -25,17 +24,17 @@ const HostRequest = {
   async validateUserNotion(
     notionApiKey: string,
     databaseId: string
-  ): Promise<CheckDatabaseResponseDto> {
+  ): Promise<ICheckDatabaseResponse> {
     const requestURL = `${HOST_URL}/api/notion/database/check`;
     return await requestPost(requestURL, new DefaultDatabaseRequestDto(notionApiKey, databaseId));
   },
-  async fetchAllProblemPageList(): Promise<ProblemListResponseDto> {
+  async fetchAllProblemPageList(): Promise<IProblemListResponse> {
     const requestURL = `${HOST_URL}/api/notion/problem/list`;
     const notionApiKey = await LocalStorage.get(StorageKey.NOTION_API_KEY);
     const databaseId = await LocalStorage.get(StorageKey.DATABASE_ID);
     return await requestPost(requestURL, new DefaultDatabaseRequestDto(notionApiKey, databaseId));
   },
-  async saveNewProblem(problemPage: ProblemPage): Promise<SuccessResponseDto> {
+  async saveNewProblem(problemPage: IProblemPage): Promise<ISuccessResponse> {
     const requestURL = `${HOST_URL}/api/notion/problem/save`;
     const notionApiKey = await LocalStorage.get(StorageKey.NOTION_API_KEY);
     const databaseId = await LocalStorage.get(StorageKey.DATABASE_ID);

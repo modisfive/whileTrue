@@ -1,13 +1,13 @@
 import React, { FC, useEffect, useState } from "react";
-import { ProblemPage } from "../../common/class";
 import { Button, Container, Image, Row, Spinner } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import Utils from "../../common/utils";
-import { RESP_STATUS } from "../../common/constants";
+import { RESP_STATUS } from "../../common/enums/response-status.enum";
+import { IProblemPage } from "../../common/models/problem-page.model";
 
 interface Props {
-  problemPage: ProblemPage;
+  problemPage: IProblemPage;
   setIsError: CallableFunction;
 }
 
