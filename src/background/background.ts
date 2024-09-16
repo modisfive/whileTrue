@@ -1,6 +1,6 @@
-import handleMessageFromPopup from "./popupHandler";
-import handleMessageFromOptions from "./optionsHandler";
-import handleMessageFromContent from "./contentHandler";
+import handleMessageFromPopup from "./popup-handler";
+import handleMessageFromOptions from "./options-handler";
+import handleMessageFromContent from "./content-handler";
 
 const handleMessage = (request: any, sender: any, sendResponse: any) => {
   switch (request.from) {
