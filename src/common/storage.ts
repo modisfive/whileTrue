@@ -1,4 +1,4 @@
-import { StorageKey } from "./constants";
+import { StorageKey } from "./enums/storage.enum";
 
 const LocalStorage = {
   get: async function (key: StorageKey) {

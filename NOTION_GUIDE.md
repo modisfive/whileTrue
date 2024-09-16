@@ -7,19 +7,19 @@
 
 1. Notion API 통합으로 이동하기 [ [바로가기](https://www.notion.so/profile/integrations) ]
 
-![Notion API 통합으로 이동](./upload/guide-1.png)
+![Notion API 통합으로 이동](./docs/guide-screenshots/guide-1.png)
 
 2. "새 API 통합" 만들기
 
-![새 API 통합 만들기](./upload/guide-2.png)
+![새 API 통합 만들기](./docs/guide-screenshots/guide-2.png)
 
 ## 2. Notion 템플릿 복제하기
 
 > 기존에 사용하던 템플릿이 있는 경우, 이 단계는 건너뛰어도 됩니다.
 
-1. Notion API Key를 생성할 때 선택한 워크스페이스 아래에 템플릿을 복제합니다. [ [템플릿 바로가기](https://namgons.notion.site/603d7afd2e3040feb97bb1830c791bc5?v=28a0546466244c3f9032e0850cce092f&pvs=4) ]
+1. Notion API Key를 생성할 때 선택한 워크스페이스 아래에 템플릿을 복제합니다. [ [템플릿 바로가기](https://modisfive.notion.site/603d7afd2e3040feb97bb1830c791bc5?v=28a0546466244c3f9032e0850cce092f&pvs=4) ]
 
-![템플릿 복제](./upload/guide-3.png)
+![템플릿 복제](./docs/guide-screenshots/guide-3.png)
 
 ## 3. Notion 데이터베이스에 API 연결하기
 
@@ -31,21 +31,21 @@
 
 4. 1단계에서 본인이 생성한 API를 선택 후 연결합니다.
 
-![설정 버튼 클릭](./upload/guide-4.png)
+![설정 버튼 클릭](./docs/guide-screenshots/guide-4.png)
 
 ## 4. whileTrue에 Notion API Key와 데이터베이스 URL 공유하기
 
 1. 1단계에서 생성한 API Key를 공유합니다.
 
-![노션 링크 공유](./upload/guide-5.png)
+![노션 링크 공유](./docs/guide-screenshots/guide-5.png)
 
 2. Notion 데이터베이스 URL을 공유합니다.
 
-![노션 링크 공유](./upload/guide-6.png)
+![노션 링크 공유](./docs/guide-screenshots/guide-6.png)
 
 3. "공유하기" 버튼을 클릭합니다.
 
-![노션 링크 공유](./upload/guide-7.png)
+![노션 링크 공유](./docs/guide-screenshots/guide-7.png)
 
 ## 주의점
 
@@ -66,4 +66,4 @@
       | "문제 제목" | title 타입 |
       | "URL" | url 타입 |
 
-      <img width="300" src="upload/columns.png"/>
+      <img width="300" src="docs/columns.png"/>

@@ -1,5 +1,7 @@
-import { UserStatus } from "./class";
-import { SiteType, StorageKey, RESP_STATUS } from "./constants";
+import { RESP_STATUS } from "./enums/response-status.enum";
+import { SiteType } from "./enums/site.enum";
+import { StorageKey } from "./enums/storage.enum";
+import { IUserStatus, UserStatus } from "./models/user-status.model";
 import LocalStorage from "./storage";
 
 const NOTION_URL_REGEX = /https:\/\/www\.notion\.so(\/(.+?))?\/(.+?)\?v=(.+)/;
@@ -18,7 +20,7 @@ const Utils = {
     return url.match(NOTION_URL_REGEX)[3];
   },
 
-  async getUserStatus(): Promise<UserStatus> {
+  async getUserStatus(): Promise<IUserStatus> {
     const [notionApiKey, databaseId, respStatus] = await Promise.all([
       LocalStorage.get(StorageKey.NOTION_API_KEY),
       LocalStorage.get(StorageKey.DATABASE_ID),

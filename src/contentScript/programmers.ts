@@ -1,5 +1,6 @@
-import { ProblemPage } from "../common/class";
-import { IconType, SiteType } from "../common/constants";
+import { IconType } from "../common/enums/icon.enum";
+import { SiteType } from "../common/enums/site.enum";
+import { ProblemPage } from "../common/models/problem-page.model";
 
 const convertLevelTier = (level: number) => {
   const levels = ["Lv. 0", "Lv. 1", "Lv. 2", "Lv. 3", "Lv. 4", "Lv. 5"];

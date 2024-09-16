@@ -7,7 +7,7 @@
     "start": "webpack --watch --progress --config webpack.dev.js",
     "build": "npm run clean && webpack --progress --config webpack.prod.js"
   },
-  "author": "namgons",
+  "author": "modisfive",
   "devDependencies": {
     "@types/chrome": "^0.0.181",
     "@types/react": "^18.0.6",

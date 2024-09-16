@@ -1,19 +1,25 @@
-import { RESP_STATUS, StorageKey } from "../common/constants";
-import HostRequest from "../api/request";
+import HostRequest from "../api/api-request";
 import LocalStorage from "../common/storage";
-import CheckDatabaseResponseDto from "../api/dto/response/CheckDatabaseResponseDto";
 import Utils from "../common/utils";
+import { initialize } from "./initalize-settings";
+import { RESP_STATUS } from "../common/enums/response-status.enum";
+import { StorageKey } from "../common/enums/storage.enum";
+import { ICheckDatabaseResponse } from "../api/dto/response/check-database-response.dto";
 
 const handleDatabaseUrl = async (request: any, sendResponse: CallableFunction) => {
   const databaseId = Utils.parseNotionDatabaseId(request.databaseUrl);
-  const resp: CheckDatabaseResponseDto = await HostRequest.validateUserNotion(
+  const resp: ICheckDatabaseResponse = await HostRequest.validateUserNotion(
     request.notionApiKey,
     databaseId
   );
 
+  /* 연동 성공 시 초기 기본 설정 */
   if (resp.validCheck === RESP_STATUS.SUCCESS) {
-    await LocalStorage.set(StorageKey.NOTION_API_KEY, request.notionApiKey);
-    await LocalStorage.set(StorageKey.DATABASE_ID, resp.databaseId);
+    await initialize({
+      notionApiKey: request.notionApiKey,
+      databaseUrl: request.databaseUrl,
+      databaseId: resp.databaseId,
+    });
   }
   await LocalStorage.set(StorageKey.RESP_STATUS, resp.validCheck);
   sendResponse(resp.validCheck);

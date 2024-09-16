@@ -1,0 +1,12 @@
+.desc {
+  font-size: 0.9em;
+}
+
+.desc-error {
+  color: red;
+  font-weight: 700;
+}
+
+.desc-success {
+  color: green;
+}

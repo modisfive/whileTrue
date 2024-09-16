@@ -24,24 +24,3 @@ img {
 .App {
   height: 100%;
 }
-
-.property {
-  height: 7em;
-}
-
-.property-item {
-  display: flex;
-  align-items: center;
-}
-
-.desc {
-  font-size: 0.9em;
-}
-
-.desc-error {
-  color: red;
-}
-
-.desc-success {
-  color: green;
-}
