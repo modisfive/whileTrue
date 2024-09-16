@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from "react";
 import { Tab, Tabs } from "react-bootstrap";
-import ProblemInsertTab from "./ProblemInsertTab";
-import RandomSelectTab from "./RandomSelectTab";
+import ProblemInsertTab from "./problem-insert-tab";
+import RandomSelectTab from "./random-select-tab";
 import "../popup.css";
 import { IProblemPage } from "../../common/models/problem-page.model";
 

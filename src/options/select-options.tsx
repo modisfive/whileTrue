@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from "react";
-import SwitchComponent from "../components/SwitchComponent";
+import SwitchComponent from "../components/switch-component";
 import LocalStorage from "../common/storage";
 import { Button } from "react-bootstrap";
 import { StorageKey } from "../common/enums/storage.enum";

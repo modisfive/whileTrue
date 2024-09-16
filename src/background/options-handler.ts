@@ -1,7 +1,7 @@
 import HostRequest from "../api/request";
 import LocalStorage from "../common/storage";
 import Utils from "../common/utils";
-import { initialize } from "./initalSettings";
+import { initialize } from "./initalize-settings";
 import { RESP_STATUS } from "../common/enums/response-status.enum";
 import { StorageKey } from "../common/enums/storage.enum";
 import { ICheckDatabaseResponse } from "../api/dto/response/check-database-response.dto";

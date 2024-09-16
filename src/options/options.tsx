@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import { Button, Col, Container, Image, ListGroup, Navbar, Row, Tab } from "react-bootstrap";
 import "./options.css";
 import SelectOptions from "./select-options";
-import NotionDatabaseForm from "../components/NotionDatabaseForm";
+import NotionDatabaseForm from "../components/notion-database-form";
 
 const App: FC = () => {
   return (
