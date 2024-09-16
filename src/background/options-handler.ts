@@ -1,4 +1,4 @@
-import HostRequest from "../api/request";
+import HostRequest from "../api/api-request";
 import LocalStorage from "../common/storage";
 import Utils from "../common/utils";
 import { initialize } from "./initalize-settings";
